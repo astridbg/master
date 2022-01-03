@@ -20,7 +20,7 @@ for i in range(nCor):
     nucleiT_i = nucleiT.iloc[:,i]
     nucleiOut_i = nucleiOut.iloc[:,i]
     if nucleiT_i.iloc[-2]>-10:
-        if nucleiOut_i[np.where(nucleiT_i > -10)[0][0]] > 1e-3:
+        if nucleiOut_i[np.where(nucleiT_i > -10)[0][0]] > 1e-2:
             outlier_sample = i
             print("Outlier: sample "+str(outlier_sample))
 
@@ -66,7 +66,7 @@ for i in range(nCor-1):
     plt.scatter(nucleiT.iloc[:,i],nucleiOut.iloc[:,i], alpha = alpha, color="none", edgecolor="black")
     alpha -= 0.0
 plt.yscale("log")
-plt.ylim(10**(-5),10**(-1.5))
+plt.ylim(10**(-4),10**(-0.5))
 plt.xlim(-30,-2)
 x = np.linspace(-30,-2,100)
 plt.plot(x, np.exp(intercept + slope*x), 

@@ -47,7 +47,7 @@ for i in range(nCor):
     plt.scatter(nucleiT.iloc[:,i],nucleiOut.iloc[:,i], alpha = alpha, color="none", edgecolor="black")
     alpha -= 0.0
 plt.yscale("log")
-plt.ylim(10**(-5),10**(-1.5))
+plt.ylim(10**(-4),10**(-0.5))
 plt.xlim(-30,-2)
 x = np.linspace(-30,-2,100)
 plt.plot(x, np.exp(intercept + slope*x), label=str(round(intercept,2))+" - "+str(round(np.sign(slope)*slope,2))+r"$\times T$")

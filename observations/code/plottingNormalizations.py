@@ -36,7 +36,7 @@ for i in range(nCor):
                 alpha = alpha, color="none", edgecolor="black")
     alpha -= 0.01
 plt.yscale("log")
-plt.ylim(10**(-5),10**(-1.5))
+plt.ylim(10**(-4),10**(-0.5))
 plt.xlabel(r"Temperature $T$ [$^{\circ}$C]")
 plt.ylabel(r"$n_S(T)$ [l$^{-1}$]")
 plt.legend()
