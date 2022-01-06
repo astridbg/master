@@ -16,7 +16,6 @@ nucleiT = pd.read_csv(path2+fname)
 
 # Adjust freezing temperatures with calibration values
 
-nucleiT_cal = nucleiT.iloc[:,:45]
 slope = 0.89
 intercept = 0.30
 

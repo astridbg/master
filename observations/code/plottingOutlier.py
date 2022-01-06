@@ -9,11 +9,11 @@ from sklearn.linear_model import LinearRegression
 
 path = "../../../MC2/PostprocessedData/"
 fname1 = "Coriolis_nucleiT_cal.csv"
-fname2 = "Coriolis_nucleiOut_std.csv"
+fname2 = "Coriolis_nucleiOut_std_allpres.csv"
 
 nucleiT = pd.read_csv(path+fname1, index_col=0)
 nucleiOut = pd.read_csv(path+fname2, index_col=0)
-nCor = len(nucleiT.iloc[0,:45])
+nCor = len(nucleiT.iloc[0,:48])
 
 outlier_sample = 0
 for i in range(nCor):
@@ -59,12 +59,14 @@ slope_L_W = -0.332
 intercept_L_W = -10.034
 
 plt.figure(figsize=(8,6))
-plt.title("INP concentrations at Andenes 15.03 - 28.03 2021")
+plt.title("INP concentrations at Andenes 15.03 - 29.03 2021")
 plt.grid()
 alpha=1
-for i in range(nCor-1):
+
+for i in range(nCor):
     plt.scatter(nucleiT.iloc[:,i],nucleiOut.iloc[:,i], alpha = alpha, color="none", edgecolor="black")
     alpha -= 0.0
+
 plt.yscale("log")
 plt.ylim(10**(-4),10**(-0.5))
 plt.xlim(-30,-2)
