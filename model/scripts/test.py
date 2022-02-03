@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import glob
 
+"""
 rpath="/projects/NS9600K/astridbg/noresm/cases/"
 casefolder_def="NF2000climo_f19_tn14_def_20210126/atm/hist/"
 casefolder_bigg="NF2000climo_f19_tn14_biggs53_20210126/atm/hist/"
@@ -21,3 +22,5 @@ ds_bigg = xr.open_mfdataset(all_files)
 wpath="/projects/NS9600K/astridbg/master/data/"
 ds_def.SWCF.to_netcdf(wpath+"SWCF_def_2007-01-01_2009-04-01.nc")
 ds_bigg.SWCF.to_netcdf(wpath+"SWCF_bigg53_2007-01-01_2009-04-01.nc")
+
+"""
