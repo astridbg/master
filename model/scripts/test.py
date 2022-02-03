@@ -19,5 +19,5 @@ all_files.sort()
 ds_bigg = xr.open_mfdataset(all_files)
 
 wpath="/projects/NS9600K/astridbg/master/data/"
-ds_def.AWNI.to_netcdf(wpath+"AWNI_def_2007-01-01_2009-04-01.nc")
-ds_bigg.AWNI.to_netcdf(wpath+"AWNI_bigg53_2007-01-01_2009-04-01.nc")
+ds_def.SWCF.to_netcdf(wpath+"SWCF_def_2007-01-01_2009-04-01.nc")
+ds_bigg.SWCF.to_netcdf(wpath+"SWCF_bigg53_2007-01-01_2009-04-01.nc")
