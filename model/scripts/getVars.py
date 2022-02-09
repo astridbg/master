@@ -23,7 +23,7 @@ date = "0001-01-31"
 wpath="/projects/NS9600K/astridbg/master/data/"
 
 #variables = ["AWNI", "FREQI","SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","CLDICE","TGCLDIWP","TGCLDLWP"]
-variables = ["SWCF"]
+variables = ["TREFHT"]
 
 for var in variables:
 

@@ -7,7 +7,7 @@ import cartopy.crs as ccrs
 rpath="/projects/NS9600K/astridbg/master/data/"
 
 case1 = "def_20220207" 				# Default case
-case2 = "bigg53_20220207"	
+case2 = "manual_bigg53_20220207"	
 date = "0001-01-31"
 
 var = "SWCF"

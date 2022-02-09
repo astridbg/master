@@ -6,21 +6,17 @@ import cartopy.crs as ccrs
 
 rpath="/projects/NS9600K/astridbg/master/data/"
 
-case1 = "def" 				# Default case
-case2 = "biggs53"	
-date = "2007-01-01_2010-03-01"
+case = "def_20220207" 				# Default case	
+date = "0001-01-31"
 
-var = "LWCF"
+var = "TREFHT"
 
-ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date+".nc")
-ds2 = xr.open_dataset(rpath+var+"_"+case2+"_"+date+".nc")
+ds = xr.open_dataset(rpath+var+"_"+case+"_"+date+".nc")
+timepoint = "0"
 
-timepoint = "2007-07-15"
-diff = ds1.isel(time=6)-ds1.isel(time=6)
+fig = plt.figure(1, figsize=[10,5])
 
-fig = plt.figure(1, figsize=[10,10])
-
-ax = plt.subplot(1, 1, 1, projection=ccrs.Orthographic(0, 90))
+ax = plt.subplot(1, 1, 1, projection=ccrs.PlateCarree())
 ax.coastlines()
 
 # Fix extent
@@ -28,8 +24,8 @@ minval = 240
 maxval = 310
 
 # pass extent with vmin and vmax parameters
-ds1[var].isel(time=6).plot(ax=ax, transform=ccrs.PlateCarree(), cmap='coolwarm')
+ds[var].plot(ax=ax, transform=ccrs.PlateCarree(), cmap='coolwarm')
 
-plt.title(var+" "+timepoint, fontsize=18)
+plt.title(var+" "+timepoint+" "+case, fontsize=18)
 
-plt.savefig("../figures/"+var+"_"+case1+".png")
+plt.savefig("../figures/"+var+"_"+case+".png")
