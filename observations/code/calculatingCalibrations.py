@@ -19,7 +19,7 @@ nucleiT = pd.read_csv(path2+fname)
 slope = 0.89
 intercept = 0.30
 
-nucleiT_cal = nucleiT.iloc[:,:45] * slope + intercept
+nucleiT_cal = nucleiT.iloc[:,:] * slope + intercept
 
 nucleiT_cal.to_csv(path2+"Coriolis_nucleiT_cal.csv")
 

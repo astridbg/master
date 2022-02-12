@@ -13,14 +13,15 @@ fname2 = "Sea_TOC.csv"
 temp = pd.read_csv(path+fname1, usecols=[i for i in range(2,16,1)])
 toc = pd.read_csv(path+fname2, header=None)
 
-t50 = temp.iloc[48,:]
+t50 = temp.iloc[85,:]
+print(temp)
 
 plt.figure(figsize=(8,7))
 plt.title("Sea Water samples at Andenes 18.03 - 30.03 2021")
 plt.scatter(t50,toc,s=100,color="seagreen",alpha=0.8)
 plt.grid()
-plt.xlabel(r"Temperature $T_{50}$ at 1/2 frozen fraction [$^{\circ}$C]")
+plt.xlabel(r"Temperature $T_{10}$ at 1/10 frozen fraction [$^{\circ}$C]")
 plt.ylabel(r"Total Organic Carbon [mg/L]")
-plt.savefig("../figures/t50toc.png")
+plt.savefig("../figures/t10toc.png")
 plt.show()
 
