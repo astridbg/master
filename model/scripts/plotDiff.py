@@ -4,18 +4,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 
-rpath="/projects/NS9600K/astridbg/master/data/"
+rpath="/projects/NS9600K/astridbg/model_data/"
 
-case1 = "def_20220207" 				# Default case
-case2 = "manual_bigg53_20220207"	
-date = "0001-01-31"
+case1 = "def_20210126" 				# Default case
+case2 = "meyers92_20220210"	
+date1 = "2007-02-01_2010-04-01"
+date2 = "2007-02-01_2010-05-01"
 
-var = "SWCF"
+var = "TREFHT"
 
-ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date+".nc")
-ds2 = xr.open_dataset(rpath+var+"_"+case2+"_"+date+".nc")
+ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date1+".nc")
+ds2 = xr.open_dataset(rpath+var+"_"+case2+"_"+date2+".nc")
 
-diff = ds2-ds1
+timepoint = 3
+date = str(ds1.time[timepoint].values).split("T")[0]
+diff = ds2[var].isel(time=timepoint)-ds1[var].isel(time=timepoint)
 
 fig = plt.figure(1, figsize=[10,10])
 
@@ -32,8 +35,8 @@ ax.coastlines()
 
 # Pass ax as an argument when plotting. Here we assume data is in the same coordinate reference system than the projection chosen for plotting
 # isel allows to select by indices instead of the time values
-diff[var].plot.pcolormesh(ax=ax, cmap='coolwarm')
+diff.plot.pcolormesh(ax=ax, cmap='coolwarm')
 
-plt.title(var+" difference between "+case2+" and "+case1, fontsize=18)
+plt.title(var+" difference between "+case2+" and "+case1+" "+date, fontsize=18)
 
 plt.savefig("../figures/"+var+"_"+case1+"_"+case2+"_diff_test.png")
