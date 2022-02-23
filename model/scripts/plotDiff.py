@@ -1,42 +1,85 @@
 import xarray as xr
 import pandas as pd
 import numpy as np
+import math
 import matplotlib.pyplot as plt
+from matplotlib.ticker import StrMethodFormatter
+# Set font style to match latex document----------
+plt.rcParams['mathtext.fontset'] = 'stix'
+plt.rcParams['font.family'] = 'STIXGeneral'
+plt.rcParams.update({'font.size':16})
+# ------------------------------------------------
 import cartopy.crs as ccrs
 
 rpath="/projects/NS9600K/astridbg/model_data/"
 
-case1 = "def_20210126" 				# Default case
-case2 = "meyers92_20220210"	
-date1 = "2007-02-01_2010-04-01"
-date2 = "2007-02-01_2010-05-01"
+# Default cases----------------
+#case1 = "def_20210126"; case1nm = "CAM6"
+case1 = "meyers92_20220210"; case1nm = "CAM5"
+# Modified cases---------------
+#case2 = "meyers92_20220210"; case2nm = "CAM5"
+case2 = "andenes21_20220222"; case2nm = "Andenes 2021"
+#------------------------------	
+date1 = "2007-01-15_2010-03-15"
+date2 = "2007-01-15_2010-03-15"
 
-var = "TREFHT"
+#------------------------------
+# Two-dimensional fields
+#------------------------------
 
-ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date1+".nc")
-ds2 = xr.open_dataset(rpath+var+"_"+case2+"_"+date2+".nc")
+variables = ["SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
+#variables = ["SWCF"]
+for var in variables:
+	print(var)
+	ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date1+".nc")
+	ds2 = xr.open_dataset(rpath+var+"_"+case2+"_"+date2+".nc")
+	
+	# Discard first three spin-up months
+	ds1 = ds1.isel(time=slice(3,len(ds1.time)))
+	ds2 = ds2.isel(time=slice(3,len(ds2.time)))
+	
+	# Get start and end date of period
+	date_start = str(ds1.time[0].values).split(" ")[0]
+	date_end = str(ds1.time[-1].values).split(" ")[0]
 
-timepoint = 3
-date = str(ds1.time[timepoint].values).split("T")[0]
-diff = ds2[var].isel(time=timepoint)-ds1[var].isel(time=timepoint)
+	# Get difference between cases time averaged over the whole period
+	diff = ds2[var].mean("time")-ds1[var].mean("time")
 
-fig = plt.figure(1, figsize=[10,10])
+	fig = plt.figure(1, figsize=[9,10])
 
-# Fix extent
-minval = 240
-maxval = 310
+	fig.suptitle(ds1[var].long_name+" "+case2nm+"-"+case1nm+"\n"+date_start+"-"+date_end, fontsize=26)
+	
+	#min_lev = math.floor(np.min(diff.values))	
+	max_lev = round(max(abs(np.min(diff.values)), abs(np.max(diff.values))),2)
+	levels = np.linspace(-max_lev,max_lev,25)
+	
+	# Set the projection to use for plotting
+	ax = plt.subplot(1, 1, 1, projection=ccrs.Orthographic(0, 90))
 
-# pass extent with vmin and vmax parameters
-#diff[var].plot(ax=ax, transform=ccrs.PlateCarree(), cmap='coolwarm')
+	map = diff.plot.pcolormesh(ax=ax, transform=ccrs.PlateCarree(), 
+						cmap='coolwarm',levels=levels,
+						add_colorbar=False)
 
-# Set the projection to use for plotting
-ax = plt.subplot(1, 1, 1, projection=ccrs.PlateCarree())
-ax.coastlines()
+	ax.coastlines()
+	
+#	cb_ax = fig.add_axes([0.15, 0.05, 0.7, 0.04])
+	cb_ax = fig.add_axes([0.15, 0.07, 0.7, 0.04])
 
-# Pass ax as an argument when plotting. Here we assume data is in the same coordinate reference system than the projection chosen for plotting
-# isel allows to select by indices instead of the time values
-diff.plot.pcolormesh(ax=ax, cmap='coolwarm')
+	cbar = plt.colorbar(map, cax=cb_ax, spacing = 'uniform', extend='both', orientation='horizontal', fraction=0.046, pad=0.06)
+	cbar.ax.tick_params(labelsize=18)
+	cbar.ax.set_xlabel(ds1[var].units, fontsize=23)
+	if max_lev <= 0.02:
+	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places	
+	elif max_lev >= 10:
+	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.0f}')) # No decimal places	
+	else:
+	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # Two decimal places
 
-plt.title(var+" difference between "+case2+" and "+case1+" "+date, fontsize=18)
-
-plt.savefig("../figures/"+var+"_"+case1+"_"+case2+"_diff_test.png")
+	plt.savefig("../figures/diff_all/"+var+"_"+case1+"_"+case2+".png")
+	plt.clf()
+"""
+#------------------------------
+# Three-dimensional fields
+#------------------------------
+variables = ["AWNI", "FREQI","CLDICE","SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
+level=21"""
