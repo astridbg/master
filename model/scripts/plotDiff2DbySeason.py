@@ -28,7 +28,7 @@ date2 = "2007-01-15_2010-03-15"
 #------------------------------
 
 variables = ["SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-#variables = ["SWCF"]
+#variables = ["TREFHT"]
 
 #------------------------------
 # Shaping and plotting fields
@@ -50,13 +50,18 @@ for var in variables:
 	ds1_seas = ds1.groupby("time.season").mean("time")
 	ds2_seas = ds2.groupby("time.season").mean("time")
 
+
+	diff = ds2_seas[var]-ds1_seas[var]
+
+	lev_extent = round(max(abs(np.min(diff.values)), abs(np.max(diff.values))),2)
+	if lev_extent < 0.004:
+	   lev_extent = 0.004
+	levels = np.linspace(-lev_extent,lev_extent,25)
+
+
 	fig = plt.figure(1, figsize=[9,10])
 	title = ds1[var].long_name+" "+case2nm+"-"+case1nm+"\n"+date_start+"-"+date_end
 	fig.suptitle(title, fontsize=26)
-	
-	diff = ds2_seas[var]-ds1_seas[var]
-	lev_extent = round(max(abs(np.min(diff.values)), abs(np.max(diff.values))),2)
-	levels = np.linspace(-lev_extent,lev_extent,25)
 	
 	# Set the projection to use for plotting
 	ax1 = plt.subplot(2, 2, 1, projection=ccrs.Orthographic(0, 90))
@@ -75,19 +80,21 @@ for var in variables:
 		ax.gridlines()
 
 	
-#	cb_ax = fig.add_axes([0.15, 0.05, 0.7, 0.04])
 	cb_ax = fig.add_axes([0.15, 0.07, 0.7, 0.04])
 
 	cbar = plt.colorbar(map, cax=cb_ax, spacing = 'uniform', extend='both', orientation='horizontal', fraction=0.046, pad=0.06)
 	cbar.ax.tick_params(labelsize=18)
 	cbar.ax.set_xlabel(ds1[var].units, fontsize=23)
-	if lev_extent <= 0.02:
-	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places	
-	elif lev_extent >= 10:
-	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.0f}')) # No decimal places	
-	else:
-	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # Two decimal places
 
+	if lev_extent >= 4:
+           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.0f}')) # No decimal places        
+	elif 0.4 <= lev_extent < 4:
+           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.1f}')) # One decimal place
+	elif 0.04 <= lev_extent < 0.4:
+           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # Two decimal places     
+	elif 0.004 <= lev_extent < 0.04:
+	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places
+	
 	plt.savefig("../figures/diff_byseason/"+var+"_"+case1+"_"+case2+".png")
 	
 	plt.clf()

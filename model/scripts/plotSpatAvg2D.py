@@ -28,8 +28,8 @@ date2 = "2007-01-15_2010-03-15"
 # Two-dimensional fields
 #------------------------------
 
-variables = ["SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-#variables = ["SWCF"]
+#variables = ["SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
+variables = ["TREFHT"]
 
 #------------------------------
 # Plotting whole period averages
@@ -108,7 +108,6 @@ for var in variables:
 	for i in range(len(ds1m.month.values)):
 		datetime_object = datetime.datetime.strptime(str(ds1m.month.values[i]), "%m")
 		months.append(datetime_object.strftime("%b"))
-	print(months)
 
         # Get spatial average of cases over Arctic
 	ds1_arct = ds1m[var].sel(lat=slice(66.5,90)).mean("lat").mean("lon")

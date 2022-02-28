@@ -30,8 +30,8 @@ date2 = "2007-01-15_2010-03-15"
 
 level = "750"
 #variables = ["AWNI", "FREQI","CLDICE"]
-variables = ["NIMEY","AWNI", "FREQI","CLDICE"]
-#variables = ["AWNI"]
+#variables = ["NIMEY","AWNI", "FREQI","CLDICE"]
+variables = ["NIMEY","CLDICE"]
 
 for var in variables:
 	print(var)
@@ -61,6 +61,8 @@ for var in variables:
 	#min_lev = math.floor(np.min(diff.values))	
 	max_lev = round(max(abs(np.min(diff.values)), abs(np.max(diff.values))),10)
 	print(max_lev)
+	if max_lev < 0.004:
+		max_lev = 0.004
 	levels = np.linspace(-max_lev,max_lev,25)
 
 		
@@ -79,12 +81,17 @@ for var in variables:
 	cbar = plt.colorbar(map, cax=cb_ax, spacing = 'uniform', extend='both', orientation='horizontal', fraction=0.046, pad=0.06)
 	cbar.ax.tick_params(labelsize=18)
 	cbar.ax.set_xlabel(ds1[var].units, fontsize=23)
-	if max_lev <= 0.02:
-	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places	
-	elif max_lev >= 10:
+	if max_lev >= 4:
 	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.0f}')) # No decimal places	
+	elif 0.4 <= max_lev < 4:
+           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.1f}')) # One decimal place
+	elif 0.04 <= max_lev < 0.4:
+	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # Two decimal places     
+	elif 0.004 <= max_lev < 0.04:
+	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places
 	else:
-	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # Two decimal places
+	   cbar.ax.set_xticks([-0.004, -0.003, -0.002, 0.001, 0, 0.001, 0.002, 0.003, 0.004], # Set axis ticks
+	   		['-0.004', '-0.003', '-0.002', '0.001', '0.000', '0.001', '0.002', '0.003', '0.004'])
 
 	plt.savefig("../figures/diff_all/"+var+"_"+lev_name.split(".")[0]+"_"+case1+"_"+case2+".png")
 	plt.clf()
@@ -117,8 +124,9 @@ for var in variables:
 	fig = plt.figure(1, figsize=[9,10])
 	fig.suptitle(ds1[var].long_name+" "+case2nm+"-"+case1nm+"\n"+date_start+"-"+date_end+", height sum", fontsize=26)
         
-	#min_lev = math.floor(np.min(diff.values))      
-	max_lev = round(max(abs(np.min(diff.values)), abs(np.max(diff.values))),10)
+	lev_extent = round(max(abs(np.min(diff.values)), abs(np.max(diff.values))),10)
+	if lev_extent < 0.004:
+	   lev_extent = 0.004
 	levels = np.linspace(-max_lev,max_lev,25)
 
         # Set the projection to use for plotting
@@ -135,12 +143,16 @@ for var in variables:
 	cbar = plt.colorbar(map, cax=cb_ax, spacing = 'uniform', extend='both', orientation='horizontal', fraction=0.046, pad=0.06)
 	cbar.ax.tick_params(labelsize=18)
 	cbar.ax.set_xlabel(ds1[var].units, fontsize=23)
-	if max_lev <= 0.02:
-	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places     
-	elif max_lev >= 10:
+
+	if lev_extent >= 4:
 	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.0f}')) # No decimal places        
-	else:
-	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # Two decimal places
+	elif 0.4 <= lev_extent < 4:
+	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.1f}')) # One decimal place
+	elif 0.04 <= lev_extent < 0.4:
+	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # Two decimal places     
+	elif 0.004 <= lev_extent < 0.04:
+	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places
+
 
 	plt.savefig("../figures/diff_all/"+var+"_sum_"+case1+"_"+case2+".png")
 	plt.clf()

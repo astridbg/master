@@ -28,7 +28,7 @@ date2 = "2007-01-15_2010-03-15"
 #------------------------------
 
 variables = ["SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-#variables = ["SWCF"]
+#variables = ["TREFHT"]
 
 #------------------------------
 # Shaping and plotting fields
@@ -53,9 +53,10 @@ for var in variables:
 
 	fig.suptitle(ds1[var].long_name+" "+case2nm+"-"+case1nm+"\n"+date_start+"-"+date_end, fontsize=26)
 	
-	#min_lev = math.floor(np.min(diff.values))	
-	max_lev = round(max(abs(np.min(diff.values)), abs(np.max(diff.values))),2)
-	levels = np.linspace(-max_lev,max_lev,25)
+	lev_extent = round(max(abs(np.min(diff.values)), abs(np.max(diff.values))),2)
+	if lev_extent < 0.004:
+	   lev_extent = 0.004
+	levels = np.linspace(-lev_extent,lev_extent,25)
 	
 	# Set the projection to use for plotting
 	ax = plt.subplot(1, 1, 1, projection=ccrs.Orthographic(0, 90))
@@ -72,12 +73,15 @@ for var in variables:
 	cbar = plt.colorbar(map, cax=cb_ax, spacing = 'uniform', extend='both', orientation='horizontal', fraction=0.046, pad=0.06)
 	cbar.ax.tick_params(labelsize=18)
 	cbar.ax.set_xlabel(ds1[var].units, fontsize=23)
-	if max_lev <= 0.02:
-	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places	
-	elif max_lev >= 10:
-	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.0f}')) # No decimal places	
-	else:
-	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # Two decimal places
+
+	if lev_extent >= 4:
+           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.0f}')) # No decimal places        
+	elif 0.4 <= lev_extent < 4:
+           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.1f}')) # One decimal place
+	elif 0.04 <= lev_extent < 0.4:
+           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # Two decimal places     
+	elif 0.004 <= lev_extent < 0.04:
+           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places
 
 	plt.savefig("../figures/diff_all/"+var+"_"+case1+"_"+case2+".png")
 	
