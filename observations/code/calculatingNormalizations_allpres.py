@@ -14,7 +14,7 @@ fname2 = "Coriolis_nucleiOut.csv"
 # Read in Coriolis INP concentrations
 
 nucleiOut = pd.read_csv(path2+fname2)
-nCor = len(nucleiOut.iloc[0,:48])
+nCor = len(nucleiOut.iloc[0,:])
 
 # Read in Coriolis log file
 
@@ -34,6 +34,7 @@ files = sorted(glob.glob(path1+"Inlet_Temp/*.txt"))
 
 count = 0
 for f in files:
+    
     df1 = pd.read_csv(f, delimiter = ',', parse_dates = ['Time'], index_col = ['Time'])
     if count == 0:
         df_temp = df1
@@ -53,7 +54,7 @@ pres_all = []
 temp_all = []
 
 i = 1
-for cor in t_start.index[:nCor]:
+for cor in t_start.index:
 
     print(cor.date(),", Coriolis sample: ",i)
     
@@ -64,10 +65,9 @@ for cor in t_start.index[:nCor]:
     pres = np.nanmean(np.array(df_pres['air_pressure_at_sea_level'][str(cor.date())])[index_cor_pres])
     
     time_temp = df_temp[str(cor.date())].index.hour + df_temp[str(cor.date())].index.minute/60. + df_temp[str(cor.date())].index.second/3600.
-    print(time_temp)
-    print(cor.hour+cor.minute/60.)
+    
     index_cor_temp = np.where((time_temp >= cor.hour+cor.minute/60.) & (time_temp <= cor.hour + cor.minute/60. + 40./60.))
-    print(index_cor_temp)
+    
     temp = np.nanmean(np.array(df_temp['Temperature(C)'][str(cor.date())])[index_cor_temp])
     
     # Add average pressure and temperature to the list 
@@ -76,17 +76,15 @@ for cor in t_start.index[:nCor]:
     temp_all = np.append(temp_all, temp)
     i += 1
 
-print(pres_all)
-print(temp_all)
 
 # Convert INP concentrations per litre to per standard litre
 
-nucleiOut_std = nucleiOut.iloc[:,:nCor]
+nucleiOut_std = nucleiOut
 p_std = 1013.25
 T_std = 273.15
 
 for cor in range(nCor):
-
+    
     nucleiOut_std.iloc[:,cor] = nucleiOut.iloc[:,cor] * p_std/pres_all[cor] * (273.15 + temp_all[cor])/T_std 
 
 nucleiOut_std.to_csv(path2+"Coriolis_nucleiOut_std_allpres.csv")

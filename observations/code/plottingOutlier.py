@@ -14,7 +14,7 @@ fname2 = "Coriolis_nucleiOut_std_allpres.csv"
 nucleiT = pd.read_csv(path+fname1, index_col=0)
 nucleiOut = pd.read_csv(path+fname2, index_col=0)
 print(np.shape(nucleiOut))
-nCor = len(nucleiT.iloc[0,:48])
+nCor = len(nucleiT.iloc[0,:])
 print(nCor)
 
 outlier_sample = 0
