@@ -7,29 +7,29 @@ import cartopy.crs as ccrs
 rpath="/projects/NS9600K/astridbg/model_data/"
 
 #case = "def_20210126"
-case = "meyers92_20220210" 				
-#case = "andenes21_20220222"
+#case = "meyers92_20220210" 				
+case = "andenes21_20220222"
 timelength = "2007-01-15_2010-03-15"
 
-var = "CLDICE"
+var = "TREFHT"
 
 ds = xr.open_dataset(rpath+var+"_"+case+"_"+timelength+".nc")
 
-#timepoint = 3
-#date = str(ds.time[timepoint].values).split(" ")[0]
-ds = ds.sel(lev="750", method="nearest").mean("time")
+timepoint = 3
+date = str(ds.time[timepoint].values).split(" ")[0]
+#ds = ds.sel(lev="750", method="nearest").mean("time")
 
 fig = plt.figure(1, figsize=[10,5])
 
 ax = plt.subplot(1, 1, 1, projection=ccrs.PlateCarree())
 
-#ds[var].isel(time=timepoint).plot(ax=ax, transform=ccrs.PlateCarree(), cmap='viridis')
-ds[var].plot(ax=ax, transform=ccrs.PlateCarree(), cmap='viridis')
+ds[var].isel(time=timepoint).plot(ax=ax, transform=ccrs.PlateCarree(), cmap='viridis')
+#ds[var].plot(ax=ax, transform=ccrs.PlateCarree(), cmap='viridis')
 
-#plt.title(var+" "+date+" "+case, fontsize=18)
-plt.title(var+" time mean "+case, fontsize=18)
+plt.title(var+" "+date+" "+case, fontsize=18)
+#plt.title(var+" time mean "+case, fontsize=18)
 
 
 ax.coastlines()
 
-plt.savefig("../figures/"+var+"_"+case+"_test.png")
+plt.savefig("../figures/test/"+var+"_"+case+"_test.png")
