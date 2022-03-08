@@ -14,11 +14,11 @@ ann_bulk = xr.open_dataset(folder + data_folder + files_ann[0])
 ann_ct = xr.open_dataset(folder + data_folder + files_ann[1])
 
 # NORESM Data
-folder_n = ['/projects/NS9600K/astridbg/noresm/cases/NF2000climo_f19_tn14_andenes21_20220222/atm/hist/',
-            '/projects/NS9600K/astridbg/noresm/cases/NF2000climo_f19_tn14_meyers92_20220210/atm/hist/']
+folder_n = ['/projects/NS9600K/astridbg/noresm/cases/NF2000climo_f19_tn14_meyers92_20220210/atm/hist/',
+	    '/projects/NS9600K/astridbg/noresm/cases/NF2000climo_f19_tn14_andenes21_20220222/atm/hist/']
 
-data_n = ['NF2000climo_f19_tn14_andenes21_20220222.cam.h0*.nc',
-          'NF2000climo_f19_tn14_meyers92_20220210.cam.h0*.nc']
+data_n = ['NF2000climo_f19_tn14_meyers92_20220210.cam.h0*.nc',
+	  'NF2000climo_f19_tn14_andenes21_20220222.cam.h0*.nc']
 
 
 def preprocess(ds):
@@ -62,7 +62,7 @@ def arctic_slf_noresm(ds, s_bnd=66.6, n_bnd=90):
     lats = ds.lat.sel(lat=slice(s_bnd, n_bnd))
     # Select between boundaries given and delete first three months
     ds_arctic = ds.sel(lat=slice(s_bnd, n_bnd),
-                       time=slice('2007-05-01', '2010-04-01'))
+                       time=slice('2008-04-01', '2010-04-01'))
     weights_n = np.cos(np.deg2rad(lats))
     weighted = ds_arctic.weighted(weights_n)
     mean_arctic = weighted.mean(dim=['lat', 'lon', 'time'])
