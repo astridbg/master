@@ -130,7 +130,7 @@ sns.despine()
 fig.tight_layout()
 
 
-titles = ['Base (N-ET)', 'Constrained']
+titles = ['CAM5', 'Andenes 2021']
 i = 0
 for ax in ax:
     ax.text(0.5, 0.95, titles[i], fontsize=26,
@@ -140,4 +140,4 @@ for ax in ax:
     ax.legend(frameon=False, loc='lower left')
     i += 1
 fig.savefig(
-    '/tos-project2/NS9600K/astridbg/NH_2_cases.png')
+    '/tos-project2/NS9600K/astridbg/master/NH_2_cases.png')
