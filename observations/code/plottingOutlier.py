@@ -61,7 +61,7 @@ slope_L_W = -0.332
 intercept_L_W = -10.034
 
 plt.figure(figsize=(8,6))
-plt.title("INP concentrations at Andenes 15.03 - 29.03 2021")
+plt.title("INP concentrations at Andenes 15.03 - 30.03 2021")
 plt.grid()
 alpha=1
 
