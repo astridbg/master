@@ -11,6 +11,7 @@ plt.rcParams.update({'font.size':16})
 # ------------------------------------------------
 import cartopy.crs as ccrs
 import datetime
+from functions import *
 
 rpath="/projects/NS9600K/astridbg/model_data/"
 
@@ -28,9 +29,16 @@ date2 = "2007-01-15_2010-03-15"
 # Two-dimensional fields
 #------------------------------
 
-#variables = ["SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-variables = ["TREFHT"]
+#variables = ["SWCF","LWCF","NETCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
+variables = ["NETCF"]
 
+#------------------------------
+# Areas to average over
+#------------------------------
+
+svalbard = [[9,28],[75,81]]
+quttinirpaaq = [[-120+360,-60+360],[78,86]]
+"""
 #------------------------------
 # Plotting whole period averages
 #------------------------------
@@ -57,15 +65,31 @@ for var in variables:
 	# Get spatial average of cases globally
 	ds1_glob = ds1[var].mean("lat").mean("lon")
 	ds2_glob = ds2[var].mean("lat").mean("lon")
+
+        # Get spatial average of Svalbard
+	ds1_sval = ds1[var].sel(lon=slice(svalbard[0][0],svalbard[0][1]),
+                                 lat=slice(svalbard[1][0],svalbard[1][1])).mean("lat").mean("lon")
+	ds2_sval = ds2[var].sel(lon=slice(svalbard[0][0],svalbard[0][1]),
+                                 lat=slice(svalbard[1][0],svalbard[1][1])).mean("lat").mean("lon")
+
+        # Get spatial average over Quttinirpaaq
+	ds1_qutt = ds1[var].sel(lon=slice(quttinirpaaq[0][0],quttinirpaaq[0][1]),
+                                 lat=slice(quttinirpaaq[1][0],quttinirpaaq[1][1])).mean("lat").mean("lon")
+	ds2_qutt = ds2[var].sel(lon=slice(quttinirpaaq[0][0],quttinirpaaq[0][1]),
+                                 lat=slice(quttinirpaaq[1][0],quttinirpaaq[1][1])).mean("lat").mean("lon")
 	
-	fig = plt.figure(1, figsize=[15,5])
+	fig = plt.figure(1, figsize=[15,6])
 	ax = plt.subplot(1,1,1)
 	ax.set_title(ds1[var].long_name+" "+case2nm+"-"+case1nm+" "+date_start+"-"+date_end, fontsize=22)
 	
 	ax.plot(datetimeindex, ds1_arct, color="navy", linestyle="--", label=case1nm+" Arctic")
 	ax.plot(datetimeindex, ds1_glob, color="orangered", linestyle="--", label=case1nm+" Global")
+	ax.plot(datetimeindex, ds1_sval, color="darkgreen", linestyle="--", label=case1nm+" Svalbard")
+	ax.plot(datetimeindex, ds1_qutt, color="darkmagenta", linestyle="--", label=case1nm+" Quttinirpaaq")
 	ax.plot(datetimeindex, ds2_arct, color="cornflowerblue", label=case2nm+" Arctic")
 	ax.plot(datetimeindex, ds2_glob, color="orange", label=case2nm+" Global")
+	ax.plot(datetimeindex, ds2_sval, color="mediumseagreen", label=case2nm+" Svalbard")
+	ax.plot(datetimeindex, ds2_qutt, color="magenta", label=case2nm+" Quttinirpaaq")
 	
 	ax.set_ylabel(ds1[var].units, fontsize=18)
 
@@ -81,7 +105,7 @@ for var in variables:
 	plt.savefig("../figures/spatavg/"+var+"_"+case1+"_"+case2+".png")
 	
 	plt.clf()
-
+"""
 
 #------------------------------
 # Plotting monthly mean averages
@@ -90,7 +114,7 @@ for var in variables:
 	print(var)
 	ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date1+".nc")
 	ds2 = xr.open_dataset(rpath+var+"_"+case2+"_"+date2+".nc")
-
+	
         # Discard first three spin-up months
 	ds1 = ds1.isel(time=slice(3,len(ds1.time)))
 	ds2 = ds2.isel(time=slice(3,len(ds2.time)))
@@ -108,23 +132,40 @@ for var in variables:
 	for i in range(len(ds1m.month.values)):
 		datetime_object = datetime.datetime.strptime(str(ds1m.month.values[i]), "%m")
 		months.append(datetime_object.strftime("%b"))
-
-        # Get spatial average of cases over Arctic
-	ds1_arct = ds1m[var].sel(lat=slice(66.5,90)).mean("lat").mean("lon")
-	ds2_arct = ds2m[var].sel(lat=slice(66.5,90)).mean("lat").mean("lon")
+	
+        # Get spatial average over Arctic
+	ds1_arct = computeWeightedMean(ds1m[var].sel(lat=slice(66.5,90)))
+	ds2_arct = computeWeightedMean(ds2m[var].sel(lat=slice(66.5,90)))
 
         # Get spatial average of cases globally
-	ds1_glob = ds1m[var].mean("lat").mean("lon")
-	ds2_glob = ds2m[var].mean("lat").mean("lon")
+	ds1_glob = computeWeightedMean(ds1m[var])
+	ds2_glob = computeWeightedMean(ds2m[var])
+	
+	# Get spatial average over Svalbard
+	ds1_sval = computeWeightedMean(ds1m[var].sel(lon=slice(svalbard[0][0],svalbard[0][1]),
+				 lat=slice(svalbard[1][0],svalbard[1][1])))
+	ds2_sval = computeWeightedMean(ds2m[var].sel(lon=slice(svalbard[0][0],svalbard[0][1]),
+				 lat=slice(svalbard[1][0],svalbard[1][1])))	
 
-	fig = plt.figure(1, figsize=[15,5])
+	# Get spatial average over Quttinirpaaq
+	ds1_qutt = computeWeightedMean(ds1m[var].sel(lon=slice(quttinirpaaq[0][0],quttinirpaaq[0][1]),
+				 lat=slice(quttinirpaaq[1][0],quttinirpaaq[1][1])))
+	ds2_qutt = computeWeightedMean(ds2m[var].sel(lon=slice(quttinirpaaq[0][0],quttinirpaaq[0][1]),
+				 lat=slice(quttinirpaaq[1][0],quttinirpaaq[1][1])))
+
+
+	fig = plt.figure(1, figsize=[15,6])
 	ax = plt.subplot(1,1,1)
 	ax.set_title(ds1[var].long_name+" "+case2nm+"-"+case1nm+" "+date_start+"-"+date_end, fontsize=22)
 
 	ax.plot(months, ds1_arct, color="navy", linestyle="--", label=case1nm+" Arctic")
 	ax.plot(months, ds1_glob, color="orangered", linestyle="--", label=case1nm+" Global")
+	ax.plot(months, ds1_sval, color="darkgreen", linestyle="--", label=case1nm+" Svalbard")
+	ax.plot(months, ds1_qutt, color="darkmagenta", linestyle="--", label=case1nm+" Quttinirpaaq")
 	ax.plot(months, ds2_arct, color="cornflowerblue", label=case2nm+" Arctic")
 	ax.plot(months, ds2_glob, color="orange", label=case2nm+" Global")
+	ax.plot(months, ds2_sval, color="mediumseagreen", label=case2nm+" Svalbard")
+	ax.plot(months, ds2_qutt, color="magenta", label=case2nm+" Quttinirpaaq")
 
 	ax.set_ylabel(ds1[var].units, fontsize=18)
 

@@ -30,9 +30,9 @@ date2 = "2007-01-15_2010-03-15"
 
 level = "750"
 #variables = ["AWNI", "FREQI","CLDICE"]
-#variables = ["NIMEY","AWNI", "FREQI","CLDICE"]
-variables = ["NIMEY","CLDICE"]
-
+variables = ["NIMEY","AWNI", "FREQI","CLDICE"]
+#variables = ["NIMEY","CLDICE"]
+"""
 for var in variables:
 	print(var)
 	ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date1+".nc")
@@ -53,18 +53,17 @@ for var in variables:
 
 	# Get difference between cases time averaged over the whole period
 	diff = ds2[var].mean("time")-ds1[var].mean("time")
+
+	lev_extent = round(max(abs(np.min(diff.values)), abs(np.max(diff.values))),10)
+        print(lev_extent)
+        if lev_extent < 0.004:
+                lev_extent = 0.004
+        levels = np.linspace(-lev_extent,lev_extent,25)
 	
 	fig = plt.figure(1, figsize=[9,10])
 
-	fig.suptitle(ds1[var].long_name+" "+case2nm+"-"+case1nm+"\n"+date_start+"-"+date_end+", "+lev_name+" hPa", fontsize=26)
+	fig.suptitle(ds1[var].long_name+"\n"+case2nm+"-"+case1nm+"\n"+date_start+"-"+date_end+", "+lev_name+" hPa", fontsize=26)
 	
-	#min_lev = math.floor(np.min(diff.values))	
-	max_lev = round(max(abs(np.min(diff.values)), abs(np.max(diff.values))),10)
-	print(max_lev)
-	if max_lev < 0.004:
-		max_lev = 0.004
-	levels = np.linspace(-max_lev,max_lev,25)
-
 		
 	# Set the projection to use for plotting
 	ax = plt.subplot(1, 1, 1, projection=ccrs.Orthographic(0, 90))
@@ -81,22 +80,19 @@ for var in variables:
 	cbar = plt.colorbar(map, cax=cb_ax, spacing = 'uniform', extend='both', orientation='horizontal', fraction=0.046, pad=0.06)
 	cbar.ax.tick_params(labelsize=18)
 	cbar.ax.set_xlabel(ds1[var].units, fontsize=23)
-	if max_lev >= 4:
+	if lev_extent >= 4:
 	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.0f}')) # No decimal places	
-	elif 0.4 <= max_lev < 4:
+	elif 0.4 <= lev_extent < 4:
            cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.1f}')) # One decimal place
-	elif 0.04 <= max_lev < 0.4:
+	elif 0.04 <= lev_extent < 0.4:
 	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # Two decimal places     
-	elif 0.004 <= max_lev < 0.04:
+	elif 0.004 <= lev_extent < 0.04:
 	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places
-	else:
-	   cbar.ax.set_xticks([-0.004, -0.003, -0.002, 0.001, 0, 0.001, 0.002, 0.003, 0.004], # Set axis ticks
-	   		['-0.004', '-0.003', '-0.002', '0.001', '0.000', '0.001', '0.002', '0.003', '0.004'])
 
 	plt.savefig("../figures/diff_all/"+var+"_"+lev_name.split(".")[0]+"_"+case1+"_"+case2+".png")
 	plt.clf()
 
-
+"""
 #------------------------------
 # Fields for level sum
 #------------------------------
@@ -122,12 +118,12 @@ for var in variables:
 	diff = ds2s[var].mean("time")-ds1s[var].mean("time")
 
 	fig = plt.figure(1, figsize=[9,10])
-	fig.suptitle(ds1[var].long_name+" "+case2nm+"-"+case1nm+"\n"+date_start+"-"+date_end+", height sum", fontsize=26)
+	fig.suptitle(ds1[var].long_name+"\n"+case2nm+"-"+case1nm+"\n"+date_start+"-"+date_end+", vertically integrated", fontsize=26)
         
 	lev_extent = round(max(abs(np.min(diff.values)), abs(np.max(diff.values))),10)
 	if lev_extent < 0.004:
 	   lev_extent = 0.004
-	levels = np.linspace(-max_lev,max_lev,25)
+	levels = np.linspace(-lev_extent,lev_extent,25)
 
         # Set the projection to use for plotting
 	ax = plt.subplot(1, 1, 1, projection=ccrs.Orthographic(0, 90))

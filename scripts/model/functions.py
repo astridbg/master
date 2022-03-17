@@ -24,3 +24,15 @@ def fix_cam_time(ds):
     ds = ds.assign_coords(time=dates)
     return ds
 
+def computeWeightedMean(ds):
+
+    # Author: Anne Fouilloux
+    import numpy as np
+
+    # Compute weights based on the xarray you pass
+    weights = np.cos(np.deg2rad(ds.lat))
+    weights.name = "weights"
+    # Compute weighted mean
+    air_weighted = ds.weighted(weights)
+    weighted_mean = air_weighted.mean(("lon", "lat"))
+    return weighted_mean
