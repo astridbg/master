@@ -1,1 +1,4 @@
-# Mitt masteroppgavearbeid
+# Master thesis:
+# "Title"
+
+
