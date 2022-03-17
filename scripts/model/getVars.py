@@ -6,9 +6,9 @@ import glob
 from functions import *
 
 rpath="/projects/NS9600K/astridbg/noresm/cases/"
-case = "def_20210126"
+#case = "def_20210126"
 #case = "meyers92_20220210"
-#case = "andenes21_20220222"
+case = "andenes21_20220222"
 casefolder="NF2000climo_f19_tn14_"+case
 
 all_files = glob.glob(rpath+casefolder+"/atm/hist/"+casefolder+".cam.h0.*")
@@ -26,7 +26,7 @@ wpath="/projects/NS9600K/astridbg/model_data/"
 
 #variables = ["NIMEY","AWNI", "FREQI","CLDICE","SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
 #variables = ["AWNI", "FREQI","CLDICE","SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-variables = ["CLDICE","TREFHT"]
+variables = ["NETCF"]
 for var in variables:
 	print("Started writing:",var)
 
@@ -41,8 +41,13 @@ for var in variables:
 	if var == "CLDICE": 
 		ds[var].values = ds[var].values*1e+3 # Change unit to grams per kilograms
 		ds[var].attrs["units"] = "g/kg"
+	
+	if var == "NETCF":
+		ds = ds.assign(NETCF=ds["SWCF"]+ds["LWCF"])
+		ds[var].attrs["units"] = ds["SWCF"].attrs["units"]
+		ds[var].attrs["long_name"] = "Net radiative cloud forcing"
+	
 	print(ds[var].attrs["units"])
 	
 	ds[var].to_netcdf(wpath+var+"_"+case+"_"+date+".nc")
-
 
