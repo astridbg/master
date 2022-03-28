@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import glob
 import functions
 
-rpath="/projects/NS9600K/astridbg/noresm/cases/"
-wpath="/projects/NS9600K/astridbg/data/model/postprocessed/"
+rpath="/projects/NS9600K/astridbg/data/model/noresm_rawdata/cases/"
+wpath="/projects/NS9600K/astridbg/data/model/noresm_postprocessed/"
 
 #case = "def_20210126"
 #case = "meyers92_20220210"
