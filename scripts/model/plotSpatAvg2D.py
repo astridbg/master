@@ -14,6 +14,7 @@ import datetime
 from functions import *
 
 rpath="/projects/NS9600K/astridbg/model_data/"
+wpath="/projects/NS9600K/astridbg/master/figures/model/spatavg/"
 
 # Default cases----------------
 #case1 = "def_20210126"; case1nm = "CAM6"
@@ -78,7 +79,7 @@ for var in variables:
 	ds2_qutt = ds2[var].sel(lon=slice(quttinirpaaq[0][0],quttinirpaaq[0][1]),
                                  lat=slice(quttinirpaaq[1][0],quttinirpaaq[1][1])).mean("lat").mean("lon")
 	
-	fig = plt.figure(1, figsize=[15,6])
+	fig = plt.figure(1, figsize=[15,6],dpi=300)
 	ax = plt.subplot(1,1,1)
 	ax.set_title(ds1[var].long_name+" "+case2nm+"-"+case1nm+" "+date_start+"-"+date_end, fontsize=22)
 	
@@ -102,7 +103,7 @@ for var in variables:
 	ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.08), ncol=4)
 
 	plt.grid(alpha=0.5)
-	plt.savefig("../figures/spatavg/"+var+"_"+case1+"_"+case2+".png")
+	plt.savefig(wpath+var+"_"+case1+"_"+case2+".pdf",bbox_inches="tight")
 	
 	plt.clf()
 """
@@ -154,7 +155,7 @@ for var in variables:
 				 lat=slice(quttinirpaaq[1][0],quttinirpaaq[1][1])))
 
 
-	fig = plt.figure(1, figsize=[15,6])
+	fig = plt.figure(1, figsize=[15,6],dpi=300)
 	ax = plt.subplot(1,1,1)
 	ax.set_title(ds1[var].long_name+" "+case2nm+"-"+case1nm+" "+date_start+"-"+date_end, fontsize=22)
 
@@ -178,7 +179,7 @@ for var in variables:
 	ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.08), ncol=4)
 	
 	plt.grid(alpha=0.5)
-	plt.savefig("../figures/spatavg/monthlymean/"+var+"_"+case1+"_"+case2+".png")
+	plt.savefig(wpath+"monthlymean/"+var+"_"+case1+"_"+case2+".pdf",bbox_inches="tight")
 
 	plt.clf()
 

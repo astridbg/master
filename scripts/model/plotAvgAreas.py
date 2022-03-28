@@ -14,6 +14,7 @@ from shapely.geometry.polygon import LinearRing
 
 
 rpath="/projects/NS9600K/astridbg/model_data/"
+wpath="/projects/NS9600K/astridbg/master/figures/model/"
 
 # Default cases----------------
 #case1 = "def_20210126"; case1nm = "CAM6"
@@ -60,7 +61,7 @@ for var in variables:
 	# Get difference between cases time averaged over the whole period
 	diff = ds2[var].mean("time")-ds1[var].mean("time")
 
-	fig = plt.figure(1, figsize=[9,10])
+	fig = plt.figure(1, figsize=[9,10],dpi=300)
 
 	fig.suptitle(ds1[var].long_name+" "+case2nm+"-"+case1nm+"\n"+date_start+"-"+date_end, fontsize=26)
 	
@@ -102,6 +103,6 @@ for var in variables:
 	elif 0.004 <= lev_extent < 0.04:
            cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places
 
-	plt.savefig("../figures/avgareas_"+var+"_"+case1+"_"+case2+".png")
+	plt.savefig(wpath+"avgareas_"+var+"_"+case1+"_"+case2+".pdf",bbox_inches="tight")
 	
 	plt.clf()

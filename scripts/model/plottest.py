@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 
 rpath="/projects/NS9600K/astridbg/model_data/"
+wpath="/projects/NS9600K/astridbg/master/figures/model/test/"
 
 #case = "def_20210126"
 #case = "meyers92_20220210" 				
@@ -32,4 +33,4 @@ plt.title(var+" "+date+" "+case, fontsize=18)
 
 ax.coastlines()
 
-plt.savefig("../figures/test/"+var+"_"+case+"_test.png")
+plt.savefig(wpath+var+"_"+case+"_test.png")

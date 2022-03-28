@@ -12,6 +12,7 @@ plt.rcParams.update({'font.size':16})
 import cartopy.crs as ccrs
 
 rpath="/projects/NS9600K/astridbg/model_data/"
+wpath="/projects/NS9600K/astridbg/master/figures/model/diff_byseason/"
 
 # Default cases----------------
 #case1 = "def_20210126"; case1nm = "CAM6"
@@ -65,7 +66,7 @@ for var in variables:
 	levels = np.linspace(-lev_extent,lev_extent,25)
 
 
-	fig = plt.figure(1, figsize=[9,10])
+	fig = plt.figure(1, figsize=[9,10],dpi=300)
 
 	title = ds1[var].long_name+" "+case2nm+"-"+case1nm+"\n"+date_start+"-"+date_end+", "+lev_name+" hPa"
 	fig.suptitle(title, fontsize=26)
@@ -102,7 +103,7 @@ for var in variables:
 	elif 0.004 <= lev_extent < 0.04:
 	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places
 	
-	plt.savefig("../figures/diff_byseason/"+var+"_"+lev_name.split(".")[0]+"_"+case1+"_"+case2+".png")
+	plt.savefig(wpath+var+"_"+lev_name.split(".")[0]+"_"+case1+"_"+case2+".pdf",bbox_inches="tight")
 	
 	plt.clf()
 """
@@ -143,7 +144,7 @@ for var in variables:
 	levels = np.linspace(-lev_extent,lev_extent,25)
 
 
-	fig = plt.figure(1, figsize=[9,10])
+	fig = plt.figure(1, figsize=[9,10],dpi=300)
 
 	title = ds1[var].long_name+"\n"+case2nm+"-"+case1nm+" "+date_start+"-"+date_end+", height sum"
 	fig.suptitle(title, fontsize=26)
@@ -180,7 +181,7 @@ for var in variables:
 	elif 0.004 <= lev_extent < 0.04:
 	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places
 
-	plt.savefig("../figures/diff_byseason/"+var+"_sum_"+case1+"_"+case2+".png")
+	plt.savefig(wpath+var+"_sum_"+case1+"_"+case2+".pdf",bbox_inches="tight")
 
 	plt.clf()
 
