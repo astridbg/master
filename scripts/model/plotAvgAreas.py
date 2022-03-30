@@ -13,7 +13,7 @@ import cartopy.crs as ccrs
 from shapely.geometry.polygon import LinearRing
 
 
-rpath="/projects/NS9600K/astridbg/model_data/"
+rpath="/projects/NS9600K/astridbg/data/model/noresm_postprocessed/"
 wpath="/projects/NS9600K/astridbg/master/figures/model/"
 
 # Default cases----------------

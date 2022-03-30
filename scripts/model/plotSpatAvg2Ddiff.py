@@ -14,7 +14,7 @@ import datetime
 from functions import *
 
 rpath="/projects/NS9600K/astridbg/data/model/noresm_postprocessed/"
-wpath="/projects/NS9600K/astridbg/master/figures/model/spatavg/"
+wpath="/projects/NS9600K/astridbg/master/figures/model/spatavg_diff/"
 
 # Default cases----------------
 #case1 = "def_20210126"; case1nm = "CAM6"
@@ -77,16 +77,12 @@ for var in variables:
 	
 	fig = plt.figure(1, figsize=[15,6],dpi=300)
 	ax = plt.subplot(1,1,1)
-	ax.set_title(ds1[var].long_name+" "+case2nm+"-"+case1nm+" "+date_start+"-"+date_end, fontsize=22)
+	ax.set_title(ds1[var].long_name+" "+case2nm+"-"+case1nm+" "+date_start+r"$-$"+date_end, fontsize=22)
 	
-	ax.plot(datetimeindex, ds1_arct, color="navy", linestyle="--", label=case1nm+" Arctic")
-	ax.plot(datetimeindex, ds1_glob, color="orangered", linestyle="--", label=case1nm+" Global")
-	ax.plot(datetimeindex, ds1_sval, color="darkgreen", linestyle="--", label=case1nm+" Svalbard")
-	ax.plot(datetimeindex, ds1_qutt, color="darkmagenta", linestyle="--", label=case1nm+" Quttinirpaaq")
-	ax.plot(datetimeindex, ds2_arct, color="cornflowerblue", label=case2nm+" Arctic")
-	ax.plot(datetimeindex, ds2_glob, color="orange", label=case2nm+" Global")
-	ax.plot(datetimeindex, ds2_sval, color="mediumseagreen", label=case2nm+" Svalbard")
-	ax.plot(datetimeindex, ds2_qutt, color="magenta", label=case2nm+" Quttinirpaaq")
+	ax.plot(datetimeindex, ds2_arct-ds1_arct, color="cornflowerblue", label="Arctic")
+	ax.plot(datetimeindex, ds2_glob-ds1_glob, color="orange", label="Global")
+	ax.plot(datetimeindex, ds2_sval-ds1_sval, color="mediumseagreen", label="Svalbard")
+	ax.plot(datetimeindex, ds2_qutt-ds1_qutt, color="magenta", label="Quttinirpaaq")
 	
 	ax.set_ylabel(ds1[var].units, fontsize=18)
 
@@ -149,16 +145,12 @@ for var in variables:
 
 	fig = plt.figure(1, figsize=[15,6],dpi=300)
 	ax = plt.subplot(1,1,1)
-	ax.set_title(ds1[var].long_name+" "+case2nm+"-"+case1nm+" "+date_start+"-"+date_end, fontsize=22)
+	ax.set_title(ds1[var].long_name+" "+case2nm+"-"+case1nm+" "+date_start+r"$-$"+date_end, fontsize=22)
 
-	ax.plot(months, ds1_arct, color="navy", linestyle="--", label=case1nm+" Arctic")
-	ax.plot(months, ds1_glob, color="orangered", linestyle="--", label=case1nm+" Global")
-	ax.plot(months, ds1_sval, color="darkgreen", linestyle="--", label=case1nm+" Svalbard")
-	ax.plot(months, ds1_qutt, color="darkmagenta", linestyle="--", label=case1nm+" Quttinirpaaq")
-	ax.plot(months, ds2_arct, color="cornflowerblue", label=case2nm+" Arctic")
-	ax.plot(months, ds2_glob, color="orange", label=case2nm+" Global")
-	ax.plot(months, ds2_sval, color="mediumseagreen", label=case2nm+" Svalbard")
-	ax.plot(months, ds2_qutt, color="magenta", label=case2nm+" Quttinirpaaq")
+	ax.plot(months, ds2_arct-ds1_arct, color="cornflowerblue", label="Arctic")
+	ax.plot(months, ds2_glob-ds1_glob, color="orange", label="Global")
+	ax.plot(months, ds2_sval-ds1_sval, color="mediumseagreen", label="Svalbard")
+	ax.plot(months, ds2_qutt-ds1_qutt, color="magenta", label="Quttinirpaaq")
 
 	ax.set_ylabel(ds1[var].units, fontsize=18)
 

@@ -32,6 +32,8 @@ ds = ds.isel(time=slice(3,len(ds.time)))
 
 #-----------------------------
 
+print("Postprocessing completed")
+
 #--------------------------------------------------------------------
 # Store relevant variables intermediately to save time when plotting,
 # change to desired units and create combined variables 
@@ -44,17 +46,17 @@ date = "2007-04-15_2010-03-15"
 # For case def
 #variables = ["AWNI", "FREQI","CLDICE","SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
 
-variables = ["NETCF"]
+variables = ["LWCFS","SWCFS"]
 
 for var in variables:
-	print("Started writing:",var)
+	print("Started writing variable:")
 	
 	# Change to desired units
 	if var == "NIMEY":
 		ds[var].values = ds[var].values*1e-3 # Change unit to number per litre
 		ds[var].attrs["units"] = "1/L"
 	
-	if var == "TREFHT":
+	if var == "T" or var == "TREFHT" or var=="TH":
 		ds[var].values = ds[var].values - 273.15 # Change unit to degrees Celsius
 		ds[var].attrs["units"] = r"$^{\circ}$C"
 
@@ -62,15 +64,30 @@ for var in variables:
 		ds[var].values = ds[var].values*1e+3 # Change unit to grams per kilograms
 		ds[var].attrs["units"] = "g/kg"
 	
-	# Make combined data variables
-	if var == "NETCF":
-		ds = ds.assign(NETCF=ds["SWCF"]+ds["LWCF"])
-		ds[var].attrs["units"] = ds["SWCF"].attrs["units"]
-		ds[var].attrs["long_name"] = "Net radiative cloud forcing"
-	
-	# 
+	if var == "AWNI":
+		ds[var].values = ds[var].values*1e-3 # Change unit to number per litre
+		ds[var].attrs["units"] = "1/L"
 
-	print(ds[var].attrs["units"])
+
+	# Make combined data variables
+	if var == "LWCFS":
+		ds = ds.assign(LWCFS=-ds["FLNS"]-(-ds["FLNSC"]))
+		ds[var].attrs["units"] = ds["FLNS"].attrs["units"]
+		ds[var].attrs["long_name"] = "Longwave cloud forcing at surface"
+
+	if var == "SWCFS":
+		ds = ds.assign(SWCFS=ds["FSNS"]-ds["FSNSC"])
+		ds[var].attrs["units"] = ds["FSNS"].attrs["units"]
+		ds[var].attrs["long_name"] = "Shortwave cloud forcing at surface"
+	
+	if var == "AWNICC":
+		ds = ds.assign(AWNICC=ds["AWNI"]/ds["FREQI"].where(ds["FREQI"]>0))
+		ds[var] = ds[var].fillna(0)
+		ds[var].values = ds[var].values*1e-3 # Change unit to number per litre
+		ds[var].attrs["units"] = "1/L"
+		ds[var].attrs["long_name"] = "Average cloud ice number conc in cold clouds"
+
+	print(ds[var].attrs["long_name"])
+	print("Units: ", ds[var].attrs["units"])
 	
 	ds[var].to_netcdf(wpath+var+"_"+case+"_"+date+".nc")
-

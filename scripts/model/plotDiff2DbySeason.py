@@ -11,7 +11,7 @@ plt.rcParams.update({'font.size':16})
 # ------------------------------------------------
 import cartopy.crs as ccrs
 
-rpath="/projects/NS9600K/astridbg/model_data/"
+rpath="/projects/NS9600K/astridbg/data/model/noresm_postprocessed/"
 wpath="/projects/NS9600K/astridbg/master/figures/model/diff_byseason/"
 
 # Default cases----------------
@@ -21,15 +21,15 @@ case1 = "meyers92_20220210"; case1nm = "CAM5"
 #case2 = "meyers92_20220210"; case2nm = "CAM5"
 case2 = "andenes21_20220222"; case2nm = "Andenes 2021"
 #------------------------------	
-date1 = "2007-01-15_2010-03-15"
-date2 = "2007-01-15_2010-03-15"
+date1 = "2007-04-15_2010-03-15"
+date2 = "2007-04-15_2010-03-15"
 
 #------------------------------
 # Two-dimensional fields
 #------------------------------
 
 #variables = ["SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-variables = ["TREFHT"]
+variables = ["SWCFS","LWCFS"]
 
 #------------------------------
 # Shaping and plotting fields
@@ -38,10 +38,6 @@ for var in variables:
 	print(var)
 	ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date1+".nc")
 	ds2 = xr.open_dataset(rpath+var+"_"+case2+"_"+date2+".nc")
-	
-	# Discard first three spin-up months
-	ds1 = ds1.isel(time=slice(3,len(ds1.time)))
-	ds2 = ds2.isel(time=slice(3,len(ds2.time)))
 	
 	# Get start and end date of period
 	date_start = str(ds1.time[0].values).split(" ")[0]
