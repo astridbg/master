@@ -7,18 +7,20 @@ import pandas as pd
 import xarray as xr
 import glob
 
-path1 = "../../../MC2/"
-path2 = path1+"PostprocessedData/"
-fname2 = "Coriolis_nucleiOut.csv"
+path_data = "/projects/NS9600K/data/islas/"
+path_preproc = "/projects/NS9600K/astridbg/data/observations/Coriolis_preprocessed/"
+path_pres = "/projects/NS9600K/astridbg/data/observations/Ambient_Weather/"
+path_temp = "/projects/NS9600K/astridbg/data/observations/"
+wpath = "/projects/NS9600K/astridbg/data/observations/Coriolis_postprocessed/"
 
 # Read in Coriolis INP concentrations
 
-nucleiOut = pd.read_csv(path2+fname2)
+nucleiOut = pd.read_csv(path_preproc+"Coriolis_nucleiOut.csv")
 nCor = len(nucleiOut.iloc[0,:])
 
 # Read in Coriolis log file
 
-df_cor = pd.read_csv(path1+"coriolis_log_all.csv", skiprows = 1)
+df_cor = pd.read_csv(path_data+"coriolis_log_all.csv", skiprows = 1)
 
 t_start = pd.DataFrame(df_cor['Date'] + ' ' + df_cor['Start (UTC)'], columns = ['t_start'])
 t_start = t_start.set_index('t_start')
@@ -30,7 +32,7 @@ t_end.index = pd.to_datetime(t_end.index, format = '%d-%m-%Y %H:%M')
 
 # Get inlet temperature data
 
-files = sorted(glob.glob(path1+"Inlet_Temp/*.txt"))
+files = sorted(glob.glob(path_temp+"Inlet_Temp/*.txt"))
 
 count = 0
 for f in files:
@@ -45,7 +47,7 @@ for f in files:
 
 # Get pressure data
 
-ds_pres = xr.open_dataset(path1+"air_pressure_at_sea_level_202103.nc")
+ds_pres = xr.open_dataset(path_pres+"air_pressure_at_sea_level_202103.nc")
 df_pres = ds_pres.to_dataframe()
 
 # Create lists for average pressures and temperatures
@@ -87,7 +89,7 @@ for cor in range(nCor):
     
     nucleiOut_std.iloc[:,cor] = nucleiOut.iloc[:,cor] * p_std/pres_all[cor] * (273.15 + temp_all[cor])/T_std 
 
-nucleiOut_std.to_csv(path2+"Coriolis_nucleiOut_std_allpres.csv")
+nucleiOut_std.to_csv(wpath+"Coriolis_nucleiOut_std.csv")
 print(np.shape(nucleiOut_std))
 
 

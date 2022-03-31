@@ -1,7 +1,14 @@
+# Author: Stefan Hofer
+# Modified by: Astrid Bragstad Gjelsvik
+
 import numpy as np
 import seaborn as sns
 import xarray as xr
 import matplotlib.pyplot as plt
+plt.rcParams['mathtext.fontset'] = 'stix'
+plt.rcParams['font.family'] = 'STIXGeneral'
+#plt.rcParams.update({'font.size':16})
+
 
 # CALIOP DATA
 folder = '/tos-project2/NS9600K/shofer/'
@@ -14,8 +21,8 @@ ann_bulk = xr.open_dataset(folder + data_folder + files_ann[0])
 ann_ct = xr.open_dataset(folder + data_folder + files_ann[1])
 
 # NORESM Data
-folder_n = ['/projects/NS9600K/astridbg/noresm/cases/NF2000climo_f19_tn14_meyers92_20220210/atm/hist/',
-	    '/projects/NS9600K/astridbg/noresm/cases/NF2000climo_f19_tn14_andenes21_20220222/atm/hist/']
+folder_n = ['/projects/NS9600K/astridbg/data/model/noresm_rawdata/cases/NF2000climo_f19_tn14_meyers92_20220210/atm/hist/',
+	    '/projects/NS9600K/astridbg/data/model/noresm_rawdata/cases/NF2000climo_f19_tn14_andenes21_20220222/atm/hist/']
 
 data_n = ['NF2000climo_f19_tn14_meyers92_20220210.cam.h0*.nc',
 	  'NF2000climo_f19_tn14_andenes21_20220222.cam.h0*.nc']
@@ -29,10 +36,10 @@ def preprocess(ds):
 
 list_cases = []
 for i in range(2):
-    # 20200512_012745_fitting_runs_cam61satcomp_wbf_0.2_inp_0.1/src.cam/
     case_one = xr.open_mfdataset(
         folder_n[i] + data_n[i], preprocess=preprocess)
     list_cases.append(case_one)
+    print(i,": ",folder_n[i])
 
 
 # =======================================================
@@ -62,7 +69,7 @@ def arctic_slf_noresm(ds, s_bnd=66.6, n_bnd=90):
     lats = ds.lat.sel(lat=slice(s_bnd, n_bnd))
     # Select between boundaries given and delete first three months
     ds_arctic = ds.sel(lat=slice(s_bnd, n_bnd),
-                       time=slice('2008-04-01', '2010-04-01'))
+                       time=slice('2007-04-01', '2010-04-01'))
     weights_n = np.cos(np.deg2rad(lats))
     weighted = ds_arctic.weighted(weights_n)
     mean_arctic = weighted.mean(dim=['lat', 'lon', 'time'])
@@ -101,13 +108,11 @@ et_n_ct = arctic_slf_weighted(ann_ct, s_bnd=30, n_bnd=82)
 
 # This plot is for the Stanford research statement
 plt.close('all')
-fig, axs = plt.subplots(nrows=1, ncols=2, figsize=(9, 5))
+fig, axs = plt.subplots(nrows=1, ncols=2, figsize=(9, 5),dpi=300)
 ax = axs.flatten()
 
-
-i = 1
+i = 0
 for case_one in list_cases:
-    # case_one['name'] = case_one.case[14:]
     # First cases to compares between my runs and Jonah
     case_one_slf = arctic_slf_noresm(case_one, s_bnd=30, n_bnd=82)
     # =============================================================
@@ -122,9 +127,7 @@ for case_one in list_cases:
                  yincrease=False, label='CT Model', ax=ax[i], lw=2.5)
     xr.plot.line(et_n_ct * 100, y='isotherm',
                  yincrease=False, ax=ax[i], color='black', label='CT Obs', lw=2.5, ls='dashdot')
-
-    i -= 1
-
+    i += 1
 
 sns.despine()
 fig.tight_layout()
@@ -140,4 +143,4 @@ for ax in ax:
     ax.legend(frameon=False, loc='lower left')
     i += 1
 fig.savefig(
-    '/tos-project2/NS9600K/astridbg/master/NH_2_cases.png')
+    '/tos-project2/NS9600K/astridbg/master/figures/satellite_model_comparison/SLF_satellite_2cases.pdf',bbox_inces="tight")
