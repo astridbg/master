@@ -7,15 +7,15 @@ plt.rcParams.update({'font.size':14})
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 
-path = "../../../MC2/PostprocessedData/"
+path = "/projects/NS9600K/astridbg/data/observations/Coriolis_postprocessed/"
 fname1 = "Coriolis_nucleiT_cal.csv"
-fname2 = "Coriolis_nucleiOut_std_allpres.csv"
+fname2 = "Coriolis_nucleiOut_std.csv"
+wpath = "/projects/NS9600K/astridbg/master/figures/observations/"
+
 
 nucleiT = pd.read_csv(path+fname1, index_col=0)
 nucleiOut = pd.read_csv(path+fname2, index_col=0)
-print(np.shape(nucleiOut))
 nCor = len(nucleiT.iloc[0,:])
-print(nCor)
 
 outlier_sample = 0
 for i in range(nCor):
@@ -26,7 +26,7 @@ for i in range(nCor):
             outlier_sample = i
             print("Outlier: sample "+str(outlier_sample))
 
-X = nucleiT.iloc[1:-1,:nCor].to_numpy() # I disclude the first and last well, as the "concentration values here are not representative of reality
+X = nucleiT.iloc[1:-1,:nCor].to_numpy() # I disclude the first and last well, as the concentration values here are not representative of reality
 Y = nucleiOut.iloc[1:-1,:nCor].to_numpy()
 
 X_ex1 = nucleiT.iloc[1:-1,:outlier_sample].to_numpy()
@@ -60,7 +60,7 @@ print(intercept_ex)
 slope_L_W = -0.332
 intercept_L_W = -10.034
 
-plt.figure(figsize=(8,6))
+plt.figure(figsize=(8,6),dpi=300)
 plt.title("INP concentrations at Andenes 15.03 - 30.03 2021")
 plt.grid()
 alpha=1
@@ -82,6 +82,6 @@ plt.plot(x, np.exp(intercept_L_W + slope_L_W*x),
 plt.legend()
 plt.xlabel(r"Temperature $T$ [$^{\circ}$C]")
 plt.ylabel(r"INP concentration [#l$_{std}^{-1}$]")
-plt.savefig("../figures/INPconc_parameterisation.png")
+plt.savefig(wpath+"INPconc_param.pdf",bbox_inches="tight")
 plt.show()
 
