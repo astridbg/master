@@ -40,6 +40,8 @@ variables = ["TREFHT"]
 
 svalbard = [[9,28],[75,81]]
 quttinirpaaq = [[-120,-60],[78,86]]
+
+
 squares = [svalbard,quttinirpaaq]
 
 #------------------------------

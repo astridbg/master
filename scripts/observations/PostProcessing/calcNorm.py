@@ -1,6 +1,5 @@
-"""
-Author: Tim Carlsen, modified by Astrid Bragstad Gjelsvik
-"""
+# Author: Tim Carlsen
+# Modified by: Astrid Bragstad Gjelsvik
 
 import numpy as np
 import pandas as pd
@@ -9,8 +8,8 @@ import glob
 
 path_data = "/projects/NS9600K/data/islas/"
 path_preproc = "/projects/NS9600K/astridbg/data/observations/Coriolis_preprocessed/"
-path_pres = "/projects/NS9600K/astridbg/data/observations/Ambient_Weather/"
-path_temp = "/projects/NS9600K/astridbg/data/observations/"
+path_pres = "/projects/NS9600K/astridbg/data/observations/SN87110/"
+path_temp = "/projects/NS9600K/astridbg/data/observations/Inlet_Temp/"
 wpath = "/projects/NS9600K/astridbg/data/observations/Coriolis_postprocessed/"
 
 # Read in Coriolis INP concentrations
@@ -32,7 +31,7 @@ t_end.index = pd.to_datetime(t_end.index, format = '%d-%m-%Y %H:%M')
 
 # Get inlet temperature data
 
-files = sorted(glob.glob(path_temp+"Inlet_Temp/*.txt"))
+files = sorted(glob.glob(path_temp+"*.txt"))
 
 count = 0
 for f in files:

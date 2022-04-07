@@ -6,6 +6,7 @@ matplotlib.rcParams['font.family'] = 'STIXGeneral'
 plt.rcParams.update({'font.size':14})
 import pandas as pd
 from sklearn.linear_model import LinearRegression
+from Meyers import meyers
 
 path = "/projects/NS9600K/astridbg/data/observations/Coriolis_postprocessed/"
 fname1 = "Coriolis_nucleiT_cal.csv"
@@ -29,6 +30,9 @@ for i in range(nCor):
 X = nucleiT.iloc[1:-1,:nCor].to_numpy() # I disclude the first and last well, as the concentration values here are not representative of reality
 Y = nucleiOut.iloc[1:-1,:nCor].to_numpy()
 
+print(X)
+print(Y)
+"""
 X_ex1 = nucleiT.iloc[1:-1,:outlier_sample].to_numpy()
 X_ex2 = nucleiT.iloc[1:-1,outlier_sample+1:nCor].to_numpy()
 Y_ex1 = nucleiOut.iloc[1:-1,:outlier_sample].to_numpy()
@@ -61,27 +65,28 @@ slope_L_W = -0.332
 intercept_L_W = -10.034
 
 plt.figure(figsize=(8,6),dpi=300)
-plt.title("INP concentrations at Andenes 15.03 - 30.03 2021")
+plt.title("INP concentrations at Andenes 15.03 - 30.03 2021",fontsize=22)
 plt.grid()
 alpha=1
 
 for i in range(nCor):
-    plt.scatter(nucleiT.iloc[:,i],nucleiOut.iloc[:,i], alpha = alpha, color="none", edgecolor="black")
+    plt.scatter(nucleiT.iloc[:,i],nucleiOut.iloc[:,i], alpha = alpha, color="none", edgecolor="steelblue")
     alpha -= 0.0
 
 plt.yscale("log")
-plt.ylim(10**(-4),10**(-0.5))
+#plt.ylim(10**(-4),10**(-0.5))
 plt.xlim(-30,-2)
 x = np.linspace(-30,-2,100)
-plt.plot(x, np.exp(intercept + slope*x), 
+plt.plot(x, np.exp(intercept + slope*x), linewidth=2, color="orange",
         label="With outlier:\n exp("+str(round(intercept,3))+" - "+str(round(np.sign(slope)*slope,3))+r"$\times T$)")
-plt.plot(x, np.exp(intercept_ex + slope_ex*x), 
+plt.plot(x, np.exp(intercept_ex + slope_ex*x), linewidth=2, color="black",
         label="Without outlier:\n exp("+str(round(intercept_ex,3))+" - "+str(round(np.sign(slope_ex)*slope_ex,3))+r"$\times T$)")
-plt.plot(x, np.exp(intercept_L_W + slope_L_W*x),
+plt.plot(x, np.exp(intercept_L_W + slope_L_W*x),linewidth=2,color="green",
         label="Li and Wieder et.al.")
+plt.plot(x, meyers(x), linewidth=2, color="red",label="Meyers et.al.")
 plt.legend()
 plt.xlabel(r"Temperature $T$ [$^{\circ}$C]")
 plt.ylabel(r"INP concentration [#l$_{std}^{-1}$]")
 plt.savefig(wpath+"INPconc_param.pdf",bbox_inches="tight")
 plt.show()
-
+"""

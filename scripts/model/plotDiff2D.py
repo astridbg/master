@@ -15,11 +15,11 @@ rpath="/projects/NS9600K/astridbg/data/model/noresm_postprocessed/"
 wpath="/projects/NS9600K/astridbg/master/figures/model/diff_all/"
 
 # Default cases----------------
-#case1 = "def_20210126"; case1nm = "CAM6"
-case1 = "meyers92_20220210"; case1nm = "CAM5"
+case1 = "def_20210126"; case1nm = "CAM6"
+#case1 = "meyers92_20220210"; case1nm = "CAM5"
 # Modified cases---------------
-#case2 = "meyers92_20220210"; case2nm = "CAM5"
-case2 = "andenes21_20220222"; case2nm = "Andenes 2021"
+case2 = "meyers92_20220210"; case2nm = "CAM5"
+#case2 = "andenes21_20220222"; case2nm = "Andenes 2021"
 #------------------------------	
 date1 = "2007-04-15_2010-03-15"
 date2 = "2007-04-15_2010-03-15"
@@ -28,9 +28,8 @@ date2 = "2007-04-15_2010-03-15"
 # Two-dimensional fields
 #------------------------------
 
-#variables = ["SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-variables = ["SWCFS","LWCFS"]
-
+variables = ["SWCF","LWCF","SWCFS","LWCFS","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
+variables = ["SWCFS"]
 #------------------------------
 # Shaping and plotting fields
 #------------------------------

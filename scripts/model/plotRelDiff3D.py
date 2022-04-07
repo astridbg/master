@@ -32,66 +32,68 @@ date2 = "2007-04-15_2010-03-15"
 level = "680"
 #variables = ["AWNI", "FREQI","CLDICE"]
 #variables = ["NIMEY","AWNI", "FREQI","CLDICE"]
-variables = ["NIMEY"]
+variables = ["NIMEY", "AWNI","CLDICE","AWNICC"]
 
 
 for var in variables:
-	print(var)
-	ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date1+".nc")
-	ds2 = xr.open_dataset(rpath+var+"_"+case2+"_"+date2+".nc")
+        print(var)
+        ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date1+".nc")
+        ds2 = xr.open_dataset(rpath+var+"_"+case2+"_"+date2+".nc")
 	
 	# Get start and end date of period
-	date_start = str(ds1.time[0].values).split(" ")[0]
-	date_end = str(ds1.time[-1].values).split(" ")[0]
+        date_start = str(ds1.time[0].values).split(" ")[0]
+        date_end = str(ds1.time[-1].values).split(" ")[0]
 
 	# Select level
-	ds1 = ds1.sel(lev=level, method="nearest")
-	ds2 = ds2.sel(lev=level, method="nearest")
-	lev_name = str(np.round(ds1.lev.values,1))
+        ds1 = ds1.sel(lev=level, method="nearest")
+        ds2 = ds2.sel(lev=level, method="nearest")
+        lev_name = str(np.round(ds1.lev.values,1))
 
 	# Get difference between cases time averaged over the whole period
-	ds1m = ds1[var].mean("time")
-	ds2m = ds2[var].mean("time")
-	diff = ds2m - ds1m
-	reldiff = diff/ds1m.where(ds1m>0)*100
-	
-	#lev_extent = round(max(abs(np.nanmin(reldiff.values)), abs(np.nanmax(reldiff.values))),10)
-	#if lev_extent < 0.004:
-	#	lev_extent = 0.004
-	lev_extent = 200
-	levels = np.linspace(-lev_extent,lev_extent,25)
-	
-	fig = plt.figure(1, figsize=[9,10],dpi=300)
+        ds1m = ds1[var].mean("time")
+        ds2m = ds2[var].mean("time")
+        diff = ds2m - ds1m
+        reldiff = diff/ds1m.where(ds1m>0)*100
 
-	fig.suptitle(ds1[var].long_name+"\n"+case2nm+"-"+case1nm+"\n"+date_start+"-"+date_end+", "+lev_name+" hPa", fontsize=26)
+
+        lev_extent = round(max(abs(np.nanmin(reldiff.sel(lat=slice(66.5,90)).values)),
+                               abs(np.nanmax(reldiff.sel(lat=slice(66.5,90)).values))),10)    
+        if lev_extent < 0.004:
+            lev_extent = 0.004
+	#lev_extent = 200
+        levels = np.linspace(-lev_extent,lev_extent,25)
+	
+        fig = plt.figure(1, figsize=[9,10],dpi=300)
+
+        fig.suptitle(ds1[var].long_name+"\n"+case2nm+"-"+case1nm+"\n"+date_start+"-"+date_end+", "+lev_name+" hPa", fontsize=26)
 	
 		
 	# Set the projection to use for plotting
-	ax = plt.subplot(1, 1, 1, projection=ccrs.Orthographic(0, 90))
+        ax = plt.subplot(1, 1, 1, projection=ccrs.Orthographic(0, 90))
 
-	map = reldiff.plot.pcolormesh(ax=ax, transform=ccrs.PlateCarree(), 
+        map = reldiff.plot.pcolormesh(ax=ax, transform=ccrs.PlateCarree(), 
 						cmap='coolwarm',levels=levels,
 						add_colorbar=False)
 
-	ax.coastlines()
-	ax.set_title(None)
+        ax.coastlines()
+        ax.set_title(None)
 		
-	cb_ax = fig.add_axes([0.15, 0.07, 0.7, 0.04])
+        cb_ax = fig.add_axes([0.15, 0.07, 0.7, 0.04])
 
-	cbar = plt.colorbar(map, cax=cb_ax, spacing = 'uniform', extend='both', orientation='horizontal', fraction=0.046, pad=0.06)
-	cbar.ax.tick_params(labelsize=18)
-	cbar.ax.set_xlabel("%", fontsize=23)
-	if lev_extent >= 4:
-	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.0f}')) # No decimal places	
-	elif 0.4 <= lev_extent < 4:
-           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.1f}')) # One decimal place
-	elif 0.04 <= lev_extent < 0.4:
-	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # Two decimal places     
-	elif 0.004 <= lev_extent < 0.04:
-	   cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places
+        cbar = plt.colorbar(map, cax=cb_ax, spacing = 'uniform', extend='both', orientation='horizontal', fraction=0.046, pad=0.06)
+        cbar.ax.tick_params(labelsize=18)
+        cbar.ax.set_xlabel("%", fontsize=23)
+        if lev_extent >= 4:
+            cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.0f}')) # No decimal places	
+        elif 0.4 <= lev_extent < 4:
+            cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.1f}')) # One decimal place
+        elif 0.04 <= lev_extent < 0.4:
+            cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # Two decimal places     
+        elif 0.004 <= lev_extent < 0.04:
+            cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places
 
-	plt.savefig(wpath+var+"_"+lev_name.split(".")[0]+"_"+case1+"_"+case2+".pdf",bbox_inches="tight")
-	plt.clf()
+        plt.savefig(wpath+var+"_"+lev_name.split(".")[0]+"_"+case1+"_"+case2+".pdf",bbox_inches="tight")
+        plt.clf()
 
 """
 #------------------------------

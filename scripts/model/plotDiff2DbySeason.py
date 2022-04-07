@@ -28,8 +28,7 @@ date2 = "2007-04-15_2010-03-15"
 # Two-dimensional fields
 #------------------------------
 
-#variables = ["SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-variables = ["SWCFS","LWCFS"]
+variables = ["SWCF","LWCF","SWCFS","LWCFS","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
 
 #------------------------------
 # Shaping and plotting fields

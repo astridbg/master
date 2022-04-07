@@ -30,50 +30,88 @@ date2 = "2007-04-15_2010-03-15"
 # for specific level
 #------------------------------
 
-level = "750"
-#variables = ["AWNI", "FREQI","CLDICE"]
-#variables = ["NIMEY","AWNI", "FREQI","CLDICE"]
-variables = ["FICE","T"]
-
+var_levels = ["620","750","750","750"]
+variables = ["NIMEY","AWNI","AWNICC","CLDICE"]
+i = 0
 for var in variables:
-	print(var)
-	ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date1+".nc")
-	ds2 = xr.open_dataset(rpath+var+"_"+case2+"_"+date2+".nc")
+        print(var)
+        ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date1+".nc")
+        ds2 = xr.open_dataset(rpath+var+"_"+case2+"_"+date2+".nc")
         
         # Get start and end date of period
-	date_start = str(ds1.time[0].values).split(" ")[0]
-	date_end = str(ds1.time[-1].values).split(" ")[0]
+        date_start = str(ds1.time[0].values).split(" ")[0]
+        date_end = str(ds1.time[-1].values).split(" ")[0]
 
         # Get the time average of cases over the whole period
-	ds1m = ds1.mean("time")
-	ds2m = ds2.mean("time")
+        ds1m = ds1.mean("time")
+        ds2m = ds2.mean("time")
+
+        # Select level
+        ds1_level = ds1m.sel(lev=var_levels[i], method="nearest")
+        ds2_level = ds2m.sel(lev=var_levels[i], method="nearest")
+        lev_name = str(np.round(ds1_level.lev.values,1))
+
+        # Get difference between cases time averaged over the whole period
+        diff = ds2_level[var]-ds1_level[var]
+
+        lev_extent = round(max(abs(np.min(diff.sel(lat=slice(66.5,90)).values)), 
+                               abs(np.max(diff.sel(lat=slice(66.5,90)).values))),10)
+        if var == "AWNICC":
+            lev_extent = 5
+        print(lev_extent)
+        if lev_extent < 0.004:
+                lev_extent = 0.004
+        levels = np.linspace(-lev_extent,lev_extent,25)
 
 	# Make horizontal averages:
 	# - for the Arctic
-	ds1_arct = functions.computeWeightedMean(ds1m[var].sel(lat=slice(66.5,90)))
-	ds2_arct = functions.computeWeightedMean(ds2m[var].sel(lat=slice(66.5,90)))
+        ds1_arct_height = functions.computeWeightedMean(ds1m[var].sel(lat=slice(66.5,90)))
+        ds2_arct_height = functions.computeWeightedMean(ds2m[var].sel(lat=slice(66.5,90)))
 	
-	diff_arct = ds1_arct - ds2_arct
-	
-	fig = plt.figure(1, figsize=[5,7],dpi=300)
+        diff_arct_height = ds1_arct_height - ds2_arct_height
+        height_levels = ds1.lev.values
 
-	fig.suptitle(ds1[var].long_name+"\n"+date_start+r"$-$"+date_end+", Arctic", fontsize=20)
+        fig  = plt.figure(figsize=[12,7],dpi=300)
+
+        fig.suptitle(ds1[var].long_name+"\n"+date_start+r"$-$"+date_end+", Arctic", fontsize=20)
        	
-	levels = ds1.lev.values
- 
-	plt.plot(ds1_arct, levels, linestyle="--", label=case1nm)
-	plt.plot(ds2_arct, levels, label=case2nm)
-	plt.plot(diff_arct, levels, label=case1nm+"-"+case2nm, color="red",linewidth=3)
+        ax1 = plt.subplot(1,2,1)
+        plt.plot(ds1_arct_height, height_levels, label=case1nm, color="blue",linewidth=2)
+        plt.plot(ds2_arct_height, height_levels, label=case2nm, color="red",linewidth=2)
+        plt.plot(diff_arct_height, height_levels, label=case1nm+"-"+case2nm, color="orange",linestyle="--")
+        plt.hlines(ds1_level.lev.values, ax1.get_xlim()[0],ax1.get_xlim()[1], color="black",linestyle="--")
+        plt.ylabel("hPa")
+        plt.xlabel(ds1[var].units)
+        plt.legend(loc="upper left")
+        plt.grid(alpha=0.5)
+        plt.gca().invert_yaxis()
 	
-	plt.ylabel("hPa")
-	plt.xlabel(ds1[var].units)
-	plt.legend(loc="upper left")
-	plt.grid(alpha=0.5)
-	plt.gca().invert_yaxis()
-	
-	plt.savefig(wpath+var+"_height_"+case1+"_"+case2+".pdf",bbox_inches="tight")
-	plt.clf()	
+        ax2 = plt.subplot(1,2,2, projection=ccrs.Orthographic(0, 90))
 
+        map = diff.plot.pcolormesh(ax=ax2, transform=ccrs.PlateCarree(), 
+                                                cmap='coolwarm',levels=levels,
+                                                add_colorbar=False)
+
+        ax2.coastlines()
+        ax2.set_title("Level = "+lev_name+" hPa") 
+        cb_ax = fig.add_axes([0.5, 0.11, 0.4, 0.04])
+
+        cbar = plt.colorbar(map, cax=cb_ax, spacing = 'uniform', extend='both', orientation='horizontal', fraction=0.046, pad=0.06)
+        #cbar.ax.tick_params(labelsize=18)
+        cbar.ax.set_xlabel(ds1[var].units)#, fontsize=23)
+        if lev_extent >= 4:
+           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.0f}')) # No decimal places        
+        elif 0.4 <= lev_extent < 4:
+           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.1f}')) # One decimal place
+        elif 0.04 <= lev_extent < 0.4:
+           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # Two decimal places     
+        elif 0.004 <= lev_extent < 0.04:
+           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places
+        
+
+        plt.savefig(wpath+var+"_heightplushoriz_"+case1+"_"+case2+".pdf",bbox_inches="tight")
+        plt.clf()	
+        i += 1
 
 """
 for var in variables:

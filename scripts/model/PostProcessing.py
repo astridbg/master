@@ -8,9 +8,9 @@ import functions
 rpath="/projects/NS9600K/astridbg/data/model/noresm_rawdata/cases/"
 wpath="/projects/NS9600K/astridbg/data/model/noresm_postprocessed/"
 
-#case = "def_20210126"
+case = "def_20210126"
 #case = "meyers92_20220210"
-case = "andenes21_20220222"
+#case = "andenes21_20220222"
 casefolder="NF2000climo_f19_tn14_"+case
 
 all_files = glob.glob(rpath+casefolder+"/atm/hist/"+casefolder+".cam.h0.*")
@@ -41,12 +41,11 @@ print("Postprocessing completed")
 date = "2007-04-15_2010-03-15"
 
 # For cases meyers92 and andenes21
-#variables = ["NIMEY","AWNI", "FREQI","CLDICE","SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
+#variables = ["NIMEY","AWNI", "FREQI","CLDICE","SWCF","LWCF","LWCFS","SWCFS","AWNICC","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
 
 # For case def
-#variables = ["AWNI", "FREQI","CLDICE","SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
+variables = ["AWNI", "FREQI","CLDICE","SWCF","LWCF","LWCFS","SWCFS","AWNICC","TH","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
 
-variables = ["LWCFS","SWCFS"]
 
 for var in variables:
 	print("Started writing variable:")
