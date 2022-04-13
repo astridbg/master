@@ -30,9 +30,10 @@ date2 = "2007-04-15_2010-03-15"
 # for specific level
 #------------------------------
 
-var_levels = ["620","750","750","750"]
+var_level = "800"
 variables = ["NIMEY","AWNI","AWNICC","CLDICE"]
-i = 0
+variables = ["Q","RELHUM"]
+
 for var in variables:
         print(var)
         ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date1+".nc")
@@ -47,9 +48,9 @@ for var in variables:
         ds2m = ds2.mean("time")
 
         # Select level
-        ds1_level = ds1m.sel(lev=var_levels[i], method="nearest")
-        ds2_level = ds2m.sel(lev=var_levels[i], method="nearest")
-        lev_name = str(np.round(ds1_level.lev.values,1))
+        ds1_level = ds1m.sel(lev=var_level, method="nearest")
+        ds2_level = ds2m.sel(lev=var_level, method="nearest")
+        lev_name = str(int(ds1_level.lev.values))
 
         # Get difference between cases time averaged over the whole period
         diff = ds2_level[var]-ds1_level[var]
@@ -68,7 +69,6 @@ for var in variables:
         ds1_arct_height = functions.computeWeightedMean(ds1m[var].sel(lat=slice(66.5,90)))
         ds2_arct_height = functions.computeWeightedMean(ds2m[var].sel(lat=slice(66.5,90)))
 	
-        diff_arct_height = ds1_arct_height - ds2_arct_height
         height_levels = ds1.lev.values
 
         fig  = plt.figure(figsize=[12,7],dpi=300)
@@ -78,7 +78,6 @@ for var in variables:
         ax1 = plt.subplot(1,2,1)
         plt.plot(ds1_arct_height, height_levels, label=case1nm, color="blue",linewidth=2)
         plt.plot(ds2_arct_height, height_levels, label=case2nm, color="red",linewidth=2)
-        plt.plot(diff_arct_height, height_levels, label=case1nm+"-"+case2nm, color="orange",linestyle="--")
         plt.hlines(ds1_level.lev.values, ax1.get_xlim()[0],ax1.get_xlim()[1], color="black",linestyle="--")
         plt.ylabel("hPa")
         plt.xlabel(ds1[var].units)
@@ -87,7 +86,7 @@ for var in variables:
         plt.gca().invert_yaxis()
 	
         ax2 = plt.subplot(1,2,2, projection=ccrs.Orthographic(0, 90))
-
+        functions.polarCentral_set_latlim([65,90], ax2)
         map = diff.plot.pcolormesh(ax=ax2, transform=ccrs.PlateCarree(), 
                                                 cmap='coolwarm',levels=levels,
                                                 add_colorbar=False)
@@ -109,9 +108,9 @@ for var in variables:
            cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places
         
 
-        plt.savefig(wpath+var+"_heightplushoriz_"+case1+"_"+case2+".pdf",bbox_inches="tight")
+        plt.savefig(wpath+var+"_heightplushoriz_"+lev_name+"_"+case1+"_"+case2+".pdf",bbox_inches="tight")
         plt.clf()	
-        i += 1
+        #i += 1
 
 """
 for var in variables:

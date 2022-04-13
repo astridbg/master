@@ -29,11 +29,11 @@ date2 = "2007-04-15_2010-03-15"
 # for specific level
 #------------------------------
 
-level = "680"
+level = "620"
 #variables = ["AWNI", "FREQI","CLDICE"]
 #variables = ["NIMEY","AWNI", "FREQI","CLDICE"]
 variables = ["NIMEY", "AWNI","CLDICE","AWNICC"]
-
+variables = ["NIMEY"]
 
 for var in variables:
         print(var)
