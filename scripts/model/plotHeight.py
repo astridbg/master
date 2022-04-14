@@ -53,8 +53,6 @@ for var in variables:
 	ds1_arct = functions.computeWeightedMean(ds1m[var].sel(lat=slice(66.5,90)))
 	ds2_arct = functions.computeWeightedMean(ds2m[var].sel(lat=slice(66.5,90)))
 	
-	diff_arct = ds1_arct - ds2_arct
-	
 	fig = plt.figure(1, figsize=[5,7],dpi=300)
 
 	fig.suptitle(ds1[var].long_name+"\n"+date_start+r"$-$"+date_end+", Arctic", fontsize=20)
@@ -65,9 +63,8 @@ for var in variables:
 	   levels = ds1.lev.values
 	print(levels)
  
-	plt.plot(ds1_arct, levels, linestyle="--", label=case1nm)
+	plt.plot(ds1_arct, levels, label=case1nm)
 	plt.plot(ds2_arct, levels, label=case2nm)
-	plt.plot(diff_arct, levels, label=case1nm+"-"+case2nm, color="red",linewidth=3)
 	
 	plt.ylabel("hPa")
 	plt.xlabel(ds1[var].units)

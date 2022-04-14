@@ -9,8 +9,8 @@ rpath="/projects/NS9600K/astridbg/data/model/noresm_rawdata/cases/"
 wpath="/projects/NS9600K/astridbg/data/model/noresm_postprocessed/"
 
 #case = "def_20210126"
-case = "meyers92_20220210"
-#case = "andenes21_20220222"
+#case = "meyers92_20220210"
+case = "andenes21_20220222"
 casefolder="NF2000climo_f19_tn14_"+case
 
 all_files = glob.glob(rpath+casefolder+"/atm/hist/"+casefolder+".cam.h0.*")
@@ -46,7 +46,7 @@ date = "2007-04-15_2010-03-15"
 # For case def
 #variables = ["AWNI", "FREQI","CLDICE","SWCF","LWCF","LWCFS","SWCFS","NETCFS","AWNICC","TH","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
 
-variables = ["Q"]
+variables = ["NIMEY"]
 
 for var in variables:
     print("Started writing variable:")
@@ -55,6 +55,7 @@ for var in variables:
     if var == "NIMEY":
         ds[var].values = ds[var].values*1e-3 # Change unit to number per litre
         ds[var].attrs["units"] = "1/L"
+        ds[var].attrs["long_name"] = "Activated Ice Number Concentation due to Meyers' parameterisation"
 	
     if var == "T" or var == "TREFHT" or var=="TH":
         ds[var].values = ds[var].values - 273.15 # Change unit to degrees Celsius

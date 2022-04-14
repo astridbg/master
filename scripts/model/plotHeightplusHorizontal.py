@@ -30,9 +30,8 @@ date2 = "2007-04-15_2010-03-15"
 # for specific level
 #------------------------------
 
-var_level = "800"
-variables = ["NIMEY","AWNI","AWNICC","CLDICE"]
-variables = ["Q","RELHUM"]
+var_level = "850"
+variables = ["NIMEY","AWNI","AWNICC","CLDICE","Q","RELHUM"]
 
 for var in variables:
         print(var)
@@ -73,15 +72,17 @@ for var in variables:
 
         fig  = plt.figure(figsize=[12,7],dpi=300)
 
-        fig.suptitle(ds1[var].long_name+"\n"+date_start+r"$-$"+date_end+", Arctic", fontsize=20)
+        fig.suptitle(ds1[var].long_name+"\n averaged over "+date_start+r"$-$"+date_end, fontsize=20)
        	
         ax1 = plt.subplot(1,2,1)
-        plt.plot(ds1_arct_height, height_levels, label=case1nm, color="blue",linewidth=2)
-        plt.plot(ds2_arct_height, height_levels, label=case2nm, color="red",linewidth=2)
-        plt.hlines(ds1_level.lev.values, ax1.get_xlim()[0],ax1.get_xlim()[1], color="black",linestyle="--")
+        plt.plot(ds1_arct_height, height_levels, label=case1nm, color="tab:blue",linestyle="--",linewidth=2)
+        plt.plot(ds2_arct_height, height_levels, label=case2nm, color="tab:orange",linewidth=2)
+        plt.hlines(ds1_level.lev.values, ax1.get_xlim()[0],ax1.get_xlim()[1], color="black",linestyle=":")
+        if var == "NIMEY" or var == "AWNICC" or var == "AWNI":
+            plt.xscale("log")
         plt.ylabel("hPa")
         plt.xlabel(ds1[var].units)
-        plt.legend(loc="upper left")
+        plt.legend(loc="upper right",frameon=False,title="Arctic averages")
         plt.grid(alpha=0.5)
         plt.gca().invert_yaxis()
 	
