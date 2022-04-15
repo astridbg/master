@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.rcParams['mathtext.fontset'] = 'stix'
 matplotlib.rcParams['font.family'] = 'STIXGeneral'
-plt.rcParams.update({'font.size':14})
+plt.rcParams.update({'font.size':20})
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from Meyers import meyers
@@ -97,11 +97,20 @@ plt.yscale("log")
 #plt.ylim(10**(-4),10**(-0.5))
 plt.xlim(-25,-2)
 x = np.linspace(-25,-2,100)
-plt.plot(x, np.exp(intercept + slope*x), linewidth=2, color="black",
-        label="exp("+str(round(intercept,3))+" - "+str(round(np.sign(slope)*slope,3))+r"$\times T$)")
+#plt.plot(x, np.exp(intercept + slope*x), linewidth=2, color="black",
+#        label="exp("+str(round(intercept,3))+" - "+str(round(np.sign(slope)*slope,3))+r"$\times T$)")
 plt.plot(x, np.exp(intercept_Wilson + slope_Wilson*x),linewidth=2,color="red",
-        label="Wilson (2015) \n exp("+str(round(intercept_Wilson,3))+" - "+str(round(np.sign(slope_Wilson)*slope_Wilson,3))+r"$\times T$)")
-plt.legend()
+        label="Wilson (2015)")#": exp("+str(round(intercept_Wilson,3))+" - "+str(round(np.sign(slope_Wilson)*slope_Wilson,3))+r"$\times T$)")
+
+# Shrink current axis's height by 10% on the bottom
+ax = plt.gca()
+box = ax.get_position()
+ax.set_position([box.x0, box.y0 + box.height * 0.1,
+                 box.width, box.height * 0.9])
+
+# Put a legend below current axis
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=3)
+
 plt.xlabel(r"Temperature $T$ [$^{\circ}$C]")
 plt.ylabel(r"Cumulative INPs per gram TOC")
 plt.savefig(wpath+"INPpergTOC.pdf",bbox_inches="tight")
