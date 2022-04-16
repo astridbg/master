@@ -48,6 +48,13 @@ ax.set_position([box.x0, box.y0 + box.height * 0.1,
                  box.width, box.height * 0.9])
 
 # Put a legend below current axis
-ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=2)
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=2,borderpad=0.3, columnspacing=0.3, handletextpad=0.2)
+
+all_t50 = np.append(s_t50.values,b_t50.values)
+all_toc = np.append(np.transpose(s_toc.values)[0],np.transpose(b_toc.values)[0])
+ax.annotate("R: %.2f, R$^2$: %.2f" %(functions.r(all_t50,all_toc),functions.rsquared(all_t50,all_toc)),
+                xy=(0, 1), xycoords='axes fraction',
+                xytext=(5, -5), textcoords='offset points',
+                ha='left', va='top')
 
 plt.savefig(wpath+"sea_t50toc.pdf",bbox_inches="tight")

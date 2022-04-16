@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.rcParams['mathtext.fontset'] = 'stix'
 matplotlib.rcParams['font.family'] = 'STIXGeneral'
-plt.rcParams.update({'font.size':14})
+plt.rcParams.update({'font.size':15})
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from Meyers import meyers
@@ -30,9 +30,6 @@ for i in range(nCor):
 X = nucleiT.iloc[1:-1,:nCor].to_numpy() # I disclude the first and last well, as the concentration values here are not representative of reality
 Y = nucleiOut.iloc[1:-1,:nCor].to_numpy()
 
-print(X)
-print(Y)
-"""
 X_ex1 = nucleiT.iloc[1:-1,:outlier_sample].to_numpy()
 X_ex2 = nucleiT.iloc[1:-1,outlier_sample+1:nCor].to_numpy()
 Y_ex1 = nucleiOut.iloc[1:-1,:outlier_sample].to_numpy()
@@ -65,28 +62,40 @@ slope_L_W = -0.332
 intercept_L_W = -10.034
 
 plt.figure(figsize=(8,6),dpi=300)
-plt.title("INP concentrations at Andenes 15.03 - 30.03 2021",fontsize=22)
-plt.grid()
+plt.title("INP concentrations at Andenes 15.03$-$30.03 2021",fontsize=22)
+plt.grid(alpha=0.5)
 alpha=1
 
 for i in range(nCor):
-    plt.scatter(nucleiT.iloc[:,i],nucleiOut.iloc[:,i], alpha = alpha, color="none", edgecolor="steelblue")
-    alpha -= 0.0
+    if i == outlier_sample:
+        plt.scatter(nucleiT.iloc[:,i],nucleiOut.iloc[:,i], alpha = alpha, color="none", edgecolor="mediumseagreen")#, label="Outlier")
+    elif i == 0:
+        plt.scatter(nucleiT.iloc[:,i],nucleiOut.iloc[:,i], alpha = alpha, color="none", edgecolor="cornflowerblue")#, label="Other values")
+    else:
+        plt.scatter(nucleiT.iloc[:,i],nucleiOut.iloc[:,i], alpha = alpha, color="none", edgecolor="cornflowerblue")
+    alpha -= 0.01
 
 plt.yscale("log")
 #plt.ylim(10**(-4),10**(-0.5))
 plt.xlim(-30,-2)
 x = np.linspace(-30,-2,100)
 plt.plot(x, np.exp(intercept + slope*x), linewidth=2, color="orange",
-        label="With outlier:\n exp("+str(round(intercept,3))+" - "+str(round(np.sign(slope)*slope,3))+r"$\times T$)")
+        label="With outlier: exp("+str(round(intercept,3))+" - "+str(round(np.sign(slope)*slope,3))+r"$\times T$)")
 plt.plot(x, np.exp(intercept_ex + slope_ex*x), linewidth=2, color="black",
-        label="Without outlier:\n exp("+str(round(intercept_ex,3))+" - "+str(round(np.sign(slope_ex)*slope_ex,3))+r"$\times T$)")
-plt.plot(x, np.exp(intercept_L_W + slope_L_W*x),linewidth=2,color="green",
+        label="Without outlier: exp("+str(round(intercept_ex,3))+" - "+str(round(np.sign(slope_ex)*slope_ex,3))+r"$\times T$)")
+plt.plot(x, np.exp(intercept_L_W + slope_L_W*x),linewidth=2,linestyle="dashdot",color="darkblue",
         label="Li and Wieder et.al.")
-plt.plot(x, meyers(x), linewidth=2, color="red",label="Meyers et.al.")
-plt.legend()
+plt.plot(x, meyers(x), linewidth=2, color="red",label="Meyers et.al.",linestyle="dotted")
 plt.xlabel(r"Temperature $T$ [$^{\circ}$C]")
 plt.ylabel(r"INP concentration [#l$_{std}^{-1}$]")
+
+# Shrink current axis's height by 10% on the bottom
+ax = plt.gca()
+box = ax.get_position()
+ax.set_position([box.x0, box.y0 + box.height * 0.1,
+                 box.width, box.height * 0.9])
+
+# Put a legend below current axis
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=2)#,borderpad=0.3, columnspacing=0.3, handletextpad=0.2)
+
 plt.savefig(wpath+"INPconc_param.pdf",bbox_inches="tight")
-plt.show()
-"""

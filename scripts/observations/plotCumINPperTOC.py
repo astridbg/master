@@ -75,7 +75,7 @@ slope_Wilson = -0.4459
 intercept_Wilson = 11.2186
 
 plt.figure(figsize=(8,6),dpi=300)
-plt.title("Surface sea water at Andenes 18.03 - 30.03 2021",fontsize=22)
+plt.title("Surface sea water at Andenes 18.03$-$30.03 2021",fontsize=22)
 plt.grid(alpha=0.5)
 alpha=1
 
@@ -99,8 +99,10 @@ plt.xlim(-25,-2)
 x = np.linspace(-25,-2,100)
 #plt.plot(x, np.exp(intercept + slope*x), linewidth=2, color="black",
 #        label="exp("+str(round(intercept,3))+" - "+str(round(np.sign(slope)*slope,3))+r"$\times T$)")
+plt.plot(x, 1e-1*np.exp(intercept_Wilson + slope_Wilson*x),linewidth=2,color="red",linestyle="--")
+plt.plot(x, 1e+1*np.exp(intercept_Wilson + slope_Wilson*x),linewidth=2,color="red",linestyle="--")
 plt.plot(x, np.exp(intercept_Wilson + slope_Wilson*x),linewidth=2,color="red",
-        label="Wilson (2015)")#": exp("+str(round(intercept_Wilson,3))+" - "+str(round(np.sign(slope_Wilson)*slope_Wilson,3))+r"$\times T$)")
+        label="Wilson et.al.")#": exp("+str(round(intercept_Wilson,3))+" - "+str(round(np.sign(slope_Wilson)*slope_Wilson,3))+r"$\times T$)")
 
 # Shrink current axis's height by 10% on the bottom
 ax = plt.gca()
@@ -109,7 +111,7 @@ ax.set_position([box.x0, box.y0 + box.height * 0.1,
                  box.width, box.height * 0.9])
 
 # Put a legend below current axis
-ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=3)
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=3,borderpad=0.3, columnspacing=0.3, handletextpad=0.2)
 
 plt.xlabel(r"Temperature $T$ [$^{\circ}$C]")
 plt.ylabel(r"Cumulative INPs per gram TOC")

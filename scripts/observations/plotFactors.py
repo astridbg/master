@@ -92,14 +92,15 @@ for f in file_list:
 p_std = 1013.25
 T_std = 273.15
 
-#df_opc["Count2 (/std_L)"] = df_opc["Count2 (/L)"]
-
+df_opc["Count2 (/std_L)"] = df_opc["Count2 (/L)"]
+"""
 df_opc["Count2 (/std_L)"] = np.zeros(len(df_opc["Count2 (/L)"]))
 
 for i in range(len(df_opc["Count2 (/L)"])):
    p = df_pres["air_pressure_at_sea_level"].iloc[df_pres.index.get_loc(df_opc.index[i], method="nearest")]
    T = df_temp["Temperature(C)"].iloc[df_temp.index.get_loc(df_opc.index[i], method="nearest")]
    df_opc["Count2 (/std_L)"][i] = df_opc["Count2 (/L)"][i] * p_std/p * (273.15 + T)/T_std
+"""
 
 # Get wind data
 
@@ -279,38 +280,43 @@ axs[0,1].grid(alpha=0.5)
 axs[0,1].set_ylabel("Wind speed (m/s)")
 axs[0,1].set_xlabel("Particles $\geq 0.5 \mu$m (#/L$_{std}$)")
 axs[0,1].set_xscale("log")
-axs[0,1].annotate("R$^2$: %.2f" %functions.rsquared(opc_all,wisp_all), xy=(0, 1), xycoords='axes fraction',
-                xytext=(5, -5), textcoords='offset points',
+axs[0,1].annotate("R: %.2f, R$^2$: %.2f" %(functions.r(opc_all,wisp_all), functions.rsquared(opc_all,wisp_all)),
+                xy=(0, 1), xycoords='axes fraction',
+                xytext=(5, 16), textcoords='offset points',
                 ha='left', va='top')
 
 axs[1,1].scatter(t50,opc_all,color="orange")
 axs[1,1].grid(alpha=0.5)
 axs[1,1].set_ylabel("Particles $\geq 0.5 \mu$m (#/L$_{std}$)")
 axs[1,1].set_yscale("log")
-axs[1,1].annotate("R$^2$: %.2f" %functions.rsquared(t50,opc_all), xy=(0, 1), xycoords='axes fraction',
-                xytext=(5, -5), textcoords='offset points',
+axs[1,1].annotate("R: %.2f, R$^2$: %.2f" %(functions.r(t50,opc_all),functions.rsquared(t50,opc_all)),
+                xy=(0, 1), xycoords='axes fraction',
+                xytext=(5, 16), textcoords='offset points',
                 ha='left', va='top')
 
 axs[2,1].scatter(t50,wisp_all,color="orange")
 axs[2,1].grid(alpha=0.5)
 axs[2,1].set_ylabel("Wind speed (m/s)")
-axs[2,1].annotate("R$^2$: %.2f" %functions.rsquared(t50,wisp_all), xy=(0, 1), xycoords='axes fraction',
-                xytext=(5, -5), textcoords='offset points',
+axs[2,1].annotate("R: %.2f, R$^2$: %.2f" %(functions.r(t50,wisp_all),functions.rsquared(t50,wisp_all)), 
+                xy=(0, 1), xycoords='axes fraction',
+                xytext=(5, 16), textcoords='offset points',
                 ha='left', va='top')
 
 axs[3,1].scatter(t50,widir_all,color="orange")
 axs[3,1].grid(alpha=0.5)
 axs[3,1].set_ylabel("Wind origin direction")
-axs[3,1].annotate("R$^2$: %.2f" %functions.rsquared(t50,widir_all), xy=(0, 1), xycoords='axes fraction',
-                xytext=(5, -5), textcoords='offset points',
+axs[3,1].annotate("R: %.2f, R$^2$: %.2f" %(functions.r(t50,widir_all),functions.rsquared(t50,widir_all)), 
+                xy=(0, 1), xycoords='axes fraction',
+                xytext=(5, 16), textcoords='offset points',
                 ha='left', va='top')
 
 axs[4,1].scatter(t50[7:50],toc_all,color="orange")
 axs[4,1].grid(alpha=0.5)
 axs[4,1].set_ylabel("TOC (mg/L)")
 axs[4,1].set_xlabel("Temperature at 50 % \n activated INPs ($^{\circ}$C)")
-axs[4,1].annotate("R$^2$: %.2f" %functions.rsquared(t50[7:50],toc_all), xy=(0, 1), xycoords='axes fraction',
-                xytext=(5, -5), textcoords='offset points',
+axs[4,1].annotate("R: %.2f, R$^2$: %.2f" %(functions.r(t50[7:50],toc_all),functions.rsquared(t50[7:50],toc_all)), 
+                xy=(0, 1), xycoords='axes fraction',
+                xytext=(5, 16), textcoords='offset points',
                 ha='left', va='top')
 
 print(df_opc["Count2 (/std_L)"][0:5])
