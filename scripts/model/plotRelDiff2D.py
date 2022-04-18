@@ -29,7 +29,7 @@ date2 = "2007-04-15_2010-03-15"
 #------------------------------
 
 variables = ["SWCF","LWCF","SWCFS","LWCFS","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-#variables = ["SWCFS"]
+variables = ["NETCFS"]
 #------------------------------
 # Shaping and plotting fields
 #------------------------------
@@ -48,11 +48,13 @@ for var in variables:
     diff = ds2m-ds1m
     reldiff = diff/ds1m.where(ds1m>0)*100
     
- #   lev_extent = round(max(abs(np.nanmin(reldiff.sel(lat=slice(66.5,90)).values)),
-                            #   abs(np.nanmax(reldiff.sel(lat=slice(66.5,90)).values))),10)
- #   if lev_extent < 0.004:
- #       lev_extent = 0.004
- #   levels = np.linspace(-lev_extent,lev_extent,25)
+    lev_extent = round(max(abs(np.nanmin(reldiff.sel(lat=slice(66.5,90)).values)),
+                           abs(np.nanmax(reldiff.sel(lat=slice(66.5,90)).values))))
+    print(lev_extent)
+    lev_extent = 7
+    if lev_extent < 0.004:
+        lev_extent = 0.004
+    levels = np.linspace(-lev_extent,lev_extent,25)
 
     fig = plt.figure(1, figsize=[9,10],dpi=300)
 
@@ -62,7 +64,8 @@ for var in variables:
     ax = plt.subplot(1, 1, 1, projection=ccrs.Orthographic(0, 90))
 
     map = diff.plot.pcolormesh(ax=ax, transform=ccrs.PlateCarree(), 
-						cmap='coolwarm',#levels=levels,
+						cmap='coolwarm',
+                                                levels=levels,
 						add_colorbar=False)
 
     ax.coastlines()
@@ -72,7 +75,7 @@ for var in variables:
     cbar = plt.colorbar(map, cax=cb_ax, spacing = 'uniform', extend='both', orientation='horizontal', fraction=0.046, pad=0.06)
     cbar.ax.tick_params(labelsize=18)
     cbar.ax.set_xlabel("%", fontsize=23)
-    """
+    
     if lev_extent >= 4:
         cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.0f}')) # No decimal places        
     elif 0.4 <= lev_extent < 4:
@@ -81,7 +84,7 @@ for var in variables:
         cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # Two decimal places     
     elif 0.004 <= lev_extent < 0.04:
         cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places
-    """
+    
     plt.savefig(wpath+var+"_"+case1+"_"+case2+".pdf",bbox_inches="tight")
 	
     plt.clf()
