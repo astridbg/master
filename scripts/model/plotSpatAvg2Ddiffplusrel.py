@@ -7,7 +7,7 @@ from matplotlib.ticker import StrMethodFormatter
 # Set font style to match latex document----------
 plt.rcParams['mathtext.fontset'] = 'stix'
 plt.rcParams['font.family'] = 'STIXGeneral'
-plt.rcParams.update({'font.size':24})
+plt.rcParams.update({'font.size':20})
 # ------------------------------------------------
 import cartopy.crs as ccrs
 import datetime
@@ -31,7 +31,7 @@ date2 = "2007-04-15_2010-03-15"
 #------------------------------
 
 variables = ["SWCF","LWCF","SWCFS","LWCFS","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-variables = ["NETCFS"]
+
 #------------------------------
 # Areas to average over
 #------------------------------
@@ -151,7 +151,7 @@ for var in variables:
     ds2_npol = computeWeightedMean(ds2m[var].sel(lon=slice(npole[0][0],npole[0][1]),
                                  lat=slice(npole[1][0],npole[1][1])))
 	
-    fig,axs = plt.subplots(ncols=2,nrows=1, gridspec_kw={'width_ratios': [3, 1]}, figsize=[15,6],dpi=300,constrained_layout=True)
+    fig,axs = plt.subplots(ncols=2,nrows=1, gridspec_kw={'width_ratios': [3, 1]}, figsize=[13,4],dpi=300,constrained_layout=True)
     ax = axs[0]
     ax2 = axs[1]
     fig.suptitle(ds1[var].long_name+", "+case2nm+"-"+case1nm, fontsize=26)
@@ -181,16 +181,16 @@ for var in variables:
     ax2.set_ylabel("%")
     ax2.set_xticklabels([])
     
-    # Shrink current axis's height by 10% on the bottom
+    # Shrink current axis's height by 15% on the bottom
     box = ax.get_position()
-    ax.set_position([box.x0, box.y0 + box.height * 0.1,
-                     box.width, box.height * 0.9])
+    ax.set_position([box.x0, box.y0 + box.height * 0.15,
+                     box.width, box.height * 0.85])
     box = ax2.get_position()
-    ax2.set_position([box.x0, box.y0 + box.height * 0.1,
-                     box.width, box.height * 0.9])
+    ax2.set_position([box.x0, box.y0 + box.height * 0.15,
+                     box.width, box.height * 0.85])
 
     # Put a legend below current axis
-    ax.legend(loc='upper center', bbox_to_anchor=(0.75, -0.08), ncol=5, columnspacing=0.5, handlelength=1,handletextpad=0.4)
+    ax.legend(loc='upper center', bbox_to_anchor=(0.75, -0.12), ncol=5, columnspacing=0.5, handlelength=1,handletextpad=0.4)
 	
     plt.grid(alpha=0.5)
     plt.savefig(wpath+"monthlymean/"+var+"_avg_"+case1+"_"+case2+".pdf",bbox_inches="tight")
