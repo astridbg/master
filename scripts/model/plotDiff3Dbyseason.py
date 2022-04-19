@@ -10,6 +10,7 @@ plt.rcParams['font.family'] = 'STIXGeneral'
 plt.rcParams.update({'font.size':16})
 # ------------------------------------------------
 import cartopy.crs as ccrs
+import functions
 
 rpath="/projects/NS9600K/astridbg/data/model/noresm_postprocessed/"
 wpath="/projects/NS9600K/astridbg/master/figures/model/diff_byseason/"
@@ -21,8 +22,8 @@ case1 = "meyers92_20220210"; case1nm = "CAM5"
 #case2 = "meyers92_20220210"; case2nm = "CAM5"
 case2 = "andenes21_20220222"; case2nm = "Andenes 2021"
 #------------------------------	
-date1 = "2007-01-15_2010-03-15"
-date2 = "2007-01-15_2010-03-15"
+date1 = "2007-04-15_2010-03-15"
+date2 = "2007-04-15_2010-03-15"
 
 #------------------------------
 # Three-dimensional fields
@@ -32,7 +33,7 @@ date2 = "2007-01-15_2010-03-15"
 level = "850"
 #variables = ["AWNI", "FREQI","CLDICE"]
 variables = ["NIMEY","AWNI", "FREQI","CLDICE"]
-#variables = ["NIMEY"]
+variables = ["Q","RELHUM","TH","CLDICE"]
 
 for var in variables:
     print(var)
@@ -44,9 +45,14 @@ for var in variables:
     date_end = str(ds1.time[-1].values).split(" ")[0]
 
     # Select level
-    ds1 = ds1.sel(lev=level, method="nearest")
-    ds2 = ds2.sel(lev=level, method="nearest")
-    lev_name = str(np.round(ds1.lev.values,1))
+    if var == "TH":
+        ds1 = ds1.sel(ilev=level, method="nearest")
+        ds2 = ds2.sel(ilev=level, method="nearest")
+        lev_name = str(np.round(ds1.ilev.values,1))
+    else:
+        ds1 = ds1.sel(lev=level, method="nearest")
+        ds2 = ds2.sel(lev=level, method="nearest")
+        lev_name = str(np.round(ds1.lev.values,1))
 
     # Group cases by season and mean over the period by season
     ds1_seas = ds1.groupby("time.season").mean("time")
