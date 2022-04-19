@@ -31,8 +31,8 @@ date2 = "2007-04-15_2010-03-15"
 #------------------------------
 
 level = "850"
-variables = ["Q"]
-
+variables = ["Q","RELHUM"]
+variables = ["TH"]
 #------------------------------
 # Shaping and plotting fields
 #------------------------------
@@ -46,9 +46,14 @@ for var in variables:
     date_end = str(ds1.time[-1].values).split(" ")[0]
 
     # Select level
-    ds1 = ds1.sel(lev=level, method="nearest")
-    ds2 = ds2.sel(lev=level, method="nearest")
-    lev_name = str(int(ds1.lev.values))
+    if var == "TH":
+        ds1 = ds1.sel(ilev=level, method="nearest")
+        ds2 = ds2.sel(ilev=level, method="nearest")
+        lev_name = str(int(ds1.ilev.values))
+    else:
+        ds1 = ds1.sel(lev=level, method="nearest")
+        ds2 = ds2.sel(lev=level, method="nearest")
+        lev_name = str(int(ds1.lev.values))
 
 
     # Group cases by season and mean over the period by season
@@ -87,8 +92,6 @@ for var in variables:
                                            add_colorbar=False)
         ax.set_title(season, fontsize=23)
         ax.coastlines()
-        ax.gridlines()
-
 	
     cb_ax = fig.add_axes([0.15, 0.07, 0.7, 0.04])
 
