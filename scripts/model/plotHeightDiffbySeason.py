@@ -42,7 +42,7 @@ greenland = [[-57+360,-22+360],[70,80]] # Greenland
 
 #variables = ["AWNI", "FREQI","CLDICE"]
 #variables = ["NIMEY","AWNI", "FREQI","CLDICE"]
-variables = ["TH"]
+variables = ["TH","Q","T","RELHUM"]
 
 for var in variables:
     print(var)
@@ -82,13 +82,13 @@ for var in variables:
     diff_bsea = ds2_bsea - ds1_bsea
 
 	
-    fig = plt.figure(1, figsize=[9,9],dpi=300)
+    fig,axs = plt.subplots(nrows=2, ncols=2, figsize=[9,10],dpi=300, constrained_layout=True)
         
     # Set the projection to use for plotting
-    ax1 = plt.subplot(2, 2, 1)
-    ax2 = plt.subplot(2, 2, 2)
-    ax3 = plt.subplot(2, 2, 3)
-    ax4 = plt.subplot(2, 2, 4)
+    ax1 = axs[0,0]
+    ax2 = axs[0,1]
+    ax3 = axs[1,0]
+    ax4 = axs[1,1]
 
     fig.suptitle(ds1[var].long_name+"\n"+case2nm+"-"+case1nm+"\n"+date_start+r"$-$"+date_end, fontsize=20)
 
@@ -110,7 +110,7 @@ for var in variables:
         ax.legend(loc="upper left")
         ax.grid(alpha=0.5)
         ax.invert_yaxis()
-	
+    
     plt.savefig(wpath+var+"_heightdiff_"+case1+"_"+case2+".pdf",bbox_inches="tight")
     plt.clf()	
 
