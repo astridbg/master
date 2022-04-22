@@ -33,6 +33,7 @@ date2 = "2007-04-15_2010-03-15"
 
 level = "850"
 variables = ["NIMEY","AWNI","AWNICC","CLDICE"]
+variables = ["RELHUM","Q"]
 
 #------------------------------
 # Areas to average over
@@ -161,7 +162,7 @@ for var in variables:
     fig,axs = plt.subplots(ncols=2,nrows=1, gridspec_kw={'width_ratios': [3, 1]}, figsize=[13,4],dpi=300,constrained_layout=True)
     ax = axs[0]
     ax2 = axs[1]
-    fig.suptitle(ds1[var].long_name+", "+case2nm+"-"+case1nm+", "+lev_name+" hPa", fontsize=20)
+    fig.suptitle(ds1[var].long_name+", "+case2nm+"-"+case1nm+", "+lev_name+" hPa", fontsize=26)
 
     ax.plot(months, ds2_arct-ds1_arct, color="cornflowerblue", label="Arctic")
     ax.plot(months, ds2_sval-ds1_sval, color="mediumseagreen", label="Svalbard")
@@ -171,8 +172,6 @@ for var in variables:
     ax.set_ylabel(ds1[var].units)
     ax.tick_params(axis="x",labelsize=20)
     ax.grid(alpha=0.5)
-    if var == "NIMEY" or var == "AWNI" or var == "AWNICC":
-        ax.set_yscale("log")
 
     # Get average relative change
     

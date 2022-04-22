@@ -30,7 +30,7 @@ date2 = "2007-04-15_2010-03-15"
 #------------------------------
 
 variables = ["SWCF","LWCF","SWCFS","LWCFS","NETCFS","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-variables = ["CLDMED","CLDLOW"]
+variables = ["TGCLDLWP"]
 #------------------------------
 # Shaping and plotting fields
 #------------------------------
@@ -49,7 +49,7 @@ for var in variables:
 
 
     diff = ds2_seas[var]-ds1_seas[var]
-    reldiff = diff/ds1_seas[var].where(ds1_seas[var]>0)*100
+    reldiff = diff/ds1_seas[var].where(ds1_seas[var]!=0)*100*np.sign(ds1_seas[var])
 
     lev_extent = round(max(abs(np.nanmin(reldiff.sel(lat=slice(66.5,90)).values)), 
                            abs(np.nanmax(reldiff.sel(lat=slice(66.5,90)).values))),2)
@@ -57,8 +57,8 @@ for var in variables:
     #if lev_extent < 0.004:
     #    lev_extent = 0.004
     #levels = np.linspace(-lev_extent,lev_extent,25)
-    lev_min = -20
-    lev_max = 20
+    lev_min = 0
+    lev_max = 500
     levels = np.linspace(lev_min,lev_max,25)
 
     fig = plt.figure(1, figsize=[9,10],dpi=300)
@@ -75,7 +75,7 @@ for var in variables:
     	
         functions.polarCentral_set_latlim([66.5,90], ax)
         map = reldiff.sel(season=season).plot.pcolormesh(ax=ax, transform=ccrs.PlateCarree(), 
-                                           cmap='coolwarm',
+                                           cmap=plt.cm.get_cmap("Reds"),#cmap='coolwarm',
                                            levels=levels,
                                            add_colorbar=False)
         ax.set_title(season, fontsize=23)

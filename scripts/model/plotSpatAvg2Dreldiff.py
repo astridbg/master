@@ -155,11 +155,11 @@ for var in variables:
     ax = plt.subplot(1,1,1)
     ax.set_title(ds1[var].long_name+" "+case2nm+"-"+case1nm+" "+date_start+r"$-$"+date_end, fontsize=22)
 
-    ax.plot(months, (ds2_arct-ds1_arct)/ds1_arct*100, color="cornflowerblue", label="Arctic")
-    ax.plot(months, (ds2_sval-ds1_sval)/ds1_sval*100, color="mediumseagreen", label="Svalbard")
-    ax.plot(months, (ds2_qutt-ds1_qutt)/ds1_qutt*100, color="magenta", label="Quttinirpaaq")
-    ax.plot(months, (ds2_gren-ds1_gren)/ds1_gren*100, color="crimson", label="Greenland")
-    ax.plot(months, (ds2_npol-ds1_npol)/ds1_npol*100, color="olive", label="North Pole")
+    ax.plot(months, ((ds2_arct-ds1_arct)/ds1_arct.where(ds1_arct != 0)).fillna(0)*100, color="cornflowerblue", label="Arctic")
+    ax.plot(months, ((ds2_sval-ds1_sval)/ds1_sval.where(ds1_sval != 0)).fillna(0)*100, color="mediumseagreen", label="Svalbard")
+    ax.plot(months, ((ds2_qutt-ds1_qutt)/ds1_qutt.where(ds1_sval != 0)).fillna(0)*100, color="magenta", label="Quttinirpaaq")
+    ax.plot(months, ((ds2_gren-ds1_gren)/ds1_gren.where(ds1_sval != 0)).fillna(0)*100, color="crimson", label="Greenland")
+    ax.plot(months, ((ds2_npol-ds1_npol)/ds1_npol.where(ds1_sval != 0)).fillna(0)*100, color="olive", label="North Pole")
     ax.set_ylabel("%", fontsize=18)
 
     # Shrink current axis's height by 10% on the bottom

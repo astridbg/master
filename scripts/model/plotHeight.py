@@ -33,17 +33,18 @@ date2 = "2007-04-15_2010-03-15"
 level = "750"
 #variables = ["AWNI", "FREQI","CLDICE"]
 #variables = ["NIMEY","AWNI", "FREQI","CLDICE"]
-variables = ["TH"]
+variables = ["NIMEY"]
 
 for var in variables:
-	print(var)
-	ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date1+".nc")
-	ds2 = xr.open_dataset(rpath+var+"_"+case2+"_"+date2+".nc")
+    print(var)
+    ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date1+".nc")
+    ds2 = xr.open_dataset(rpath+var+"_"+case2+"_"+date2+".nc")
         
-        # Get start and end date of period
-	date_start = str(ds1.time[0].values).split(" ")[0]
-	date_end = str(ds1.time[-1].values).split(" ")[0]
-
+    # Get start and end date of period
+    date_start = str(ds1.time[0].values).split(" ")[0]
+    date_end = str(ds1.time[-1].values).split(" ")[0]
+    print(ds1["hyam"])
+"""
         # Get the time average of cases over the whole period
 	ds1m = ds1.mean("time")
 	ds2m = ds2.mean("time")
@@ -74,4 +75,4 @@ for var in variables:
 	
 	plt.savefig(wpath+var+"_height_"+case1+"_"+case2+".pdf",bbox_inches="tight")
 	plt.clf()	
-
+"""

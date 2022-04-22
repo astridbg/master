@@ -15,18 +15,20 @@ import functions
 rpath="/projects/NS9600K/astridbg/data/model/noresm_postprocessed/"
 wpath="/projects/NS9600K/astridbg/master/figures/model/spatial/"
 
-# Case ------------------------
+# Case ----------------
 #case = "def_20210126"; casenm = "CAM6"
 case = "meyers92_20220210"; casenm = "CAM5"
 #case = "andenes21_20220222"; casenm = "Andenes 2021"
 #------------------------------	
 date = "2007-04-15_2010-03-15"
+
 #------------------------------
-# Two-dimensional fields
+# Three-dimensional fields
+# for specific level
 #------------------------------
 
-variables = ["SWCF","LWCF","SWCFS","LWCFS","NETCFS","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-variables = ["PBLH"]
+level = "850"
+variables = ["FREQI"]
 
 #------------------------------
 # Shaping and plotting fields
@@ -36,39 +38,35 @@ for var in variables:
     ds = xr.open_dataset(rpath+var+"_"+case+"_"+date+".nc")
 	
     # Get start and end date of period
-    date_start = str(ds.time[0].values).split(" ")[0]  
+    date_start = str(ds.time[0].values).split(" ")[0]
     date_end = str(ds.time[-1].values).split(" ")[0]
+        
+    # Select level
+    ds = ds.sel(lev=level, method="nearest")
+    lev_name = str(int(ds.lev.values))
+    print(ds[var])
+"""
+    # Get time average of case over the whole period
+    ds_mean = ds[var].mean("time")
 
-    # Group cases by season and mean over the period by season
-    ds_seas = ds.groupby("time.season").mean("time")  
+    fig = plt.figure(1, figsize=[9,10],dpi=300)
 
-    lev_extent = round(np.max(ds_seas[var].sel(lat=slice(66.5,90)).values))
-    print(lev_extent)
+    fig.suptitle(ds[var].long_name+"\n"+casenm+"_"+date_start+r"$-$"+date_end, fontsize=26)
+	
+    lev_extent = round(max(abs(np.min(ds_mean.sel(lat=slice(66.5,90)).values)), abs(np.max(ds_mean.sel(lat=slice(66.5,90)).values))),2)
     if lev_extent < 0.004:
         lev_extent = 0.004
     levels = np.linspace(-lev_extent,lev_extent,25)
-
-
-    fig = plt.figure(1, figsize=[9,10],dpi=300)
-    title = ds[var].long_name+"\n"+casenm+"\n"+date_start+"$-$"+date_end
-    fig.suptitle(title, fontsize=26)
 	
     # Set the projection to use for plotting
-    ax1 = plt.subplot(2, 2, 1, projection=ccrs.Orthographic(0, 90))
-    ax2 = plt.subplot(2, 2, 2, projection=ccrs.Orthographic(0, 90))
-    ax3 = plt.subplot(2, 2, 3, projection=ccrs.Orthographic(0, 90))
-    ax4 = plt.subplot(2, 2, 4, projection=ccrs.Orthographic(0, 90))
-    plt.subplots_adjust(top=0.85)
+    ax = plt.subplot(1, 1, 1, projection=ccrs.Orthographic(0, 90))
+    
+    functions.polarCentral_set_latlim([65,90], ax)
+    map = ds_mean.plot.pcolormesh(ax=ax, transform=ccrs.PlateCarree(), 
+						cmap='coolwarm',levels=levels,
+						add_colorbar=False)
 
-    for ax,season in zip([ax1, ax2, ax3, ax4], ["DJF", "MAM","JJA","SON"]):
-    	
-        functions.polarCentral_set_latlim([65,90], ax)
-        map = ds_seas[var].sel(season=season).plot.pcolormesh(ax=ax, transform=ccrs.PlateCarree(), 
-                                           cmap='coolwarm', levels=levels,
-                                           add_colorbar=False)
-        ax.set_title(season, fontsize=23)
-        ax.coastlines()
-
+    ax.coastlines()
 	
     cb_ax = fig.add_axes([0.15, 0.07, 0.7, 0.04])
 
@@ -84,7 +82,8 @@ for var in variables:
         cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # Two decimal places     
     elif 0.004 <= lev_extent < 0.04:
         cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places
-    
-    plt.savefig(wpath+var+"_byseason_"+case+".pdf", bbox_inches='tight')
+
+    plt.savefig(wpath+var+"_"+lev_name+"_"+case+".pdf",bbox_inches="tight")
 	
     plt.clf()
+"""

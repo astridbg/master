@@ -32,7 +32,7 @@ date2 = "2007-04-15_2010-03-15"
 
 var_level = "850"
 variables = ["NIMEY","AWNI","AWNICC","CLDICE","Q","RELHUM"]
-variables = ["AWNI"]
+variables = ["T"]
 
 for var in variables:
         print(var)
@@ -54,13 +54,13 @@ for var in variables:
 
         # Get relative difference between cases time averaged over the whole period
         diff = ds2_level[var]-ds1_level[var]
-        reldiff = diff/ds1_level[var].where(ds1_level[var]>0)*100
+        reldiff = diff/ds1_level[var].where(ds1_level[var]!=0)*100*np.sign(ds1_level[var])
 
         lev_extent = round(max(abs(np.nanmin(reldiff.sel(lat=slice(66.5,90)).values)), 
                                abs(np.nanmax(reldiff.sel(lat=slice(66.5,90)).values))))
         print(lev_extent)
-        lev_min = -55
-        lev_max = 0
+        lev_min = -5
+        lev_max = 5
         if lev_extent < 0.004:
                 lev_extent = 0.004
         #levels = np.linspace(-lev_extent,lev_extent,25)
@@ -92,7 +92,7 @@ for var in variables:
         ax2 = plt.subplot(1,2,2, projection=ccrs.Orthographic(0, 90))
         functions.polarCentral_set_latlim([66.5,90], ax2)
         map = reldiff.plot.pcolormesh(ax=ax2, transform=ccrs.PlateCarree(), 
-                                                cmap=plt.cm.get_cmap('Blues').reversed(),#cmap="coolwarm",
+                                                cmap="coolwarm",#cmap=plt.cm.get_cmap('Blues').reversed(),
                                                 levels=levels,
                                                 add_colorbar=False)
 

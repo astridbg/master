@@ -42,7 +42,7 @@ greenland = [[-57+360,-22+360],[70,80]] # Greenland
 
 #variables = ["AWNI", "FREQI","CLDICE"]
 #variables = ["NIMEY","AWNI", "FREQI","CLDICE"]
-variables = ["TH","Q","T","RELHUM"]
+variables = ["TH","CLOUD"]
 
 for var in variables:
     print(var)
@@ -94,6 +94,7 @@ for var in variables:
 
     if var == "TH":       	
         levels = ds1.ilev.values
+        print(ds1.ilev)
     else:
         levels = ds1.lev.values
         

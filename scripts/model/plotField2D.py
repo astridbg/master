@@ -16,8 +16,8 @@ wpath="/projects/NS9600K/astridbg/master/figures/model/spatial/"
 
 # Case ----------------
 #case = "def_20210126"; casenm = "CAM6"
-case = "meyers92_20220210"; casenm = "CAM5"
-#case = "andenes21_20220222"; casenm = "Andenes 2021"
+#case = "meyers92_20220210"; casenm = "CAM5"
+case = "andenes21_20220222"; casenm = "Andenes 2021"
 #------------------------------	
 date = "2007-04-15_2010-03-15"
 
@@ -27,7 +27,7 @@ date = "2007-04-15_2010-03-15"
 
 #variables = ["SWCF","LWCF","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
 variables = ["LWCFS","SWCFS","FLNS","FLNSC","FSNS","FSNSC"]
-
+variables = ["PBLH"]
 #------------------------------
 # Shaping and plotting fields
 #------------------------------

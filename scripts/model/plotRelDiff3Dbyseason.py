@@ -32,7 +32,7 @@ date2 = "2007-04-15_2010-03-15"
 
 level = "850"
 variables = ["Q","RELHUM"]
-variables = ["TH"]
+variables = ["FREQI"]
 #------------------------------
 # Shaping and plotting fields
 #------------------------------
@@ -69,8 +69,8 @@ for var in variables:
     #if lev_extent < 0.004:
     #    lev_extent = 0.004
     #levels = np.linspace(-lev_extent,lev_extent,25)
-    lev_min = -5
-    lev_max = 5
+    lev_min = -20
+    lev_max = 20
     levels = np.linspace(lev_min,lev_max,25)
 
     fig = plt.figure(1, figsize=[9,10],dpi=300)

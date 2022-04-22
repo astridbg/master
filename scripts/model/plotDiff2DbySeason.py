@@ -53,9 +53,9 @@ for var in variables:
 
     lev_extent = round(max(abs(np.min(diff.sel(lat=slice(66.5,90)).values)), 
                             abs(np.max(diff.sel(lat=slice(66.5,90)).values))),2)
+    print(lev_extent)
     if lev_extent < 0.004:
         lev_extent = 0.004
-    lev_extent = 15
     levels = np.linspace(-lev_extent,lev_extent,25)
 
 

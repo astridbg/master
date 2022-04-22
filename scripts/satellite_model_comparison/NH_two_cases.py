@@ -7,7 +7,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 plt.rcParams['mathtext.fontset'] = 'stix'
 plt.rcParams['font.family'] = 'STIXGeneral'
-#plt.rcParams.update({'font.size':16})
+plt.rcParams.update({'font.size':18})
 
 
 # CALIOP DATA
@@ -21,12 +21,11 @@ ann_bulk = xr.open_dataset(folder + data_folder + files_ann[0])
 ann_ct = xr.open_dataset(folder + data_folder + files_ann[1])
 
 # NORESM Data
-folder_n = ['/projects/NS9600K/astridbg/data/model/noresm_rawdata/cases/NF2000climo_f19_tn14_meyers92_20220210/atm/hist/',
+folder_n = ['/projects/NS9600K/astridbg/data/model/noresm_rawdata/cases/NF2000climo_f19_tn14_def_20210126/atm/hist/',
 	    '/projects/NS9600K/astridbg/data/model/noresm_rawdata/cases/NF2000climo_f19_tn14_andenes21_20220222/atm/hist/']
 
-data_n = ['NF2000climo_f19_tn14_meyers92_20220210.cam.h0*.nc',
+data_n = ['NF2000climo_f19_tn14_def_20210126.cam.h0*.nc',
 	  'NF2000climo_f19_tn14_andenes21_20220222.cam.h0*.nc']
-
 
 def preprocess(ds):
     ds_new = ds[['SLFXCLD_ISOTM', 'CT_SLFXCLD_ISOTM',
@@ -69,7 +68,7 @@ def arctic_slf_noresm(ds, s_bnd=66.6, n_bnd=90):
     lats = ds.lat.sel(lat=slice(s_bnd, n_bnd))
     # Select between boundaries given and delete first three months
     ds_arctic = ds.sel(lat=slice(s_bnd, n_bnd),
-                       time=slice('2007-04-01', '2010-04-01'))
+                       time=slice('2007-04-15', '2010-03-15'))
     weights_n = np.cos(np.deg2rad(lats))
     weighted = ds_arctic.weighted(weights_n)
     mean_arctic = weighted.mean(dim=['lat', 'lon', 'time'])
@@ -97,50 +96,46 @@ def plot_slf_iso(ds, fig=False, axs=False):
     return fig, axs
 
 
-# ============= My own nudged runs ==========================
-# This is the CALIOP data for the northern extratropics
-et_n_bulk = arctic_slf_weighted(ann_bulk, s_bnd=30, n_bnd=82)
-et_n_ct = arctic_slf_weighted(ann_ct, s_bnd=30, n_bnd=82)
+
+# This is the CALIOP data for the Arctic (no values above 82 deg N)
+et_n_bulk = arctic_slf_weighted(ann_bulk, s_bnd=66.6, n_bnd=82)
+et_n_ct = arctic_slf_weighted(ann_ct, s_bnd=66.6, n_bnd=82)
 
 # ==============================================================================
 # PLOT THE TWO CASES
 # ==============================================================================
 
-# This plot is for the Stanford research statement
 plt.close('all')
-fig, axs = plt.subplots(nrows=1, ncols=2, figsize=(9, 5),dpi=300)
-ax = axs.flatten()
+fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(10, 6),dpi=300)
 
-i = 0
-for case_one in list_cases:
-    # First cases to compares between my runs and Jonah
-    case_one_slf = arctic_slf_noresm(case_one, s_bnd=30, n_bnd=82)
-    # =============================================================
-    # =============== PLOTTING ROUTINE ============================
-    # =============================================================
-    xr.plot.line(case_one_slf.slf_bulk * 100, y='isotherm',
-                 yincrease=False, label='Bulk Model', ax=ax[i], lw=2.5)
-    xr.plot.line(et_n_bulk * 100, y='isotherm',
-                 yincrease=False, ax=ax[i], color='black', label='Bulk Obs', lw=2.5, ls='dotted')
+# Cases CAM5 and Andenes
+case_one_slf = arctic_slf_noresm(list_cases[0], s_bnd=66.6, n_bnd=82)
+case_two_slf = arctic_slf_noresm(list_cases[1], s_bnd=66.6, n_bnd=82)
+# =============================================================
+# =============== PLOTTING ROUTINE ============================
+# =============================================================
+xr.plot.line(case_one_slf.slf_bulk * 100, y='isotherm',
+                yincrease=False, label='Bulk Model CAM6', ax=ax, lw=2.5, ls='dashed', c='tab:orange')
+xr.plot.line(case_two_slf.slf_bulk * 100, y='isotherm',
+                yincrease=False, label='Bulk Model Andenes 2021', ax=ax, lw=2.5, c='tab:orange')
+xr.plot.line(et_n_bulk * 100, y='isotherm',
+                 yincrease=False, ax=ax, color='black', label='Bulk Obs', lw=2.5, ls='dotted')
 
-    xr.plot.line(case_one_slf.slf_ct * 100, y='isotherm',
-                 yincrease=False, label='CT Model', ax=ax[i], lw=2.5)
-    xr.plot.line(et_n_ct * 100, y='isotherm',
-                 yincrease=False, ax=ax[i], color='black', label='CT Obs', lw=2.5, ls='dashdot')
-    i += 1
+xr.plot.line(case_one_slf.slf_ct * 100, y='isotherm',
+                yincrease=False, label='CT Model CAM6', ax=ax, lw=2.5, ls='dashed', c='tab:blue')
+xr.plot.line(case_two_slf.slf_ct * 100, y='isotherm',
+                 yincrease=False, label='CT Model Andenes 2021', ax=ax, lw=2.5, c='tab:blue')
+xr.plot.line(et_n_ct * 100, y='isotherm',
+                 yincrease=False, ax=ax, color='black', label='CT Obs', lw=2.5, ls='dashdot')
 
 sns.despine()
 fig.tight_layout()
 
 
-titles = ['CAM5', 'Andenes 2021']
-i = 0
-for ax in ax:
-    ax.text(0.5, 0.95, titles[i], fontsize=26,
-            transform=ax.transAxes, ha='center')
-    ax.set_xlabel('SLF (%)', fontsize=18)
-    ax.set_ylabel('Isotherm (C)', fontsize=18)
-    ax.legend(frameon=False, loc='lower left')
-    i += 1
+ax.set_xlabel('Supercooled Liquid Fraction (%)', fontsize=18)
+ax.set_ylabel('Isotherm (C)', fontsize=18)
+fig.subplots_adjust(right=0.5)
+ax.legend(frameon=False, loc="upper left",bbox_to_anchor=(1, 1))
+fig.tight_layout()
 fig.savefig(
-    '/tos-project2/NS9600K/astridbg/master/figures/satellite_model_comparison/SLF_satellite_2cases.pdf',bbox_inces="tight")
+    '/tos-project2/NS9600K/astridbg/master/figures/satellite_model_comparison/SLF_satellite_cam6_andenes.pdf')

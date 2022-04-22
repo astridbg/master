@@ -32,7 +32,7 @@ date2 = "2007-04-15_2010-03-15"
 level = "850"
 #variables = ["AWNI", "FREQI","CLDICE"]
 #variables = ["NIMEY","AWNI", "FREQI","CLDICE"]
-variables = ["Q"]
+variables = ["FREQI"]
 
 
 for var in variables:

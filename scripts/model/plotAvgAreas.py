@@ -10,27 +10,12 @@ plt.rcParams['font.family'] = 'STIXGeneral'
 plt.rcParams.update({'font.size':16})
 # ------------------------------------------------
 import cartopy.crs as ccrs
+import cartopy
 from shapely.geometry.polygon import LinearRing
+import matplotlib.patches as mpatches
+import functions
 
-
-rpath="/projects/NS9600K/astridbg/data/model/noresm_postprocessed/"
 wpath="/projects/NS9600K/astridbg/master/figures/model/"
-
-# Default cases----------------
-#case1 = "def_20210126"; case1nm = "CAM6"
-case1 = "meyers92_20220210"; case1nm = "CAM5"
-# Modified cases---------------
-#case2 = "meyers92_20220210"; case2nm = "CAM5"
-case2 = "andenes21_20220222"; case2nm = "Andenes 2021"
-#------------------------------	
-date1 = "2007-01-15_2010-03-15"
-date2 = "2007-01-15_2010-03-15"
-
-#------------------------------
-# Two-dimensional field
-#------------------------------
-
-variables = ["TREFHT"]
 
 #------------------------------
 # Squares to plot
@@ -38,73 +23,55 @@ variables = ["TREFHT"]
 
 # square = [[lon_min, lon_max],[lat_min,lat_max]]
 
-svalbard = [[9,28],[75,81]]
-quttinirpaaq = [[-120,-60],[78,86]]
+svalbard = [[9,28],[75,81]] # Svalbard
+quttinirpaaq = [[-120,-60],[78,86]] # Quttinirpaaq
+greenland = [[-57,-22],[70,80]] # Greenland
+npole = [[0,360],[85,90]] # North Pole
 
 
-squares = [svalbard,quttinirpaaq]
+squares = [svalbard,quttinirpaaq,greenland,npole]
 
 #------------------------------
-# Shaping and plotting fields
+# Plotting Arctic area
 #------------------------------
-for var in variables:
-	print(var)
-	ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date1+".nc")
-	ds2 = xr.open_dataset(rpath+var+"_"+case2+"_"+date2+".nc")
+
+fig = plt.figure(1, figsize=[5,5],dpi=300)
+
 	
-	# Discard first three spin-up months
-	ds1 = ds1.isel(time=slice(3,len(ds1.time)))
-	ds2 = ds2.isel(time=slice(3,len(ds2.time)))
+# Set the projection to use for plotting
+
+ax = plt.axes(projection=ccrs.Orthographic(0, 90))
+ax.add_feature(cartopy.feature.OCEAN, zorder=0)
+ax.add_feature(cartopy.feature.LAND, zorder=0, edgecolor='black')
+functions.polarCentral_set_latlim([65,90], ax)
+ax.coastlines()
+ax.gridlines()
+
+# Add squares to average over
+
+for square in squares:
+    if square == npole:
+        lat = 90
+        lon = 0
+        r = 5
+        
+        proj = ccrs.Orthographic(central_longitude=lon, central_latitude=lat)
+
+        def compute_radius(ortho, radius_degrees):
+            phi1 = lat + radius_degrees if lat <= 0 else lat - radius_degrees
+            _, y1 = ortho.transform_point(lon, phi1, ccrs.PlateCarree())
+            return abs(y1)
+        r_ortho = compute_radius(proj,r)
+
+        ax.add_patch(mpatches.Circle(xy=[lon, lat], radius=r_ortho, facecolor=None, fill=False,edgecolor='red',transform=proj,lw=2))
+    else:
+        lons = square[0]
+        lats = square[1]
+        LONS = [lons[0], lons[0], lons[1], lons[1]]
+        LATS = [lats[0], lats[1], lats[1], lats[0]]
+        ring = LinearRing(list(zip(LONS, LATS)))
+        ax.add_geometries([ring], ccrs.PlateCarree(), facecolor='none', edgecolor='red', lw=2)
 	
-	# Get start and end date of period
-	date_start = str(ds1.time[0].values).split(" ")[0]
-	date_end = str(ds1.time[-1].values).split(" ")[0]
-
-	# Get difference between cases time averaged over the whole period
-	diff = ds2[var].mean("time")-ds1[var].mean("time")
-
-	fig = plt.figure(1, figsize=[9,10],dpi=300)
-
-	fig.suptitle(ds1[var].long_name+" "+case2nm+"-"+case1nm+"\n"+date_start+"-"+date_end, fontsize=26)
+plt.savefig(wpath+"avgareas.pdf",bbox_inches="tight")
 	
-	lev_extent = round(max(abs(np.min(diff.values)), abs(np.max(diff.values))),2)
-	if lev_extent < 0.004:
-	   lev_extent = 0.004
-	levels = np.linspace(-lev_extent,lev_extent,25)
-	
-	# Set the projection to use for plotting
-	ax = plt.subplot(1, 1, 1, projection=ccrs.Orthographic(0, 90))
-
-	map = diff.plot.pcolormesh(ax=ax, transform=ccrs.PlateCarree(), 
-						cmap='coolwarm',levels=levels,
-						add_colorbar=False)
-
-	ax.coastlines()
-	ax.gridlines()
-	for square in squares:
-		lons = square[0]
-		lats = square[1]
-		LONS = [lons[0], lons[0], lons[1], lons[1]]
-		LATS = [lats[0], lats[1], lats[1], lats[0]]
-		ring = LinearRing(list(zip(LONS, LATS)))
-		ax.add_geometries([ring], ccrs.PlateCarree(), facecolor='none', edgecolor='black',linewidth=5)
-	
-	
-	cb_ax = fig.add_axes([0.15, 0.07, 0.7, 0.04])
-
-	cbar = plt.colorbar(map, cax=cb_ax, spacing = 'uniform', extend='both', orientation='horizontal', fraction=0.046, pad=0.06)
-	cbar.ax.tick_params(labelsize=18)
-	cbar.ax.set_xlabel(ds1[var].units, fontsize=23)
-
-	if lev_extent >= 4:
-           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.0f}')) # No decimal places        
-	elif 0.4 <= lev_extent < 4:
-           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.1f}')) # One decimal place
-	elif 0.04 <= lev_extent < 0.4:
-           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.2f}')) # Two decimal places     
-	elif 0.004 <= lev_extent < 0.04:
-           cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.3f}')) # Three decimal places
-
-	plt.savefig(wpath+"avgareas_"+var+"_"+case1+"_"+case2+".pdf",bbox_inches="tight")
-	
-	plt.clf()
+plt.clf()
