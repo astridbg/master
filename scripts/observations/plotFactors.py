@@ -22,6 +22,10 @@ path_aero = "/projects/NS9600K/data/islas/MetOne/GT-526S/MetOne-20210314131343/2
 path_sea = "/projects/NS9600K/astridbg/data/observations/Sea/"
 wpath = "/projects/NS9600K/astridbg/master/figures/observations/"
 
+# -----------------------------
+# Coriolis data
+# -----------------------------
+
 # Read in Coriolis INP concentrations
 
 nucleiT = pd.read_csv(path_cor+"Coriolis_nucleiT_cal.csv",index_col=0)
@@ -53,6 +57,11 @@ df_frzT = df_frzT.set_index("mean_time")
 
 index_50 = int(94/2)
 t50 = df_frzT.iloc[:,index_50]
+
+
+# -----------------------------
+# Aerosol data
+# -----------------------------
 
 # Get pressure data
 
@@ -93,14 +102,16 @@ p_std = 1013.25
 T_std = 273.15
 
 df_opc["Count2 (/std_L)"] = df_opc["Count2 (/L)"]
-"""
-df_opc["Count2 (/std_L)"] = np.zeros(len(df_opc["Count2 (/L)"]))
 
 for i in range(len(df_opc["Count2 (/L)"])):
    p = df_pres["air_pressure_at_sea_level"].iloc[df_pres.index.get_loc(df_opc.index[i], method="nearest")]
    T = df_temp["Temperature(C)"].iloc[df_temp.index.get_loc(df_opc.index[i], method="nearest")]
    df_opc["Count2 (/std_L)"][i] = df_opc["Count2 (/L)"][i] * p_std/p * (273.15 + T)/T_std
-"""
+
+
+# -----------------------------
+# Wind data
+# -----------------------------
 
 # Get wind data
 
@@ -109,6 +120,30 @@ df_wisp = ds_wisp.to_dataframe()
 
 ds_widir = xr.open_dataset(path_station+"wind_from_direction_202103.nc")
 df_widir = ds_widir.to_dataframe()
+
+# Bin wind direction data
+
+# Arctic Origin = 4
+# Sourthwesterly = 3
+# Southerly = 2
+# Easterly = 1
+
+df_widir["Origin direction"] = np.zeros(len(df_widir["wind_from_direction"]))
+for i in range(len(df_widir["Origin direction"])):
+    widir = df_widir["wind_from_direction"].iloc[i]
+    if 300 <= widir <= 360 or widir <= 45:
+        df_widir["Origin direction"].iloc[i] = 4
+    if 210 <= widir < 300:
+        df_widir["Origin direction"].iloc[i] = 3
+    if 175 <= widir < 210:
+        df_widir["Origin direction"].iloc[i] = 2
+    if 45 < widir < 175:
+        df_widir["Origin direction"].iloc[i] = 1
+
+
+# -----------------------------
+# Sea data
+# -----------------------------
 
 # Read in sea sample log files
 
@@ -157,15 +192,17 @@ for i in t_start.index.values[7:50]:
     df_sea_interpol.loc[i,:] = np.nan
 df_sea_interpol = df_sea_interpol.sort_index().interpolate(method='time')
 
-print(df_sea_interpol)
-print(df_sea)
-# Get averages over Coriolis sampling period
+
+# -----------------------------
+# Averages over Coriolis period
+# -----------------------------
 
 opc_all = []
 wisp_all = []
 widir_all = []
 toc_all = []
 
+# For full-length datasets
 i = 1
 for cor in t_start.index:
 
@@ -189,6 +226,7 @@ for cor in t_start.index:
     
     i += 1
 
+# For interpolated dataset
 i = 7
 for cor in t_start.index[7:50]:
 
@@ -202,7 +240,33 @@ for cor in t_start.index[7:50]:
 
     i += 1
 
-# Plot figure
+# Bin average wind
+
+widir_all_binned = []
+
+for i in range(len(wisp_all)):
+    widir = widir_all[i]
+    if 300 <= widir <= 360 or widir <= 45:
+        widir_all_binned = np.append(widir_all_binned, 4)
+    if 210 <= widir < 300:
+        widir_all_binned = np.append(widir_all_binned, 3)
+    if 175 <= widir < 210:
+        widir_all_binned = np.append(widir_all_binned, 2)
+    if 45 < widir < 175:
+        widir_all_binned = np.append(widir_all_binned, 1)
+
+df_widir_binned = pd.DataFrame({"Dir":widir_all_binned,"FrzT50":t50})
+df_widir_binned["Easterly"] = df_widir_binned["FrzT50"].where(df_widir_binned["Dir"] == 1)
+df_widir_binned["Southerly"] = df_widir_binned["FrzT50"].where(df_widir_binned["Dir"] == 2)
+df_widir_binned["Southwesterly"] = df_widir_binned["FrzT50"].where(df_widir_binned["Dir"] == 3)
+df_widir_binned["Arctic"] = df_widir_binned["FrzT50"].where(df_widir_binned["Dir"] == 4)
+
+df_widir_binned = df_widir_binned.drop(["Dir","FrzT50"],axis=1)
+
+
+# -----------------------------
+# Plotting routine
+# -----------------------------
 
 fig, axs = plt.subplots(5, 2, gridspec_kw={'width_ratios': [4, 1]}, figsize=(12,15), dpi=300, constrained_layout=True)
 
@@ -215,7 +279,7 @@ axs[0,0].set_xticklabels([])
 xlims = mpl.dates.num2date(axs[0,0].get_xlim())
 xticks = mpl.dates.num2date(axs[0,0].get_xticks())
 axs[0,0].set_ylabel("$^{\circ}$C")
-axs[0,0].set_title("Freezing temperatures of airborne INPs")
+axs[0,0].set_title("Freezing temperatures of INPs")
 
 df_opc["Count2 (/std_L)"].plot(ax=axs[1,0],label="Particles $\geq 0.5 \mu$m",zorder=1)
 axs[1,0].scatter(df_frzT.index,opc_all,color="orange",zorder=2)
@@ -259,22 +323,22 @@ axs[4,0].scatter(df_sea.index, df_sea["TOC (mg/L)"],color="seagreen",zorder=3)
 axs[4,0].scatter(df_frzT.index[7:50],toc_all,color="orange",zorder=1)
 axs[4,0].set_xbound(xlims[0],xlims[1])
 axs[4,0].set_xticks(xticks)
-ax_twin = axs[4,0].twinx()
-df_sea["T 50 % frozen (degC)"].plot(ax=ax_twin, linestyle="--")
-ax_twin.scatter(df_sea.index, df_sea["T 50 % frozen (degC)"])
-ax_twin.set_xbound(xlims[0],xlims[1])
-ax_twin.set_xticks(xticks)
+#ax_twin = axs[4,0].twinx()
+#df_sea["T 50 % frozen (degC)"].plot(ax=ax_twin, linestyle="--")
+#ax_twin.scatter(df_sea.index, df_sea["T 50 % frozen (degC)"])
+#ax_twin.set_xbound(xlims[0],xlims[1])
+#ax_twin.set_xticks(xticks)
 axs[4,0].grid()
 axs[4,0].set_ylabel("mg/L")
-axs[4,0].yaxis.label.set_color("seagreen")
-axs[4,0].tick_params(axis='y', colors='seagreen')
-ax_twin.set_ylabel("$^{\circ}$C")
-ax_twin.yaxis.label.set_color("tab:blue")
-ax_twin.tick_params(axis='y', colors='tab:blue')
-axs[4,0].set_title("TOC and temperature at 50 % activated INPs in SML")
+#axs[4,0].yaxis.label.set_color("seagreen")
+#axs[4,0].tick_params(axis='y', colors='seagreen')
+#ax_twin.set_ylabel("$^{\circ}$C")
+#ax_twin.yaxis.label.set_color("tab:blue")
+#ax_twin.tick_params(axis='y', colors='tab:blue')
+#axs[4,0].set_title("TOC and temperature at 50 % activated INPs in SML")
+axs[4,0].set_title("TOC in surface sea water")
 axs[4,0].set_xlabel(None)
 
-#ax5.axis("off")
 axs[0,1].scatter(opc_all,wisp_all,color="orange")
 axs[0,1].grid(alpha=0.5)
 axs[0,1].set_ylabel("Wind speed (m/s)")
@@ -302,13 +366,17 @@ axs[2,1].annotate("R: %.2f, R$^2$: %.2f" %(functions.r(t50,wisp_all),functions.r
                 xytext=(5, 16), textcoords='offset points',
                 ha='left', va='top')
 
-axs[3,1].scatter(t50,widir_all,color="orange")
+#axs[3,1].scatter(t50,widir_all,color="orange")
+#axs[3,1].grid(alpha=0.5)
+#axs[3,1].set_ylabel("Wind origin direction")
+#axs[3,1].annotate("R: %.2f, R$^2$: %.2f" %(functions.r(t50,widir_all),functions.rsquared(t50,widir_all)), 
+#                xy=(0, 1), xycoords='axes fraction',
+#                xytext=(5, 16), textcoords='offset points',
+#                ha='left', va='top')
+
+df_widir_binned.boxplot(ax=axs[3,1],vert=False,boxprops={"color":"orange"},whiskerprops={"color":"orange"},medianprops={"color":"black"},)
 axs[3,1].grid(alpha=0.5)
-axs[3,1].set_ylabel("Wind origin direction")
-axs[3,1].annotate("R: %.2f, R$^2$: %.2f" %(functions.r(t50,widir_all),functions.rsquared(t50,widir_all)), 
-                xy=(0, 1), xycoords='axes fraction',
-                xytext=(5, 16), textcoords='offset points',
-                ha='left', va='top')
+#axs[3,1].set_ylabel("Wind origin direction")
 
 axs[4,1].scatter(t50[7:50],toc_all,color="orange")
 axs[4,1].grid(alpha=0.5)
@@ -319,8 +387,7 @@ axs[4,1].annotate("R: %.2f, R$^2$: %.2f" %(functions.r(t50[7:50],toc_all),functi
                 xytext=(5, 16), textcoords='offset points',
                 ha='left', va='top')
 
-print(df_opc["Count2 (/std_L)"][0:5])
-print(df_opc["Count2 (/L)"][0:5])
-
-
 plt.savefig(wpath+"factors.pdf", bbox_inches="tight")
+
+
+

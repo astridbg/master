@@ -46,13 +46,13 @@ date = "2007-04-15_2010-03-15"
 # For case def
 #variables = ["AWNI", "FREQI","CLDICE","SWCF","LWCF","LWCFS","SWCFS","NETCFS","AWNICC","TH","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
 
-variables = ["CLOUD"]
+variables = ["CLDLWEM"]
 
 for var in variables:
     print("Started writing variable:")
 	
     # Change to desired units
-    if var == "NIMEY":
+    if var == "NIMEY" or var == "AWNI":
         ds[var].values = ds[var].values*1e-3 # Change unit to number per litre
         ds[var].attrs["units"] = "1/L"
         ds[var].attrs["long_name"] = "Activated Ice Number Concentation due to Meyers' parameterisation"
@@ -61,25 +61,26 @@ for var in variables:
         ds[var].values = ds[var].values - 273.15 # Change unit to degrees Celsius
         ds[var].attrs["units"] = r"$^{\circ}$C"
 
-    if var == "CLDICE": 
+    if var == "CLDICE" or var == "CLDLIQ" or var == "Q": 
         ds[var].values = ds[var].values*1e+3 # Change unit to grams per kilograms
         ds[var].attrs["units"] = "g/kg"
 	
-    if var == "Q":
-        ds[var].values = ds[var].values*1e+3 # Change unit to grams per kilograms
-        ds[var].attrs["units"] = "g/kg"
-
-    if var == "AWNI":
-        ds[var].values = ds[var].values*1e-3 # Change unit to number per litre
-        ds[var].attrs["units"] = "1/L"
-
     if var == "TGCLDIWP" or var == "TGCLDLWP":
         ds[var].values = ds[var].values*1e+3 # Change unit to grams per squared meter
+        ds[var].attrs["units"] = "g/m$^2$"
+
+    if var == "IWC":
+        ds[var].values = ds[var].values*1e+3 # Change unit to grams per cubic meter
         ds[var].attrs["units"] = "g/m$^3$"
+
+    # Change to more meaningful name
+
+    if var == "TREFHT":
+        ds[var].attrs["long_name"] = "Surface (2m) Temperature"
 
     # Make combined data variables
     if var == "LWCFS":
-        ds = ds.assign(LWCFS=-ds["FLNS"]-(-ds["FLNSC"]))
+        ds = ds.assign(LWCFS=ds["FLNSC"]-ds["FLNS"])
         ds[var].attrs["units"] = ds["FLNS"].attrs["units"]
         ds[var].attrs["long_name"] = "Longwave cloud radiative effect at surface"
 
@@ -99,7 +100,11 @@ for var in variables:
         ds = ds.assign(NETCFS=ds["FSNS"]-ds["FSNSC"]-ds["FLNS"]-(-ds["FLNSC"]))
         ds[var].attrs["units"] = ds["FSNS"].attrs["units"]
         ds[var].attrs["long_name"] = "Net cloud radiative effect at surface"
-
+    
+    if var == "CLDLWEM":
+        ds = ds.assign(CLDLWEM=1-np.exp(-0.13*ds["TGCLDLWP"]*1e+3))
+        ds[var].attrs["units"] = "Emissivity"
+        ds[var].attrs["long_name"] = "Cloud Longwave Emissivity"
 
     print(ds[var].attrs["long_name"])
     print("Units: ", ds[var].attrs["units"])

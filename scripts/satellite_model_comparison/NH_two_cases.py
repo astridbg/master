@@ -21,10 +21,10 @@ ann_bulk = xr.open_dataset(folder + data_folder + files_ann[0])
 ann_ct = xr.open_dataset(folder + data_folder + files_ann[1])
 
 # NORESM Data
-folder_n = ['/projects/NS9600K/astridbg/data/model/noresm_rawdata/cases/NF2000climo_f19_tn14_def_20210126/atm/hist/',
+folder_n = ['/projects/NS9600K/astridbg/data/model/noresm_rawdata/cases/NF2000climo_f19_tn14_meyers92_20220210/atm/hist/',
 	    '/projects/NS9600K/astridbg/data/model/noresm_rawdata/cases/NF2000climo_f19_tn14_andenes21_20220222/atm/hist/']
 
-data_n = ['NF2000climo_f19_tn14_def_20210126.cam.h0*.nc',
+data_n = ['NF2000climo_f19_tn14_meyers92_20220210.cam.h0*.nc',
 	  'NF2000climo_f19_tn14_andenes21_20220222.cam.h0*.nc']
 
 def preprocess(ds):
@@ -32,14 +32,12 @@ def preprocess(ds):
                  'CT_CLD_ISOTM', 'CLD_ISOTM']]
     return ds_new
 
-
 list_cases = []
 for i in range(2):
     case_one = xr.open_mfdataset(
         folder_n[i] + data_n[i], preprocess=preprocess)
     list_cases.append(case_one)
     print(i,": ",folder_n[i])
-
 
 # =======================================================
 # FUNCTIONS
@@ -54,8 +52,9 @@ def arctic_slf_weighted(ds, s_bnd=66.6, n_bnd=90, ss_bnd=None, nn_bnd=None):
 
     weighted_arctic = ds_arctic.weighted(ds_arctic.cell_weight)
     mean_arctic = weighted_arctic.mean(dim=['lat', 'lon']).SLF
+    std_arctic = weighted_arctic.std(dim=['lat','lon']).SLF
 
-    return mean_arctic
+    return mean_arctic, std_arctic
 
 
 def arctic_slf_noresm(ds, s_bnd=66.6, n_bnd=90):
@@ -98,8 +97,9 @@ def plot_slf_iso(ds, fig=False, axs=False):
 
 
 # This is the CALIOP data for the Arctic (no values above 82 deg N)
-et_n_bulk = arctic_slf_weighted(ann_bulk, s_bnd=66.6, n_bnd=82)
-et_n_ct = arctic_slf_weighted(ann_ct, s_bnd=66.6, n_bnd=82)
+et_n_bulk, std_n_bulk = arctic_slf_weighted(ann_bulk, s_bnd=66.6, n_bnd=82)
+et_n_ct, std_n_ct  = arctic_slf_weighted(ann_ct, s_bnd=66.6, n_bnd=82)
+
 
 # ==============================================================================
 # PLOT THE TWO CASES
@@ -115,22 +115,26 @@ case_two_slf = arctic_slf_noresm(list_cases[1], s_bnd=66.6, n_bnd=82)
 # =============== PLOTTING ROUTINE ============================
 # =============================================================
 xr.plot.line(case_one_slf.slf_bulk * 100, y='isotherm',
-                yincrease=False, label='Bulk Model CAM6', ax=ax, lw=2.5, ls='dashed', c='tab:orange')
+                label='Bulk Model CAM5', ax=ax, lw=2.5, ls='dashed', c='tab:blue')
 xr.plot.line(case_two_slf.slf_bulk * 100, y='isotherm',
-                yincrease=False, label='Bulk Model Andenes 2021', ax=ax, lw=2.5, c='tab:orange')
+                label='Bulk Model Andenes 2021', ax=ax, ls='dashed',lw=2.5, c='tab:orange')
 xr.plot.line(et_n_bulk * 100, y='isotherm',
-                 yincrease=False, ax=ax, color='black', label='Bulk Obs', lw=2.5, ls='dotted')
+                 ax=ax, color='black', label='Bulk Obs', lw=2.5, ls='dotted')
+ax.errorbar(x=et_n_bulk * 100, y=et_n_bulk.isotherm, xerr=std_n_bulk * 100,
+                 marker='.',color='black',ls='dotted',lw=2.5)
 
 xr.plot.line(case_one_slf.slf_ct * 100, y='isotherm',
-                yincrease=False, label='CT Model CAM6', ax=ax, lw=2.5, ls='dashed', c='tab:blue')
+                label='CT Model CAM5', ax=ax, lw=2.5, c='tab:blue')
 xr.plot.line(case_two_slf.slf_ct * 100, y='isotherm',
-                 yincrease=False, label='CT Model Andenes 2021', ax=ax, lw=2.5, c='tab:blue')
+                  label='CT Model Andenes 2021', ax=ax, lw=2.5, c='tab:orange')
 xr.plot.line(et_n_ct * 100, y='isotherm',
-                 yincrease=False, ax=ax, color='black', label='CT Obs', lw=2.5, ls='dashdot')
+                 ax=ax, color='black', label='CT Obs', lw=2.5, ls='dashdot')
+ax.errorbar(x=et_n_ct * 100, y=et_n_ct.isotherm, xerr=std_n_ct * 100,
+                 marker='.',color='black',ls='dashdot',lw=2.5)
+ax.invert_yaxis()
 
 sns.despine()
 fig.tight_layout()
-
 
 ax.set_xlabel('Supercooled Liquid Fraction (%)', fontsize=18)
 ax.set_ylabel('Isotherm (C)', fontsize=18)
@@ -138,4 +142,5 @@ fig.subplots_adjust(right=0.5)
 ax.legend(frameon=False, loc="upper left",bbox_to_anchor=(1, 1))
 fig.tight_layout()
 fig.savefig(
-    '/tos-project2/NS9600K/astridbg/master/figures/satellite_model_comparison/SLF_satellite_cam6_andenes.pdf')
+    '/tos-project2/NS9600K/astridbg/master/figures/satellite_model_comparison/SLF_satellite_cam5_andenes.pdf')
+

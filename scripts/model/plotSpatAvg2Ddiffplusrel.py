@@ -31,7 +31,7 @@ date2 = "2007-04-15_2010-03-15"
 #------------------------------
 
 variables = ["SWCF","LWCF","SWCFS","LWCFS","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-
+variables = ["TGCLDLWP"]
 #------------------------------
 # Areas to average over
 #------------------------------
@@ -180,7 +180,8 @@ for var in variables:
         patch.set_facecolor(color)
     ax2.set_ylabel("%")
     ax2.set_xticklabels([])
-    
+    ax2.set_ylim([0,200])
+
     # Shrink current axis's height by 15% on the bottom
     box = ax.get_position()
     ax.set_position([box.x0, box.y0 + box.height * 0.15,
@@ -193,6 +194,6 @@ for var in variables:
     ax.legend(loc='upper center', bbox_to_anchor=(0.75, -0.12), ncol=5, columnspacing=0.5, handlelength=1,handletextpad=0.4)
 	
     plt.grid(alpha=0.5)
-    plt.savefig(wpath+"monthlymean/"+var+"_avg_"+case1+"_"+case2+".pdf",bbox_inches="tight")
+    plt.savefig(wpath+"monthlymean/"+var+"_avg_"+case1+"_"+case2+"_test.pdf",bbox_inches="tight")
 
     plt.clf()

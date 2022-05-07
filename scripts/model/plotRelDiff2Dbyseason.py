@@ -30,7 +30,7 @@ date2 = "2007-04-15_2010-03-15"
 #------------------------------
 
 variables = ["SWCF","LWCF","SWCFS","LWCFS","NETCFS","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-variables = ["TGCLDLWP"]
+variables = ["LWCFS"]
 #------------------------------
 # Shaping and plotting fields
 #------------------------------
@@ -58,7 +58,7 @@ for var in variables:
     #    lev_extent = 0.004
     #levels = np.linspace(-lev_extent,lev_extent,25)
     lev_min = 0
-    lev_max = 500
+    lev_max = 100
     levels = np.linspace(lev_min,lev_max,25)
 
     fig = plt.figure(1, figsize=[9,10],dpi=300)

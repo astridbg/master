@@ -30,7 +30,7 @@ date2 = "2007-04-15_2010-03-15"
 #------------------------------
 
 variables = ["SWCF","LWCF","SWCFS","LWCFS","NETCFS","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-variables = ["TGCLDLWP"]
+variables = ["CLDLWEM"]
 
 #------------------------------
 # Shaping and plotting fields

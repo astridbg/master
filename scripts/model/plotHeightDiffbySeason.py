@@ -25,15 +25,6 @@ case2 = "andenes21_20220222"; case2nm = "Andenes 2021"
 date1 = "2007-04-15_2010-03-15"
 date2 = "2007-04-15_2010-03-15"
 
-#------------------------------
-# Areas to average over
-#------------------------------
-
-# area = [[min lon, max lon],[min lat, max lat]]
-norsea = [[0,72],[67,76]] # Norwegian Sea
-bfortsea = [[-155+360,-103+360],[74,86]] # Beaufort Sea
-greenland = [[-57+360,-22+360],[70,80]] # Greenland
-
 
 #------------------------------
 # Three-dimensional fields
@@ -42,9 +33,11 @@ greenland = [[-57+360,-22+360],[70,80]] # Greenland
 
 #variables = ["AWNI", "FREQI","CLDICE"]
 #variables = ["NIMEY","AWNI", "FREQI","CLDICE"]
-variables = ["TH","CLOUD"]
+variables = ["CLOUD","IWC","CLDLIQ"]
+xlims = [[-0.05,0.5],[-0.0002,0.0025],[-0.01,0.05]]
+#variables = ["CLDLIQ"]
 
-for var in variables:
+for var,xlim in zip(variables,xlims):
     print(var)
     ds1 = xr.open_dataset(rpath+var+"_"+case1+"_"+date1+".nc")
     ds2 = xr.open_dataset(rpath+var+"_"+case2+"_"+date2+".nc")
@@ -61,57 +54,32 @@ for var in variables:
     # - for the Arctic
     ds1_arct = functions.computeWeightedMean(ds1m[var].sel(lat=slice(66.5,90)))
     ds2_arct = functions.computeWeightedMean(ds2m[var].sel(lat=slice(66.5,90)))
-    diff_arct = ds2_arct - ds1_arct
-    # - for Norwegian Sea
-    ds1_nsea = functions.computeWeightedMean(ds1m[var].sel(lon=slice(norsea[0][0],norsea[0][1]),
-                                 lat=slice(norsea[1][0],norsea[1][1])))
-    ds2_nsea = functions.computeWeightedMean(ds2m[var].sel(lon=slice(norsea[0][0],norsea[0][1]),
-                                 lat=slice(norsea[1][0],norsea[1][1])))
-    diff_nsea = ds2_nsea - ds1_nsea
-    # - for Greenland
-    ds1_green = functions.computeWeightedMean(ds1m[var].sel(lon=slice(greenland[0][0],greenland[0][1]),
-                                 lat=slice(greenland[1][0],greenland[1][1])))
-    ds2_green = functions.computeWeightedMean(ds2m[var].sel(lon=slice(greenland[0][0],greenland[0][1]),
-                                 lat=slice(greenland[1][0],greenland[1][1])))
-    diff_green = ds2_green - ds1_green
-    # - for Beaufort Sea
-    ds1_bsea = functions.computeWeightedMean(ds1m[var].sel(lon=slice(bfortsea[0][0],bfortsea[0][1]),
-                                 lat=slice(bfortsea[1][0],bfortsea[1][1])))
-    ds2_bsea = functions.computeWeightedMean(ds2m[var].sel(lon=slice(bfortsea[0][0],bfortsea[0][1]),
-                                 lat=slice(bfortsea[1][0],bfortsea[1][1])))
-    diff_bsea = ds2_bsea - ds1_bsea
-
 	
-    fig,axs = plt.subplots(nrows=2, ncols=2, figsize=[9,10],dpi=300, constrained_layout=True)
-        
-    # Set the projection to use for plotting
-    ax1 = axs[0,0]
-    ax2 = axs[0,1]
-    ax3 = axs[1,0]
-    ax4 = axs[1,1]
-
-    fig.suptitle(ds1[var].long_name+"\n"+case2nm+"-"+case1nm+"\n"+date_start+r"$-$"+date_end, fontsize=20)
-
+    fig,axs = plt.subplots(nrows=1, ncols=4, sharey=True, figsize=[10,5],dpi=300, constrained_layout=True)
+    fig.suptitle(ds1[var].long_name+" "+case2nm+"-"+case1nm+", Arctic average", fontsize=20)
+    
     if var == "TH":       	
         levels = ds1.ilev.values
         print(ds1.ilev)
     else:
         levels = ds1.lev.values
         
-    for ax,season in zip([ax1, ax2, ax3, ax4], ["DJF", "MAM","JJA","SON"]):
-
-        ax.plot(diff_arct.sel(season=season), levels, label="Arctic")
-        ax.plot(diff_nsea.sel(season=season), levels, label="Norwegian Sea")
-        ax.plot(diff_green.sel(season=season), levels, label="Greenland")
-        ax.plot(diff_bsea.sel(season=season), levels, label="Beaufort Sea")
-            
+    for ax, season in zip(axs.flatten(),["DJF", "MAM","JJA","SON"]):
+        
+        if season == "DJF":
+            ax.plot(ds1_arct.sel(season=season), levels, label="CAM5",ls="--")
+            ax.plot(ds2_arct.sel(season=season), levels, label="Andenes 2021")
+            ax.set_ylabel("hPa")
+            ax.invert_yaxis()
+        else:
+            ax.plot(ds1_arct.sel(season=season), levels, ls="--")
+            ax.plot(ds2_arct.sel(season=season), levels)
+        
         ax.set_title(season)
-        ax.set_ylabel("hPa")
+        ax.set_xlim(xlim)
         ax.set_xlabel(ds1[var].units)
-        ax.legend(loc="upper left")
         ax.grid(alpha=0.5)
-        ax.invert_yaxis()
-    
-    plt.savefig(wpath+var+"_heightdiff_"+case1+"_"+case2+".pdf",bbox_inches="tight")
+    fig.legend(loc="lower center", bbox_to_anchor=(0.5, -0.1),ncol=2)
+    plt.savefig(wpath+var+"_heightdiff_arctic_"+case1+"_"+case2+".pdf",bbox_inches="tight")
     plt.clf()	
 

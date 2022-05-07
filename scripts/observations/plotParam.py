@@ -10,7 +10,7 @@ from Meyers import meyers
 
 path = "/projects/NS9600K/astridbg/data/observations/Coriolis_postprocessed/"
 fname1 = "Coriolis_nucleiT_cal.csv"
-fname2 = "Coriolis_nucleiOut_std.csv"
+fname2 = "Coriolis_nucleiOut_std_2.csv"
 wpath = "/projects/NS9600K/astridbg/master/figures/observations/"
 
 
@@ -98,4 +98,4 @@ ax.set_position([box.x0, box.y0 + box.height * 0.1,
 # Put a legend below current axis
 ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=2)#,borderpad=0.3, columnspacing=0.3, handletextpad=0.2)
 
-plt.savefig(wpath+"INPconc_param.pdf",bbox_inches="tight")
+plt.savefig(wpath+"INPconc_param_2.pdf",bbox_inches="tight")

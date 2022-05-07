@@ -45,7 +45,7 @@ ax.add_feature(cartopy.feature.OCEAN, zorder=0)
 ax.add_feature(cartopy.feature.LAND, zorder=0, edgecolor='black')
 functions.polarCentral_set_latlim([65,90], ax)
 ax.coastlines()
-ax.gridlines()
+ax.gridlines(color="darkblue",zorder=1)
 
 # Add squares to average over
 
@@ -63,15 +63,16 @@ for square in squares:
             return abs(y1)
         r_ortho = compute_radius(proj,r)
 
-        ax.add_patch(mpatches.Circle(xy=[lon, lat], radius=r_ortho, facecolor=None, fill=False,edgecolor='red',transform=proj,lw=2))
+        ax.add_patch(mpatches.Circle(xy=[lon, lat], radius=r_ortho, facecolor=None, fill=False,edgecolor='red',transform=proj,lw=2,zorder=2))
     else:
         lons = square[0]
         lats = square[1]
         LONS = [lons[0], lons[0], lons[1], lons[1]]
         LATS = [lats[0], lats[1], lats[1], lats[0]]
         ring = LinearRing(list(zip(LONS, LATS)))
-        ax.add_geometries([ring], ccrs.PlateCarree(), facecolor='none', edgecolor='red', lw=2)
+        ax.add_geometries([ring], ccrs.PlateCarree(), facecolor='none', edgecolor='red', lw=2,zorder=2)
 	
 plt.savefig(wpath+"avgareas.pdf",bbox_inches="tight")
+plt.savefig(wpath+"avgareas.png",bbox_inches="tight")
 	
 plt.clf()
