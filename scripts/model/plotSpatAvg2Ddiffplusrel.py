@@ -31,7 +31,7 @@ date2 = "2007-04-15_2010-03-15"
 #------------------------------
 
 variables = ["SWCF","LWCF","SWCFS","LWCFS","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-variables = ["TGCLDLWP"]
+variables = ["NETCFS","TREFHT","TGCLDLWP"]
 #------------------------------
 # Areas to average over
 #------------------------------
@@ -126,6 +126,8 @@ for var in variables:
     # Get spatial average over Arctic
     ds1_arct = computeWeightedMean(ds1m[var].sel(lat=slice(66.5,90)))
     ds2_arct = computeWeightedMean(ds2m[var].sel(lat=slice(66.5,90)))
+    print("Arctic")
+    print((ds2_arct-ds1_arct).mean("month").values)
 
     # Get spatial average over Svalbard
     ds1_sval = computeWeightedMean(ds1m[var].sel(lon=slice(svalbard[0][0],svalbard[0][1]),
@@ -150,7 +152,11 @@ for var in variables:
                                  lat=slice(npole[1][0],npole[1][1])))
     ds2_npol = computeWeightedMean(ds2m[var].sel(lon=slice(npole[0][0],npole[0][1]),
                                  lat=slice(npole[1][0],npole[1][1])))
-	
+    #print("Svalbard")
+    #print((ds2_sval-ds1_sval).mean("month").values)
+    #print("North Pole")
+    #print((ds2_npol-ds1_npol).mean("month").values)
+    """
     fig,axs = plt.subplots(ncols=2,nrows=1, gridspec_kw={'width_ratios': [3, 1]}, figsize=[13,4],dpi=300,constrained_layout=True)
     ax = axs[0]
     ax2 = axs[1]
@@ -165,22 +171,36 @@ for var in variables:
     ax.tick_params(axis="x",labelsize=20)
     ax.grid(alpha=0.5)
 
-    # Get average relative change
+    if var == "TREFHT":
+        # Get average absolute change 
+        arct = ds2_arct-ds1_arct
+        sval = ds2_sval-ds1_sval
+        qutt = ds2_qutt-ds1_qutt
+        gren = ds2_gren-ds1_gren
+        npol = ds2_npol-ds1_npol
     
-    rel_arct = ((ds2_arct-ds1_arct)/ds1_arct.where(ds1_arct!=0)).fillna(0)*100*np.sign(ds1_arct)
-    rel_sval = ((ds2_sval-ds1_sval)/ds1_sval.where(ds1_sval!=0)).fillna(0)*100*np.sign(ds1_sval)
-    rel_qutt = ((ds2_qutt-ds1_qutt)/ds1_qutt.where(ds1_qutt!=0)).fillna(0)*100*np.sign(ds1_qutt)
-    rel_gren = ((ds2_gren-ds1_gren)/ds1_gren.where(ds1_gren!=0)).fillna(0)*100*np.sign(ds1_gren)
-    rel_npol = ((ds2_npol-ds1_npol)/ds1_npol.where(ds1_npol!=0)).fillna(0)*100*np.sign(ds1_npol)
     
-    rel_all = pd.DataFrame({"Arctic":rel_arct,"Svalbard":rel_sval,"Quttinirpaaq":rel_qutt,"Greenland":rel_gren,"North Pole":rel_npol})
-    bplot=ax2.boxplot(rel_all,patch_artist=True,medianprops={"color":"black"})
+        change_all = pd.DataFrame({"Arctic":arct,"Svalbard":sval,"Quttinirpaaq":qutt,"Greenland":gren,"North Pole":npol})
+        bplot=ax2.boxplot(change_all,patch_artist=True,medianprops={"color":"black"})
+        ax2.set_ylabel(ds1[var].units)
+    else:
+
+        # Get average relative change
+    
+        rel_arct = ((ds2_arct-ds1_arct)/ds1_arct.where(ds1_arct!=0)).fillna(0)*100*np.sign(ds1_arct)
+        rel_sval = ((ds2_sval-ds1_sval)/ds1_sval.where(ds1_sval!=0)).fillna(0)*100*np.sign(ds1_sval)
+        rel_qutt = ((ds2_qutt-ds1_qutt)/ds1_qutt.where(ds1_qutt!=0)).fillna(0)*100*np.sign(ds1_qutt)
+        rel_gren = ((ds2_gren-ds1_gren)/ds1_gren.where(ds1_gren!=0)).fillna(0)*100*np.sign(ds1_gren)
+        rel_npol = ((ds2_npol-ds1_npol)/ds1_npol.where(ds1_npol!=0)).fillna(0)*100*np.sign(ds1_npol)
+    
+    
+        rel_all = pd.DataFrame({"Arctic":rel_arct,"Svalbard":rel_sval,"Quttinirpaaq":rel_qutt,"Greenland":rel_gren,"North Pole":rel_npol})
+        bplot=ax2.boxplot(rel_all,patch_artist=True,medianprops={"color":"black"})
+        ax2.set_ylabel("%")
     colors=["cornflowerblue","mediumseagreen","magenta","crimson","olive"]
     for patch, color in zip(bplot['boxes'], colors):
         patch.set_facecolor(color)
-    ax2.set_ylabel("%")
     ax2.set_xticklabels([])
-    ax2.set_ylim([0,200])
 
     # Shrink current axis's height by 15% on the bottom
     box = ax.get_position()
@@ -194,6 +214,6 @@ for var in variables:
     ax.legend(loc='upper center', bbox_to_anchor=(0.75, -0.12), ncol=5, columnspacing=0.5, handlelength=1,handletextpad=0.4)
 	
     plt.grid(alpha=0.5)
-    plt.savefig(wpath+"monthlymean/"+var+"_avg_"+case1+"_"+case2+"_test.pdf",bbox_inches="tight")
+    plt.savefig(wpath+"monthlymean/"+var+"_avg_"+case1+"_"+case2+".pdf",bbox_inches="tight")
 
-    plt.clf()
+    plt.clf()"""

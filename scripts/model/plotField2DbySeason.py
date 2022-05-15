@@ -26,7 +26,7 @@ date = "2007-04-15_2010-03-15"
 #------------------------------
 
 variables = ["SWCF","LWCF","SWCFS","LWCFS","NETCFS","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
-variables = ["TGCLDLWP"]
+variables = ["CLDLWEMS"]
 
 #------------------------------
 # Shaping and plotting fields
@@ -46,27 +46,27 @@ for var in variables:
     print(lev_extent)
     if lev_extent < 0.004:
         lev_extent = 0.004
-    levels = np.linspace(-lev_extent,lev_extent,25)
+    levels = np.linspace(0,lev_extent,25)
 
 
     fig = plt.figure(1, figsize=[9,10],dpi=300)
-    title = ds[var].long_name+"\n"+casenm+"\n"+date_start+"$-$"+date_end
-    fig.suptitle(title, fontsize=26)
+    title = ds[var].long_name+"\n"+casenm+"\n"
+    fig.suptitle(title, fontsize=22)
 	
     # Set the projection to use for plotting
     ax1 = plt.subplot(2, 2, 1, projection=ccrs.Orthographic(0, 90))
     ax2 = plt.subplot(2, 2, 2, projection=ccrs.Orthographic(0, 90))
     ax3 = plt.subplot(2, 2, 3, projection=ccrs.Orthographic(0, 90))
     ax4 = plt.subplot(2, 2, 4, projection=ccrs.Orthographic(0, 90))
-    plt.subplots_adjust(top=0.85)
 
     for ax,season in zip([ax1, ax2, ax3, ax4], ["DJF", "MAM","JJA","SON"]):
     	
-        functions.polarCentral_set_latlim([65,90], ax)
+        functions.polarCentral_set_latlim([66.5,90], ax)
         map = ds_seas[var].sel(season=season).plot.pcolormesh(ax=ax, transform=ccrs.PlateCarree(), 
-                                           cmap='coolwarm', levels=levels,
+                                           cmap=plt.cm.get_cmap("Reds"),#cmap=plt.cm.get_cmap('Blues').reversed() 
+                                           levels=levels,
                                            add_colorbar=False)
-        ax.set_title(season, fontsize=23)
+        ax.set_title(season, fontsize=22)
         ax.coastlines()
 
 	
@@ -74,7 +74,7 @@ for var in variables:
 
     cbar = plt.colorbar(map, cax=cb_ax, spacing = 'uniform', extend='both', orientation='horizontal', fraction=0.046, pad=0.06)
     cbar.ax.tick_params(labelsize=18)
-    cbar.ax.set_xlabel(ds[var].units, fontsize=23)
+    cbar.ax.set_xlabel(ds[var].units, fontsize=18)
 
     if lev_extent >= 4:
         cbar.ax.xaxis.set_major_formatter(StrMethodFormatter('{x:,.0f}')) # No decimal places        

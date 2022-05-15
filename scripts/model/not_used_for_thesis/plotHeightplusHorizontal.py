@@ -16,11 +16,11 @@ rpath="/projects/NS9600K/astridbg/data/model/noresm_postprocessed/"
 wpath="/projects/NS9600K/astridbg/master/figures/model/diff_height/"
 
 # Default cases----------------
-#case1 = "def_20210126"; case1nm = "CAM6"
-case1 = "meyers92_20220210"; case1nm = "CAM5"
+case1 = "def_20210126"; case1nm = "CAM6"
+#case1 = "meyers92_20220210"; case1nm = "CAM5"
 # Modified cases---------------
-#case2 = "meyers92_20220210"; case2nm = "CAM5"
-case2 = "andenes21_20220222"; case2nm = "Andenes 2021"
+case2 = "meyers92_20220210"; case2nm = "CAM5"
+#case2 = "andenes21_20220222"; case2nm = "Andenes 2021"
 #------------------------------	
 date1 = "2007-04-15_2010-03-15"
 date2 = "2007-04-15_2010-03-15"
@@ -31,7 +31,7 @@ date2 = "2007-04-15_2010-03-15"
 #------------------------------
 
 var_level = "850"
-variables = ["NIMEY","AWNI","AWNICC","CLDICE","Q","RELHUM"]
+variables = ["AWNICC","CLDICE","CLOUD"]
 
 for var in variables:
         print(var)
@@ -72,7 +72,7 @@ for var in variables:
 
         fig  = plt.figure(figsize=[12,7],dpi=300)
 
-        fig.suptitle(ds1[var].long_name+"\n averaged over "+date_start+r"$-$"+date_end, fontsize=20)
+        fig.suptitle(ds1[var].long_name, fontsize=22)
        	
         ax1 = plt.subplot(1,2,1)
         plt.plot(ds1_arct_height, height_levels, label=case1nm, color="tab:blue",linestyle="--",linewidth=2)

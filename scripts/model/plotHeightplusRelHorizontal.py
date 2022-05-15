@@ -32,7 +32,7 @@ date2 = "2007-04-15_2010-03-15"
 
 var_level = "850"
 variables = ["NIMEY","AWNI","AWNICC","CLDICE","Q","RELHUM"]
-variables = ["T"]
+variables = ["AWNI"]
 
 for var in variables:
         print(var)
@@ -59,8 +59,8 @@ for var in variables:
         lev_extent = round(max(abs(np.nanmin(reldiff.sel(lat=slice(66.5,90)).values)), 
                                abs(np.nanmax(reldiff.sel(lat=slice(66.5,90)).values))))
         print(lev_extent)
-        lev_min = -5
-        lev_max = 5
+        lev_min = -50
+        lev_max = 0
         if lev_extent < 0.004:
                 lev_extent = 0.004
         #levels = np.linspace(-lev_extent,lev_extent,25)
@@ -72,10 +72,14 @@ for var in variables:
         ds2_arct_height = functions.computeWeightedMean(ds2m[var].sel(lat=slice(66.5,90)))
 	
         height_levels = ds1.lev.values
+        
+        # Compute total relative change
+        #total_rel = functions.computeWeightedMean(reldiff.sel(lat=slice(66.5,90)))
+        #print(total_rel)
 
         fig  = plt.figure(figsize=[12,7],dpi=300)
 
-        fig.suptitle(ds1[var].long_name+"\n averaged over "+date_start+r"$-$"+date_end, fontsize=23)
+        fig.suptitle(ds1[var].long_name, fontsize=23)
        	
         ax1 = plt.subplot(1,2,1)
         plt.plot(ds1_arct_height, height_levels, label=case1nm, color="tab:blue",linestyle="--",linewidth=2)
@@ -92,7 +96,7 @@ for var in variables:
         ax2 = plt.subplot(1,2,2, projection=ccrs.Orthographic(0, 90))
         functions.polarCentral_set_latlim([66.5,90], ax2)
         map = reldiff.plot.pcolormesh(ax=ax2, transform=ccrs.PlateCarree(), 
-                                                cmap="coolwarm",#cmap=plt.cm.get_cmap('Blues').reversed(),
+                                                cmap=plt.cm.get_cmap('Blues').reversed(),#cmap="coolwarm"
                                                 levels=levels,
                                                 add_colorbar=False)
 

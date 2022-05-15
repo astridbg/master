@@ -7,7 +7,7 @@ from matplotlib.ticker import StrMethodFormatter
 # Set font style to match latex document----------
 plt.rcParams['mathtext.fontset'] = 'stix'
 plt.rcParams['font.family'] = 'STIXGeneral'
-plt.rcParams.update({'font.size':16})
+plt.rcParams.update({'font.size':20})
 # ------------------------------------------------
 import cartopy.crs as ccrs
 import functions
@@ -33,9 +33,8 @@ date2 = "2007-04-15_2010-03-15"
 
 #variables = ["AWNI", "FREQI","CLDICE"]
 #variables = ["NIMEY","AWNI", "FREQI","CLDICE"]
-variables = ["CLOUD","IWC","CLDLIQ"]
+variables = ["ICIMR","ICWMR"]
 xlims = [[-0.05,0.5],[-0.0002,0.0025],[-0.01,0.05]]
-#variables = ["CLDLIQ"]
 
 for var,xlim in zip(variables,xlims):
     print(var)
@@ -56,7 +55,7 @@ for var,xlim in zip(variables,xlims):
     ds2_arct = functions.computeWeightedMean(ds2m[var].sel(lat=slice(66.5,90)))
 	
     fig,axs = plt.subplots(nrows=1, ncols=4, sharey=True, figsize=[10,5],dpi=300, constrained_layout=True)
-    fig.suptitle(ds1[var].long_name+" "+case2nm+"-"+case1nm+", Arctic average", fontsize=20)
+    fig.suptitle(ds1[var].long_name+", Arctic average", fontsize=22)
     
     if var == "TH":       	
         levels = ds1.ilev.values
@@ -76,10 +75,10 @@ for var,xlim in zip(variables,xlims):
             ax.plot(ds2_arct.sel(season=season), levels)
         
         ax.set_title(season)
-        ax.set_xlim(xlim)
+        #ax.set_xlim(xlim)
         ax.set_xlabel(ds1[var].units)
         ax.grid(alpha=0.5)
-    fig.legend(loc="lower center", bbox_to_anchor=(0.5, -0.1),ncol=2)
+    fig.legend(loc="lower center", bbox_to_anchor=(0.5, -0.13),ncol=2)
     plt.savefig(wpath+var+"_heightdiff_arctic_"+case1+"_"+case2+".pdf",bbox_inches="tight")
     plt.clf()	
 

@@ -9,8 +9,8 @@ rpath="/projects/NS9600K/astridbg/data/model/noresm_rawdata/cases/"
 wpath="/projects/NS9600K/astridbg/data/model/noresm_postprocessed/"
 
 #case = "def_20210126"
-#case = "meyers92_20220210"
-case = "andenes21_20220222"
+case = "meyers92_20220210"
+#case = "andenes21_20220222"
 casefolder="NF2000climo_f19_tn14_"+case
 
 all_files = glob.glob(rpath+casefolder+"/atm/hist/"+casefolder+".cam.h0.*")
@@ -46,22 +46,21 @@ date = "2007-04-15_2010-03-15"
 # For case def
 #variables = ["AWNI", "FREQI","CLDICE","SWCF","LWCF","LWCFS","SWCFS","NETCFS","AWNICC","TH","CLDTOT","CLDHGH","CLDMED","CLDLOW","TGCLDIWP","TGCLDLWP","TREFHT"]
 
-variables = ["CLDLWEM"]
+variables = ["ICIMR","ICWMR","AWNI","AWNICC"]
 
 for var in variables:
     print("Started writing variable:")
 	
     # Change to desired units
     if var == "NIMEY" or var == "AWNI":
-        ds[var].values = ds[var].values*1e-3 # Change unit to number per litre
+        ds[var].values = ds[var].values*1e-3 # Change unit to number per litre and name
         ds[var].attrs["units"] = "1/L"
-        ds[var].attrs["long_name"] = "Activated Ice Number Concentation due to Meyers' parameterisation"
-	
+
     if var == "T" or var == "TREFHT" or var=="TH":
         ds[var].values = ds[var].values - 273.15 # Change unit to degrees Celsius
         ds[var].attrs["units"] = r"$^{\circ}$C"
 
-    if var == "CLDICE" or var == "CLDLIQ" or var == "Q": 
+    if var == "CLDICE" or var == "CLDLIQ" or var == "Q" or var == "ICIMR" or var == "ICWMR": 
         ds[var].values = ds[var].values*1e+3 # Change unit to grams per kilograms
         ds[var].attrs["units"] = "g/kg"
 	
@@ -77,16 +76,24 @@ for var in variables:
 
     if var == "TREFHT":
         ds[var].attrs["long_name"] = "Surface (2m) Temperature"
+    if var == "NIMEY":
+        ds[var].attrs["long_name"] = "Activated Ice Number Concentation due to Meyers' parameterisation"
+    if var == "AWNI":
+        ds[var].attrs["long_name"] = "Average cloud ice number concentration"
+    if var == "ICIMR":
+        ds[var].attrs["long_name"] = "In-cloud ice mixing ratio"
+    if var == "ICWMR":
+        ds[var].attrs["long_name"] = "In-cloud liquid water mixing ratio"
 
     # Make combined data variables
     if var == "LWCFS":
         ds = ds.assign(LWCFS=ds["FLNSC"]-ds["FLNS"])
-        ds[var].attrs["units"] = ds["FLNS"].attrs["units"]
+        ds[var].attrs["units"] = "W/m$^2$"
         ds[var].attrs["long_name"] = "Longwave cloud radiative effect at surface"
 
     if var == "SWCFS":
         ds = ds.assign(SWCFS=ds["FSNS"]-ds["FSNSC"])
-        ds[var].attrs["units"] = ds["FSNS"].attrs["units"]
+        ds[var].attrs["units"] = "W/m$^2$"
         ds[var].attrs["long_name"] = "Shortwave cloud radiative effect at surface"
 	
     if var == "AWNICC":
@@ -94,15 +101,20 @@ for var in variables:
         ds[var] = ds[var].fillna(0)
         ds[var].values = ds[var].values*1e-3 # Change unit to number per litre
         ds[var].attrs["units"] = "1/L"
-        ds[var].attrs["long_name"] = "Average cloud ice number conc in cold clouds"
+        ds[var].attrs["long_name"] = "Average cloud ice number concentration in cold clouds"
         
     if var == "NETCFS":
         ds = ds.assign(NETCFS=ds["FSNS"]-ds["FSNSC"]-ds["FLNS"]-(-ds["FLNSC"]))
-        ds[var].attrs["units"] = ds["FSNS"].attrs["units"]
+        ds[var].attrs["units"] = "W/m$^2$"
         ds[var].attrs["long_name"] = "Net cloud radiative effect at surface"
     
     if var == "CLDLWEM":
         ds = ds.assign(CLDLWEM=1-np.exp(-0.13*ds["TGCLDLWP"]*1e+3))
+        ds[var].attrs["units"] = "Emissivity"
+        ds[var].attrs["long_name"] = "Cloud Longwave Emissivity"
+
+    if var == "CLDLWEMS":
+        ds = ds.assign(CLDLWEMS=1-np.exp(-0.158*ds["TGCLDLWP"]*1e+3))
         ds[var].attrs["units"] = "Emissivity"
         ds[var].attrs["long_name"] = "Cloud Longwave Emissivity"
 
