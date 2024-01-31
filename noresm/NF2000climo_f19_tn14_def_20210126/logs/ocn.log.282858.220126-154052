@@ -1,0 +1,100 @@
+(docn_comp_init)  decomp     = 1d
+(docn_comp_init)  restfilm   = undefined
+(docn_comp_init)  restfils   = undefined
+(docn_comp_init)  force_prognostic_true =  F
+(shr_strdata_readnml) reading input namelist file: docn_in
+(shr_stream_init) Reading file docn.streams.txt.prescribed
+(shr_file_freeUnit) unit   94 was not in use
+(docn_comp_init)  docn datamode = SSTDATA
+ (shr_strdata_init)  stream            1
+ (shr_strdata_init)  filePath =            1 
+ /cluster/shared/noresm/inputdata/ocn/docn7/
+ (shr_strdata_init)  fileName =            1 
+ /cluster/shared/noresm/inputdata/ocn/docn7/domain.ocn.1x1.111007.nc
+ (shr_strdata_init)  timeName =            1 time
+ (shr_strdata_init)   lonName =            1 xc
+ (shr_strdata_init)   latName =            1 yc
+ (shr_strdata_init)   hgtName =            1 unknownname
+ (shr_strdata_init)  maskName =            1 mask
+ (shr_strdata_init)  areaName =            1 area
+(shr_strdata_init)  calling shr_dmodel_mapSet for fill
+(shr_strdata_init)  calling shr_dmodel_mapSet for remap
+(shr_strdata_print) ----------------------------------------------------------
+(shr_strdata_print) name        = SDOCN data
+(shr_strdata_print) dataMode    = SSTDATA
+(shr_strdata_print) domainFile  = /cluster/shared/noresm/inputdata/share/domains/domain.ocn.tnx1v4.170606.nc
+(shr_strdata_print) nxg         =    360
+(shr_strdata_print) nyg         =    384
+(shr_strdata_print) nzg         =     -1
+(shr_strdata_print) calendar    = GREGORIAN
+(shr_strdata_print) io_type     =      6
+(shr_strdata_print) eccen       =  1.000000E+36
+(shr_strdata_print) mvelpp      =  1.000000E+36
+(shr_strdata_print) lambm0      =  1.000000E+36
+(shr_strdata_print) obliqr      =  1.000000E+36
+(shr_strdata_print) nstreams    =      1
+(shr_strdata_print) pio_iotype  =      6
+(shr_strdata_print)   streams ( 1) = docn.streams.txt.prescribed 1 0 0
+(shr_strdata_print)   taxMode ( 1) = cycle
+(shr_strdata_print)   dtlimit ( 1) =  1.500000E+00
+(shr_strdata_print)   strnxg  ( 1) =    360
+(shr_strdata_print)   strnyg  ( 1) =    180
+(shr_strdata_print)   strnzg  ( 1) =     -1
+(shr_strdata_print)   dofill  ( 1) =  T
+(shr_strdata_print)   fillalgo( 1) = nn
+(shr_strdata_print)   fillmask( 1) = nomask
+(shr_strdata_print)   fillread( 1) = NOT_SET
+(shr_strdata_print)   fillwrit( 1) = NOT_SET
+(shr_strdata_print)   domaps  ( 1) =  T
+(shr_strdata_print)   mapalgo ( 1) = bilinear
+(shr_strdata_print)   mapmask ( 1) = dstmask
+(shr_strdata_print)   mapread ( 1) = NOT_SET
+(shr_strdata_print)   mapwrit ( 1) = NOT_SET
+(shr_strdata_print)   tintalgo( 1) = linear
+(shr_strdata_print)   readmode( 1) = single
+(shr_strdata_print)  
+(shr_strdata_print) nvectors    =      0
+(shr_strdata_print) ----------------------------------------------------------
+(docn_comp_init)  initialize gsmaps
+(docn_comp_init) copy domains
+(docn_comp_init) allocate AVs
+(shr_dmodel_readstrm) open   : /cluster/shared/noresm/inputdata/atm/cam/sst/sst_HadOIBl_bc_1x1_2000climo_c180511.nc
+(shr_dmodel_readstrm) file lb: /cluster/shared/noresm/inputdata/atm/cam/sst/sst_HadOIBl_bc_1x1_2000climo_c180511.nc      12
+(shr_dmodel_readstrm) file ub: /cluster/shared/noresm/inputdata/atm/cam/sst/sst_HadOIBl_bc_1x1_2000climo_c180511.nc       1
+(docn_comp_run) ocn: model date 20070101       0s
+(docn_comp_init) docn_comp_init done
+(docn_comp_init) docn_comp_init done
+(docn_comp_run) ocn: model date 20070101    3600s
+(docn_comp_run) ocn: model date 20070101    5400s
+(docn_comp_run) ocn: model date 20070101    7200s
+(docn_comp_run) ocn: model date 20070101    9000s
+(docn_comp_run) ocn: model date 20070101   10800s
+(docn_comp_run) ocn: model date 20070101   12600s
+(docn_comp_run) ocn: model date 20070101   14400s
+(docn_comp_run) ocn: model date 20070101   16200s
+(docn_comp_run) ocn: model date 20070101   18000s
+(docn_comp_run) ocn: model date 20070101   19800s
+(docn_comp_run) ocn: model date 20070101   21600s
+(docn_comp_run) ocn: model date 20070101   23400s
+(docn_comp_run) ocn: model date 20070101   25200s
+(docn_comp_run) ocn: model date 20070101   27000s
+(docn_comp_run) ocn: model date 20070101   28800s
+(docn_comp_run) ocn: model date 20070101   30600s
+(docn_comp_run) ocn: model date 20070101   32400s
+(docn_comp_run) ocn: model date 20070101   34200s
+(docn_comp_run) ocn: model date 20070101   36000s
+(docn_comp_run) ocn: model date 20070101   37800s
+(docn_comp_run) ocn: model date 20070101   39600s
+(docn_comp_run) ocn: model date 20070101   41400s
+(docn_comp_run) ocn: model date 20070101   43200s
+(docn_comp_run) ocn: model date 20070101   45000s
+(docn_comp_run) ocn: model date 20070101   46800s
+(docn_comp_run) ocn: model date 20070101   48600s
+(docn_comp_run) ocn: model date 20070101   50400s
+(docn_comp_run) ocn: model date 20070101   52200s
+(docn_comp_run) ocn: model date 20070101   54000s
+(docn_comp_run) ocn: model date 20070101   55800s
+(docn_comp_run) ocn: model date 20070101   57600s
+(docn_comp_run) ocn: model date 20070101   59400s
+(docn_comp_run) ocn: model date 20070101   61200s
+(docn_comp_run) ocn: model date 20070101   63000s

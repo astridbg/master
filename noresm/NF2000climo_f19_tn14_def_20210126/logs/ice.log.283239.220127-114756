@@ -1,0 +1,337 @@
+ --------------------------------
+   CICE model diagnostic output  
+ --------------------------------
+  
+ WARNING: Gregorian calendar, but year_init is 0
+ WARNING: Resetting year_init to 1
+ WARNING: tr_pond_lvl=T and hs0/=0
+ WARNING: Setting hs0=0
+  Document ice_in namelist parameters:
+  ==================================== 
+  
+  runid                     = NF2000climo_f19_tn14_def_20210126
+  runtype                   =  initial
+  days_per_year             =      365
+  use_leap_years            =        T
+  year_init                 =        1
+  istep0                    =        0
+  dt                        =     1800.00
+  npt                       =    99999
+  diagfreq                  =       24
+  print_global              =        T
+  print_points              =        F
+  bfbflag                   =        F
+  histfreq                  =        m     x     x     x     x
+  histfreq_n                =        1     0     0     0     0
+  hist_avg                  =        T
+  history_precision     = 4
+  history_dir               = ./
+  history_file              = NF2000climo_f19_tn14_def_20210126.cice.h
+  dumpfreq                  =        x
+  dumpfreq_n                =        1
+  dump_last                 =        F
+  restart                   =        F
+  restart_dir               = ./
+  restart_ext               =  F
+  restart_format            = pio
+  lcdf64                    =  T
+  restart_file              = NF2000climo_f19_tn14_def_20210126.cice.r
+  pointer_file              = ./rpointer.ice
+  use_restart_time          =  T
+  ice_ic                    = default
+  grid_type                 = latlon
+  grid_file                 = 
+ /cluster/shared/noresm/inputdata/share/domains/domain.ocn.tnx1v4.170606.nc
+  gridcpl_file              = unknown_gridcpl_file
+  kmt_file                  = 
+ /cluster/shared/noresm/inputdata/share/domains/domain.ocn.tnx1v4.170606.nc
+  kitd                      =        0
+  kcatbound                 =        0
+  kdyn                      =        0
+  ndtd                      =        1
+  ndte                      =      120
+  revised_evp               =        F
+  kstrength                 =        0
+  krdg_partic               =        1
+  krdg_redist               =        1
+  mu_rdg                    =        4.00
+  advection                 =    remap
+  shortwave                 =     dEdd
+  R_ice                     =        0.00
+  R_pnd                     =        0.00
+  R_snw                     =        1.25
+  dT_mlt                    =        1.50
+  rsnw_mlt                  =     1500.00
+  kalg                      =        0.00
+  hp1                       =        0.01
+  hs0                       =        0.00
+  rfracmin                  =        0.15
+  rfracmax                  =        0.85
+  hs1                       =        0.03
+  dpscale                   =        0.00
+  frzpnd                    =     cesm
+  blowingsnow               = lecomte2
+  rhos                      =      330.00
+  ksno                      =        0.30
+  ktherm                    =        2
+  a_rapid_mode              =    0.000500
+  Rac_rapid_mode            =   10.000000
+  aspect_rapid_mode         =    1.000000
+  dSdt_slow_mode            =   -0.000000
+  phi_c_slow_mode           =    0.050000
+  phi_i_mushy               =    0.850000
+  atmbndy                   =  default
+  formdrag                  =        F
+  highfreq                  =        T
+  natmiter                  =        5
+  calc_strair               =        T
+  calc_Tsfc                 =        T
+  fyear_init                =     1900
+  ycycle                    =        1
+  atm_data_type             = default
+  update_ocn_f              =        F
+  l_mpond_fresh             =        F
+  ustar_min                 =    0.005000
+  fbot_xfer_type            = constant
+  oceanmixed_ice            =        F
+  tfrz_option               = mushy
+  sss_data_type             = default
+  sst_data_type             = default
+  restore_ice               =        F
+  
+Diagnostic point 1: lat, lon =   90.00    0.00
+Diagnostic point 2: lat, lon =  -65.00  -45.00
+  tr_iage                   =        F
+  restart_age               =        F
+  tr_FY                     =        F
+  restart_FY                =        F
+  tr_lvl                    =        T
+  restart_lvl               =        F
+  tr_pond_cesm              =        F
+  restart_pond_cesm         =        F
+  tr_pond_lvl               =        T
+  restart_pond_lvl          =        F
+  tr_pond_topo              =        F
+  restart_pond_topo         =        F
+  tr_aero                   =        F
+  restart_aero              =        F
+  tr_iso                    =        F
+  restart_iso               =        F
+  
+                      ntrcr =       25
+  
+                    nt_sice =       13
+                    nt_qice =        2
+                    nt_qsno =       10
+  
+                         nilyr       8
+                         nslyr       3
+  
+  
+  tr_brine                  =        F
+  skl_bgc                   =        F
+
+Domain Information
+
+  Horizontal domain: nx =    360
+                     ny =    384
+  No. of categories: nc =      1
+  No. of ice layers: ni =      8
+  No. of snow layers:ns =      3
+  Processors:  total    =    512
+  Processor shape:       square-ice
+  Distribution type:     roundrobin
+  Distribution weight:     latitude
+  ew_boundary_type:          cyclic
+  ns_boundary_type:         tripole
+  maskhalo_dyn          =      T
+  maskhalo_remap        =      T
+  maskhalo_bound        =      T
+  max_blocks =                 6
+  Number of ghost cells:       1
+
+ ice: total number of blocks is        2880
+  Block size:  nx_block =      8
+               ny_block =     10
+  min, max, sum =  3.204480740834015E-003   359.988915967321     
+   24654240.0000000     
+  min, max, sum =  -80.1149114059181        89.7574950382973     
+   145306.766580090     
+  min, max, sum =  7.250355572531255E-007  2.293334252825896E-004
+   12.4746973788593     
+  min, max, sum =  0.000000000000000E+000   1.00000000000000     
+   86518.0000000000     
+  min, max, sum =  0.000000000000000E+000   1.00000000000000     
+   86518.0000000000     
+  
+ The following variables will be written to the history tape: 
+          description                     units             variable  frequency   x
+ grid cell mean snow fraction              1                 snowfrac     m       1
+ upward solar flux                         W/m2              fswup        m       1
+ snow formation                            cm/day            dsnow        m       1
+  
+ arlx, brlx   86.4000000000000        120.000000000000     
+ Se, Sv, xi  1.517893276880822E+031  1.333333333333334E+060
+  8.784104611578831E+028
+ dt  =    1800.00000000000     
+ dte =    15.0000000000000     
+ tdamp =   648.000000000000     
+  
+ hin_max(n-1) < Cat n < hin_max(n)
+  1.000000000000000E-002  < Cat            1  <    1.71428184468263     
+  
+  
+istep1:         0    idate:     10101    sec:         0
+ tracer        index      depend        type has_dependents
+    hi             1           0           1 T
+    hs             2           0           1 T
+ nt_Tsfc           3           0           1 F
+ nt_qice           4           1           2 F
+ nt_qsno          12           2           2 F
+ nt_sice          15           1           2 F
+ nt_alvl          23           0           1 T
+ nt_vlvl          24           1           2 F
+ nt_apnd          25          23           2 T
+ nt_hpnd          26          25           3 F
+ nt_ipnd          27          25           3 F
+  
+  Find indices of diagnostic points 
+  
+ found point   1
+   lat    lon   TLAT   TLON     i     j   block  task
+  90.0    0.0   89.8   25.0     2     9     6   275
+  
+ found point   2
+   lat    lon   TLAT   TLON     i     j   block  task
+ -65.0  -45.0  -71.3    0.5     4     7     1   258
+ ice_init_mct tfrz_option = mushy
+ ice_init_mct inst_name   = ICE
+ ice_init_mct inst_index  =            1
+ ice_init_mct inst_suffix = 
+ ice_init_mct flux_convergence =   1.000000000000000E-002
+ ice_init_mct flux_convergence_max_iteration =            5
+ ice_init_mct idate from sync clock =     20070101
+ ice_init_mct   tod from sync clock =            0
+ ice_init_mct resetting idate to match sync clock
+ ice_init_mct curr_ymd =     20070101
+ ice_init_mct cice year_init =            1
+ ice_init_mct cice start date =     20070101
+ ice_init_mct cice start ymds =         2007           1           1           0
+  
+istep1:         0    idate:  20070101    sec:         0
+  
+ This is the prescribed ice coverage option.
+   stream_year_first  =            0
+   stream_year_last   =            0
+   model_year_align   =            1
+   stream_fldVarName  = ice_cov
+   stream_fldFileName = 
+ /cluster/shared/noresm/inputdata/atm/cam/sst/sst_HadOIBl_bc_1x1_2000climo_c1805
+ 11.nc           1
+   stream_domTvarName = time
+   stream_domXvarName = xc
+   stream_domYvarName = yc
+   stream_domFileName = 
+ /cluster/shared/noresm/inputdata/ocn/docn7/domain.ocn.1x1.111007.nc
+   stream_mapread     = NOT_SET
+   stream_fillalgo    = none
+  
+ (shr_strdata_init)  stream            1
+ (shr_strdata_init)  filePath =            1 
+ (shr_strdata_init)  fileName =            1 
+ /cluster/shared/noresm/inputdata/ocn/docn7/domain.ocn.1x1.111007.nc
+ (shr_strdata_init)  timeName =            1 time
+ (shr_strdata_init)   lonName =            1 xc
+ (shr_strdata_init)   latName =            1 yc
+ (shr_strdata_init)   hgtName =            1 undefined
+ (shr_strdata_init)  maskName =            1 mask
+ (shr_strdata_init)  areaName =            1 area
+(shr_strdata_init)  calling shr_dmodel_mapSet for remap
+(shr_strdata_print) ----------------------------------------------------------
+(shr_strdata_print) name        = SPRESICE data
+(shr_strdata_print) dataMode    = NULL
+(shr_strdata_print) domainFile  = null
+(shr_strdata_print) nxg         =    360
+(shr_strdata_print) nyg         =    384
+(shr_strdata_print) nzg         =      1
+(shr_strdata_print) calendar    = GREGORIAN
+(shr_strdata_print) io_type     =      6
+(shr_strdata_print) eccen       =  1.000000E+36
+(shr_strdata_print) mvelpp      =  1.000000E+36
+(shr_strdata_print) lambm0      =  1.000000E+36
+(shr_strdata_print) obliqr      =  1.000000E+36
+(shr_strdata_print) nstreams    =      1
+(shr_strdata_print) pio_iotype  =      6
+(shr_strdata_print)   streams ( 1) = null
+(shr_strdata_print)   taxMode ( 1) = cycle
+(shr_strdata_print)   dtlimit ( 1) =  1.500000E+00
+(shr_strdata_print)   strnxg  ( 1) =    360
+(shr_strdata_print)   strnyg  ( 1) =    180
+(shr_strdata_print)   strnzg  ( 1) =     -1
+(shr_strdata_print)   dofill  ( 1) =  F
+(shr_strdata_print)   fillalgo( 1) = none
+(shr_strdata_print)   fillmask( 1) = nomask
+(shr_strdata_print)   fillread( 1) = NOT_SET
+(shr_strdata_print)   fillwrit( 1) = NOT_SET
+(shr_strdata_print)   domaps  ( 1) =  T
+(shr_strdata_print)   mapalgo ( 1) = bilinear
+(shr_strdata_print)   mapmask ( 1) = dstmask
+(shr_strdata_print)   mapread ( 1) = NOT_SET
+(shr_strdata_print)   mapwrit ( 1) = NOT_SET
+(shr_strdata_print)   tintalgo( 1) = linear
+(shr_strdata_print)   readmode( 1) = single
+(shr_strdata_print)  
+(shr_strdata_print) nvectors    =      0
+(shr_strdata_print) ----------------------------------------------------------
+(shr_dmodel_readstrm) open   : /cluster/shared/noresm/inputdata/atm/cam/sst/sst_HadOIBl_bc_1x1_2000climo_c180511.nc
+(shr_dmodel_readstrm) file lb: /cluster/shared/noresm/inputdata/atm/cam/sst/sst_HadOIBl_bc_1x1_2000climo_c180511.nc      12
+(shr_dmodel_readstrm) file ub: /cluster/shared/noresm/inputdata/atm/cam/sst/sst_HadOIBl_bc_1x1_2000climo_c180511.nc       1
+  
+istep1:        24    idate:  20070101    sec:     43200
+                                             Arctic                 Antarctic
+total ice area  (km^2) =    1.18371293184424210E+07   5.29065410320988670E+06
+total ice extent(km^2) =    1.36587933928514756E+07   9.66268082401958480E+06
+total ice volume (m^3) =    2.36742586368848437E+13   5.29065410320988672E+12
+total snw volume (m^3) =    1.90630946269692578E+12   5.61722180528554443E+11
+tot kinetic energy (J) =    0.00000000000000000E+00   0.00000000000000000E+00
+rms ice speed    (m/s) =        0.00000000000000000       0.00000000000000000
+average albedo         =        0.99932977969398706       0.73670694181751961
+max ice volume     (m) =        2.00000000000000000       1.00000000000000000
+max ice speed    (m/s) =        0.00000000000000000       0.00000000000000000
+max strength    (kN/m) =        0.00000000000000000       0.00000000000000000
+ ----------------------------
+ This is the prescribed ice option.
+ Heat and water will not be conserved.
+ ----------------------------
+ ----------------------------
+arwt rain h2o kg in dt =    5.62784951397562218E+09   1.38071220662114067E+10
+arwt snow h2o kg in dt =    1.50846766198743561E+11   1.17828227416120285E+11
+arwt evap h2o kg in dt =   -1.10733097016442432E+10  -6.98191475981223297E+10
+arwt frzl h2o kg in dt =    0.00000000000000000E+00   0.00000000000000000E+00
+arwt frsh h2o kg in dt =    1.52342522884807396E+10   2.70531411327248871E+11
+arwt ice mass (kg)     =    2.17092951700234000E+16   4.85152981264346600E+15
+arwt snw mass (kg)     =    6.29082122689985500E+14   1.85368319574422969E+14
+arwt tot mass (kg)     =    2.23383772927133840E+16   5.03689813221788900E+15
+arwt tot mass chng(kg) =    2.12132933610400000E+12  -2.52676786467900000E+12
+arwt water flux        =    1.30167053722594177E+11  -2.08715209443039490E+11
+ (=rain+snow+evap+frzl-fresh)  
+water flux error       =   -8.91363887488330869E-05   4.60214321272218324E-04
+ ----------------------------
+arwt atm heat flux (W) =   -7.34957167834705375E+14  -1.11853779832776563E+12
+arwt ocn heat flux (W) =   -3.92966966149726758E+12  -6.30180516869848633E+12
+arwt frzl heat flux(W) =    0.00000000000000000E+00   0.00000000000000000E+00
+arwt tot energy    (J) =   -6.76341365390404957E+21  -1.48953367933860866E+21
+arwt net heat      (J) =   -1.31584949671177472E+18   9.32988126666729800E+15
+arwt tot energy chng(J)=   -1.99067512013743718E+18   6.36472827189133312E+17
+arwt heat error        =   -9.97758909860751205E-05   4.21033075399096491E-04
+ ----------------------------
+arwt incoming sw (W)   =    1.38689219538210266E+11   4.20210550536894750E+14
+arwt absorbed sw (W)   =    1.38423053378489349E+11   4.20691733459654312E+14
+arwt swdn error        =   -1.92284560430164048E-03   1.14378982159322757E-03
+ ----------------------------
+total brine tr (m^3)   =    0.00000000000000000E+00   0.00000000000000000E+00
+arwt salt mass (kg)    =    8.68371806800936094E+13   1.94061192505738633E+13
+arwt salt mass chng(kg)=    7.92959373979199982E+09  -8.87351123279999924E+09
+arwt salt flx in dt(kg)=    0.00000000000000000E+00   0.00000000000000000E+00
+arwt salt flx error    =    9.13156516331911888E-05  -4.57253256986820842E-04
+ ----------------------------

@@ -1,0 +1,1972 @@
+(lnd_init_mct) :CLM land model initialization
+ release-noresm2.0.3
+ 
+ Attempting to initialize the land model .....
+ 
+ Attempting to initialize run control settings .....
+ Read in clm_inparm namelist from: lnd_in
+ Read in clm_initinterp_inparm  namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+  
+ initInterp settings:
+ &CLM_INITINTERP_INPARM
+ INIT_INTERP_METHOD      = general                                                         ,
+ INIT_INTERP_FILL_MISSING_WITH_NATVEG    = F
+ /
+  
+  
+ rooting_profile settings:
+   rooting_profile_method_water  =            1
+   (rooting_profile_varindex_water  =            1 )
+   rooting_profile_method_carbon =            1
+   (rooting_profile_varindex_carbon  =            2 )
+  
+ soilwater_movement settings:
+   soilwater_movement_method  =            1
+   upper_boundary_condition   =            1
+   lower_boundary_condition   =            2
+   use_bedrock                =  T
+   dtmin                      =    60.0000000000000     
+   verySmall                  =   1.000000000000000E-008
+   xTolerUpper                =   0.100000000000000     
+   xTolerLower                =   1.000000000000000E-002
+   expensive                  =           42
+   inexpensive                =            1
+   flux_calculation           =            1
+  
+ soil_resis settings:
+   soil_resis_method  =            1
+ Read in canopyfluxes_inparm  namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+  
+ canopyfluxes_inparm settings:
+ &CANOPYFLUXES_INPARM
+ USE_UNDERCANOPY_STABILITY       = F
+ /
+  
+ Read in clm_CanopyHydrology_inparm  namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+ snowveg_off =  F
+ snowveg_on =  F
+ snowveg_onrad =  T
+ snowveg_flag = ON_RAD    
+  
+ canopyhydrology settings:
+   interception_fraction        =    1.00000000000000     
+   maximum_leaf_wetted_fraction =   5.000000000000000E-002
+   use_clm5_fpi                 =  T
+ Read in clm_SnowHydrology_inparm  namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+  
+ SnowHydrology settings:
+ &CLM_SNOWHYDROLOGY_INPARM
+ WIND_DEPENDENT_SNOW_DENSITY     = T,
+ SNOW_OVERBURDEN_COMPACTION_METHOD       = Vionnet2012                                                     ,
+ LOTMP_SNOWDENSITY_METHOD        = Slater2017               ,
+ UPPLIM_DESTRUCT_METAMORPH       =   175.000000000000     ,
+ OVERBURDEN_COMPRESS_TFACTOR     =  8.000000000000000E-002,
+ MIN_WIND_SNOWCOMPACT    =   5.00000000000000     ,
+ RESET_SNOW      = F,
+ RESET_SNOW_GLC  = F,
+ RESET_SNOW_GLC_ELA      =   1000000000.00000     
+ /
+  
+ Read in clmu_inparm  namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+    urban air conditioning/heating and wasteheat   = ON_WASTEHEAT    
+    urban traffic flux   =  F
+ Read in clm_humanindex_inparm  namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+ Read in luna  namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+  
+ luna settings:
+ &LUNA
+ JMAXB1  =  9.356299999999999E-002
+ /
+  
+ Read in friction_velocity  namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+  
+ friction_velocity settings:
+ &FRICTION_VELOCITY
+ ZETAMAXSTABLE   =  0.500000000000000     
+ /
+  
+ Read in soilhydrology_inparm  namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+  
+ soilhydrology_inparm settings:
+ &SOILHYDROLOGY_INPARM
+ BASEFLOW_SCALAR =  1.000000000000000E-003
+ /
+  
+ Successfully initialized run control settings
+ 
+ soil_layerstruct varpar 20SL_8.5m       
+ soil_layerstruct varpar 20SL_8.5m                 20          25
+ CLM varpar subsurface discretization levels 
+    nlevsoi =  20
+    nlevgrnd =  25
+    nlevdecomp =   1
+    nlevdecomp_full =   1
+    nlevlak =  10
+ 
+ define run:
+    source                = Community Land Model CLM4.0
+    model_version         = release-noresm2.0.3
+    run type              = initial
+    case title            = UNSET
+    username              = astridbg
+    hostname              = betzy
+ process control parameters:
+     use_lch4 =  F
+     use_nitrif_denitrif =  F
+     use_vertsoilc =  F
+     use_extralakelayers =  F
+     use_vichydro =  F
+     use_century_decomp =  F
+     use_cn =  F
+     use_cndv =  F
+     use_crop =  F
+     use_fertilizer =  F
+     use_grainproduct =  F
+     use_ozone =  F
+     use_snicar_frc =  F
+     use_vancouver =  F
+     use_mexicocity =  F
+     use_noio =  F
+     use_SSRE =  F
+ input data files:
+    PFT physiology and parameters file = 
+ /cluster/shared/noresm/inputdata/lnd/clm2/paramdata/clm5_params.c171117.nc
+    surface data   = 
+ /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/release-clm5.0.18/surfda
+ ta_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+    land frac data = 
+ /cluster/shared/noresm/inputdata/share/domains/domain.lnd.fv1.9x2.5_tnx1v4.1706
+ 09.nc
+    snow optical properties file = 
+ /cluster/shared/noresm/inputdata/lnd/clm2/snicardata/snicar_optics_5bnd_c090915
+ .nc
+    snow aging parameters file = 
+ /cluster/shared/noresm/inputdata/lnd/clm2/snicardata/snicar_drdt_bst_fit_60_c07
+ 0416.nc
+    Number of snow layers =          12
+    Max snow depth (mm) =   10000.0000000000     
+    Limit applied to integrated snowfall when determining changes in
+        snow-covered fraction during melt (mm) =   2000.00000000000     
+    SCA shape parameter for glc_mec columns (n_melt_glcmec) =
+   10.0000000000000     
+    glc number of elevation classes =          10
+    glc CLM glacier areas and topography will NOT evolve dynamically
+    glc snow persistence max days =            0
+    initial data interpolated from: 
+ /cluster/shared/noresm/inputdata/lnd/clm2/initdata_map/clmi.BHIST.2000-01-01.0.
+ 9x1.25_gx1v7_simyr2000_c181015.nc
+    atmospheric forcing data is from cesm atm model
+ Restart parameters:
+    restart pointer file directory     = .
+    restart pointer file name          = rpointer.lnd
+ model physics parameters:
+    CO2 volume mixing ratio                = diagnostic      
+    land-ice albedos      (unitless 0-1)   =   0.500000000000000     
+  0.300000000000000     
+    soil layer structure = 20SL_8.5m       
+    plant hydraulic stress =  T
+    dynamic roots          =  F
+    maxpatch_pft         =           17
+    nsegspc              =           35
+  perchroot (plant water stress based on unfrozen layers only) =  F
+  perchroot (plant water stress based on time-integrated active layer only) =  F
+ 
+ Lake Model Namelists:
+ Increased mixing relative to Hostetler wind-driven eddy expression 
+ will be used for deep lakes exceeding depth    25.0000000000000      
+  by a factor of    10.0000000000000      .
+ Albedo over melting lakes will approach values (visible, NIR):
+  0.100000000000000       0.100000000000000      
+ as compared with 0.60, 0.40 for cold frozen lakes with no snow.
+ plant nitrogen model namelists:
+   use_flexibleCN =  F
+   use_luna =  T
+   ED/FATES: 
+     use_fates =  F
+  
+ dynamic_subgrid settings:
+ &DYNAMIC_SUBGRID
+ FLANDUSE_TIMESERIES     =                                                                                                           
+                                                                                                                                     
+                   ,
+ DO_TRANSIENT_PFTS       = F,
+ DO_TRANSIENT_CROPS      = F,
+ DO_HARVEST      = F,
+ FOR_TESTING_ALLOW_NON_ANNUAL_CHANGES    = F,
+ FOR_TESTING_ZERO_DYNBAL_FLUXES  = F
+ /
+  
+ Attempting to read global land mask from 
+ /cluster/shared/noresm/inputdata/share/domains/domain.lnd.fv1.9x2.5_tnx1v4.1706
+ 09.nc
+ (GETFIL): attempting to find local file domain.lnd.fv1.9x2.5_tnx1v4.170609.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/share/domains/domain.lnd.fv1.9x2.5_tnx1v4.1706
+ 09.nc
+ lat/lon grid flag (isgrid2d) is  T
+ ncd_inqvid: variable LANDMASK is not on dataset
+  decomp precompute numg,nclumps,seglen1,avg_seglen,nsegspc=        5701
+         512 T   1.000000       11.13477    
+  Surface Grid Characteristics
+    longitude points               =          144
+    latitude points                =           96
+    total number of land gridcells =         5701
+  Decomposition Characteristics
+    clumps per process             =            1
+  gsMap Characteristics
+   lnd gsmap glo num of segs      =         5701
+ 
+ Attempting to read ldomain from 
+ /cluster/shared/noresm/inputdata/share/domains/domain.lnd.fv1.9x2.5_tnx1v4.1706
+ 09.nc
+ (GETFIL): attempting to find local file domain.lnd.fv1.9x2.5_tnx1v4.170609.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/share/domains/domain.lnd.fv1.9x2.5_tnx1v4.1706
+ 09.nc
+   domain_check set       = domain_set
+   domain_check decomped  =  T
+   domain_check ns        =        13824
+   domain_check ni,nj     =          144          96
+   domain_check nbeg,nend =            1          12
+   domain_check lonc      =   0.000000000000000E+000   312.500000000000     
+   domain_check latc      =   -90.0000000000000        80.5263157894735     
+   domain_check mask      =            1           1
+   domain_check frac      =   0.781698125907678        1.00000000000000     
+   domain_check area      =    242.111400416304        58177.2976936957     
+   domain_check pftm      =        -9999       -9999
+  
+ Attempting to read GLACIER_REGION...
+ (GETFIL): attempting to find local file 
+ surfdata_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/release-clm5.0.18/surfda
+ ta_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+  
+ clm_glacier_behavior settings:
+ &CLM_GLACIER_BEHAVIOR
+ GLACIER_REGION_BEHAVIOR = single_at_atm_topo              virtual                         virtual                         multiple  
+                       UNSET                           UNSET                           UNSET                           UNSET         
+                   UNSET                           UNSET                           UNSET                           ,
+ GLACIER_REGION_MELT_BEHAVIOR    = remains_in_place                replaced_by_ice                 replaced_by_ice                 re
+ placed_by_ice                 UNSET                           UNSET                           UNSET                           UNSET 
+                           UNSET                           UNSET                           UNSET                           ,
+ GLACIER_REGION_ICE_RUNOFF_BEHAVIOR      = melted                          melted                          remains_ice               
+       remains_ice                     UNSET                           UNSET                           UNSET                         
+   UNSET                           UNSET                           UNSET                           UNSET                           
+ /
+  
+  Reading in urban input data from fsurdat file ...
+ (GETFIL): attempting to find local file 
+ surfdata_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/release-clm5.0.18/surfda
+ ta_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ UrbanInput                      
+ /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/release-clm5.0.18/surfda
+ ta_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+  Sucessfully read urban input data
+ 
+ Attempting to read PFT physiological data .....
+ (GETFIL): attempting to find local file clm5_params.c171117.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/paramdata/clm5_params.c171117.nc
+ Successfully read PFT physiological data
+ 
+ Attempting to read surface boundary data .....
+ (GETFIL): attempting to find local file 
+ surfdata_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/release-clm5.0.18/surfda
+ ta_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ check_var: variable xc is not on dataset
+ surfrd_get_data lon_var = LONGXY lat_var =LATIXY
+ Successfully read surface boundary data
+ 
+  
+ ---clm_ptrs_check:
+    clm_ptrs_check: g index ranges - OK
+    clm_ptrs_check: l index ranges - OK
+    clm_ptrs_check: c index ranges - OK
+    clm_ptrs_check: p index ranges - OK
+    clm_ptrs_check: l mono increasing - OK
+    clm_ptrs_check: c mono increasing - OK
+    clm_ptrs_check: p mono increasing - OK
+    clm_ptrs_check: tree consistent - OK
+  
+  Surface Grid Characteristics
+    longitude points          =          144
+    latitude points           =           96
+    total number of gridcells =         5701
+    total number of landunits =        14953
+    total number of columns   =        32715
+    total number of patches   =        50980
+    total number of cohorts   =         5701
+  Decomposition Characteristics
+    clumps per process        =            1
+  gsMap Characteristics
+   lnd gsmap glo num of segs =         5701
+   gce gsmap glo num of segs =         5701
+   lun gsmap glo num of segs =        14759
+   col gsmap glo num of segs =        14759
+   patch gsmap glo num of segs =        14759
+   coh gsmap glo num of segs =            0
+ 
+ 
+ proc=            0  beg gridcell=            1  end gridcell=           12 
+  total gridcells per proc=           12
+ proc=            0  beg landunit=            1  end landunit=           30 
+  total landunits per proc=           30
+ proc=            0  beg column  =            1  end column  =           57 
+  total columns per proc  =           57
+ proc=            0  beg patch     =            1  end patch     =           98 
+  total patches per proc =           98
+ proc=            0  beg coh     =            1  end coh     =           12 
+  total coh per proc     =           12
+ proc=            0  lnd ngseg   =         5701  lnd nlseg   =           12
+ proc=            0  gce ngseg   =         5701  gce nlseg   =           12
+ proc=            0  lun ngseg   =        14759  lun nlseg   =           29
+ proc=            0  col ngseg   =        14759  col nlseg   =           29
+ proc=            0  patch ngseg   =        14759  patch nlseg   =           29
+ proc=            0  coh ngseg   =            0  coh nlseg   =            0
+ proc=            0  nclumps =            1
+ proc=            0  clump no =            1  clump id=            1 
+  beg gridcell=            1  end gridcell=           12 
+  total gridcells per clump=           12
+ proc=            0  clump no =            1  clump id=            1 
+  beg landunit=            1  end landunit=           30 
+  total landunits per clump =           30
+ proc=            0  clump no =            1  clump id=            1 
+  beg column  =            1  end column  =           57 
+  total columns per clump  =           57
+ proc=            0  clump no =            1  clump id=            1 
+  beg patch     =            1  end patch     =           98 
+  total patches per clump =           98
+ proc=            0  clump no =            1  clump id=            1 
+  beg cohort     =            1  end cohort     =           12 
+  total cohorts per clump     =           12
+ Read in clm_canopy_inparm  namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+ Read in photosyns_inparm  namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+  
+ photosyns_inparm settings:
+ &PHOTOSYNS_INPARM
+ LEAFRESP_METHOD =           0,
+ LIGHT_INHIBIT   = T,
+ ROOTSTEM_ACC    = F,
+ STOMATALCOND_METHOD     = Medlyn2011                                        ,
+ MODIFYPHOTO_AND_LMR_FORCROP     = T
+ /
+  
+ paramMod.F90::readParameters :: reading CLM  parameters 
+ (GETFIL): attempting to find local file clm5_params.c171117.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/paramdata/clm5_params.c171117.nc
+  ******** CLM Time Manager Configuration ********
+   Calendar type:            GREGORIAN
+   Timestep size (seconds):          1800
+   Start date (yr mon day tod):             2007           1           1
+           0
+   Stop date (yr mon day tod):              2010           4           1
+           0
+   Reference date (yr mon day tod):         2007           1           1
+           0
+   Current step number:                 0
+   Ending step number:         -999999999
+   Current date (yr mon day tod):           2007           1           1
+           0
+  ************************************************
+  Skip balance checking for the first            2  time steps
+  
+ urbantv_streams settings:
+   stream_year_first_urbantv  =         2000
+   stream_year_last_urbantv   =         2000
+   model_year_align_urbantv   =            1
+   stream_fldFileName_urbantv = 
+ /cluster/shared/noresm/inputdata/lnd/clm2/urbandata/CLM50_tbuildmax_Oleson_2016
+ _0.9x1.25_simyr1849-2106_c160923.nc                                            
+                                                                                
+                    
+  
+ (shr_strdata_init)  stream            1
+ (shr_strdata_init)  filePath =            1 
+ (shr_strdata_init)  fileName =            1 
+ /cluster/shared/noresm/inputdata/lnd/clm2/urbandata/CLM50_tbuildmax_Oleson_2016
+ _0.9x1.25_simyr1849-2106_c160923.nc
+ (shr_strdata_init)  timeName =            1 time
+ (shr_strdata_init)   lonName =            1 lon
+ (shr_strdata_init)   latName =            1 lat
+ (shr_strdata_init)   hgtName =            1 undefined
+ (shr_strdata_init)  maskName =            1 LANDMASK
+ (shr_strdata_init)  areaName =            1 area
+(shr_strdata_init)  calling shr_dmodel_mapSet for remap
+(shr_strdata_print) ----------------------------------------------------------
+(shr_strdata_print) name        = urban time varying data
+(shr_strdata_print) dataMode    = NULL
+(shr_strdata_print) domainFile  = null
+(shr_strdata_print) nxg         =    144
+(shr_strdata_print) nyg         =     96
+(shr_strdata_print) nzg         =      1
+(shr_strdata_print) calendar    = GREGORIAN
+(shr_strdata_print) io_type     =      6
+(shr_strdata_print) eccen       =  1.000000E+36
+(shr_strdata_print) mvelpp      =  1.000000E+36
+(shr_strdata_print) lambm0      =  1.000000E+36
+(shr_strdata_print) obliqr      =  1.000000E+36
+(shr_strdata_print) nstreams    =      1
+(shr_strdata_print) pio_iotype  =      6
+(shr_strdata_print)   streams ( 1) = null
+(shr_strdata_print)   taxMode ( 1) = extend
+(shr_strdata_print)   dtlimit ( 1) =  1.000000E+30
+(shr_strdata_print)   strnxg  ( 1) =    288
+(shr_strdata_print)   strnyg  ( 1) =    192
+(shr_strdata_print)   strnzg  ( 1) =     -1
+(shr_strdata_print)   dofill  ( 1) =  F
+(shr_strdata_print)   fillalgo( 1) = none
+(shr_strdata_print)   fillmask( 1) = nomask
+(shr_strdata_print)   fillread( 1) = NOT_SET
+(shr_strdata_print)   fillwrit( 1) = NOT_SET
+(shr_strdata_print)   domaps  ( 1) =  T
+(shr_strdata_print)   mapalgo ( 1) = nn
+(shr_strdata_print)   mapmask ( 1) = dstmask
+(shr_strdata_print)   mapread ( 1) = NOT_SET
+(shr_strdata_print)   mapwrit ( 1) = NOT_SET
+(shr_strdata_print)   tintalgo( 1) = linear
+(shr_strdata_print)   readmode( 1) = single
+(shr_strdata_print)  
+(shr_strdata_print) nvectors    =      0
+(shr_strdata_print) ----------------------------------------------------------
+(shr_dmodel_readstrm) open   : /cluster/shared/noresm/inputdata/lnd/clm2/urbandata/CLM50_tbuildmax_Oleson_2016_0.9x1.25_simyr1849-2106_c160923.nc
+(shr_dmodel_readstrm) file lb: /cluster/shared/noresm/inputdata/lnd/clm2/urbandata/CLM50_tbuildmax_Oleson_2016_0.9x1.25_simyr1849-2106_c160923.nc     152
+(shr_dmodel_readstrm) file ub: /cluster/shared/noresm/inputdata/lnd/clm2/urbandata/CLM50_tbuildmax_Oleson_2016_0.9x1.25_simyr1849-2106_c160923.nc     152
+ (GETFIL): attempting to find local file 
+ surfdata_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/release-clm5.0.18/surfda
+ ta_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ zsoi  1.000000000000000E-002  4.000000000000000E-002  9.000000000000000E-002
+  0.160000000000000       0.260000000000000       0.400000000000000     
+  0.580000000000000       0.800000000000000        1.06000000000000     
+   1.36000000000000        1.70000000000000        2.08000000000000     
+   2.50000000000000        2.99000000000000        3.58000000000000     
+   4.27000000000000        5.06000000000000        5.95000000000000     
+   6.94000000000000        8.03000000000000        9.79500000000000     
+   13.3277669529664        19.4831291701244        28.8707244343160     
+   41.9984368640029     
+ zisoi:   0.000000000000000E+000  2.000000000000000E-002  6.000000000000000E-002
+  0.120000000000000       0.200000000000000       0.320000000000000     
+  0.480000000000000       0.680000000000000       0.920000000000000     
+   1.20000000000000        1.52000000000000        1.88000000000000     
+   2.28000000000000        2.72000000000000        3.26000000000000     
+   3.90000000000000        4.64000000000000        5.48000000000000     
+   6.42000000000000        7.46000000000000        8.60000000000000     
+   10.9900000000000        15.6655339059327        23.3007244343160     
+   34.4407244343160        49.5561492936897     
+ dzsoi:   2.000000000000000E-002  4.000000000000000E-002  6.000000000000000E-002
+  8.000000000000000E-002  0.120000000000000       0.160000000000000     
+  0.200000000000000       0.240000000000000       0.280000000000000     
+  0.320000000000000       0.360000000000000       0.400000000000000     
+  0.440000000000000       0.540000000000000       0.640000000000000     
+  0.740000000000000       0.840000000000000       0.940000000000000     
+   1.04000000000000        1.14000000000000        2.39000000000000     
+   4.67553390593274        7.63519052838329        11.1400000000000     
+   15.1154248593737     
+ dzsoi_decomp:    1.00000000000000     
+ jmin_bedrock:            6
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+  
+ atm2lnd_inparm settings:
+ repartition_rain_snow =  T
+ glcmec_downscale_longwave =  T
+ lapse_rate =   6.000000000000000E-003
+ lapse_rate_longwave =   3.200000000000000E-002
+ longwave_downscaling_limit =   0.500000000000000     
+ precip_repartition_glc_all_snow_t =   -2.00000000000000     
+ precip_repartition_glc_all_rain_t =   0.000000000000000E+000
+ precip_repartition_nonglc_all_snow_t =   0.000000000000000E+000
+ precip_repartition_nonglc_all_rain_t =    2.00000000000000     
+  
+ Read in lnd2atm_inparm  namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+ 
+ lnd2atm_inparm settings:
+ &LND2ATM_INPARM
+ MELT_NON_ICESHEET_ICE_RUNOFF    = T
+ /
+  
+ Read in clm_soilstate_inparm namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+ (GETFIL): attempting to find local file clm5_params.c171117.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/paramdata/clm5_params.c171117.nc
+ Attempting to read soil color, sand and clay boundary data .....
+ (GETFIL): attempting to find local file 
+ surfdata_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/release-clm5.0.18/surfda
+ ta_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ Attempting to read organic matter data .....
+ organicrd                       
+ /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/release-clm5.0.18/surfda
+ ta_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ (GETFIL): attempting to find local file 
+ surfdata_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/release-clm5.0.18/surfda
+ ta_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ Successfully read organic matter data
+ 
+ Read in aerosol  namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+  
+ aerosol settings:
+ &AEROSOL
+ FRESH_SNW_RDS_MAX       =   204.526000000000     
+ /
+  
+ (GETFIL): attempting to find local file 
+ surfdata_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/release-clm5.0.18/surfda
+ ta_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ ncd_inqvid: variable ETALAKE is not on dataset
+ WARNING:: ETALAKE not found on surface data set. All lake columns will have eta
+  set equal to default value as a function of depth.
+ ncd_inqvid: variable LAKEFETCH is not on dataset
+ WARNING:: LAKEFETCH not found on surface data set. All lake columns will have f
+ etch set equal to default value as a function of depth.
+ Attempting to initialize time invariant variables for lakes
+ Successfully initialized time invariant variables for lakes
+ Read in clm_soilhydrology_inparm  namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+ (GETFIL): attempting to find local file 
+ surfdata_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/release-clm5.0.18/surfda
+ ta_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ Attempting to read soil colo data .....
+ Read in irrigation_inparm  namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+  
+ irrigation_inparm settings:
+ irrig_min_lai =   0.000000000000000E+000
+ irrig_start_time =        21600
+ irrig_length =        14400
+ irrig_target_smp =   -3400.00000000000     
+ irrig_depth =   0.600000000000000     
+ irrig_threshold_fraction =    1.00000000000000     
+ limit_irrigation_if_rof_enabled =  F
+  
+ (GETFIL): attempting to find local file megan21_emis_factors_78pft_c20161108.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/atm/cam/chem/trop_mozart/emis/megan21_emis_fac
+ tors_78pft_c20161108.nc
+ (GETFIL): attempting to find local file 
+ surfdata_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/release-clm5.0.18/surfda
+ ta_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ (GETFIL): attempting to find local file 
+ surfdata_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/release-clm5.0.18/surfda
+ ta_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ Successfully read fmax, soil color, sand and clay boundary data
+ 
+ Read in lifire_inparm  namelist
+ (OPNFIL): Successfully opened file lnd_in on unit=           96
+  
+ lifire_inparm settings:
+ &LIFIRE_INPARM
+ CLI_SCALE       =  3.500000000000000E-002,
+ BOREAL_PEATFIRE_C       =  4.200000000000000E-005,
+ POT_HMN_IGN_COUNTS_ALPHA        =  3.500000000000000E-003,
+ NON_BOREAL_PEATFIRE_C   =  1.000000000000000E-003,
+ CROPFIRE_A1     =  0.300000000000000     ,
+ RH_LOW  =   30.0000000000000     ,
+ RH_HGH  =   80.0000000000000     ,
+ BT_MIN  =  0.300000000000000     ,
+ BT_MAX  =  0.700000000000000     ,
+ OCCUR_HI_GDP_TREE       =  0.390000000000000     ,
+ LFUEL   =   75.0000000000000     ,
+ UFUEL   =   650.000000000000     ,
+ CMB_CMPLT_FACT  =  0.500000000000000     ,  0.250000000000000     
+ /
+  
+ 
+ Initializing variables for time accumulation .....
+------------------------------------------------------------
+ Accumulated fields
+ No Name     Units    Type    Period Inival Description
+_______________________________________________________________________
+  1 FSD24    W/m2     runmean     48   0. 24hr average of direct solar radiation  
+  2 FSD240   W/m2     runmean    480   0. 240hr average of direct solar radiation 
+  3 FSI24    W/m2     runmean     48   0. 24hr average of diffuse solar radiation 
+  4 FSI240   W/m2     runmean    480   0. 240hr average of diffuse solar radiation
+  5 po2_240  Pa       runmean    480 **** 10-day running mean of parial O2 pressur
+  6 pco2_240 Pa       runmean    480  28. 10-day running mean of parial CO2 pressu
+  7 pbot240  Pa       runmean    480 **** 10-day running mean of air pressure     
+  8 T_VEG24  K        runmean     48   0. 24hr average of vegetation temperature  
+  9 T_VEG240 K        runmean    480   0. 240hr average of vegetation temperature 
+ 10 TREFAV   K        timeavg      2   0. average over an hour of 2-m temperature 
+ 11 TREFAV_U K        timeavg      2   0. average over an hour of urban 2-m temper
+ 12 TREFAV_R K        timeavg      2   0. average over an hour of rural 2-m temper
+ 13 T10      K        runmean    480 293. 10-day running mean of 2-m temperature  
+ 14 BTRANAV  -        timeavg      2   0. average over an hour of btran           
+ 15 FSUN24   fraction runmean     48   0. 24hr average of diffuse solar radiation 
+ 16 FSUN240  fraction runmean    480   0. 240hr average of diffuse solar radiation
+ 17 LAI240   m2/m2    runmean    480   0. 240hr average of leaf area index        
+_______________________________________________________________________
+ 
+------------------------------------------------------------
+ Successfully initialized variables for accumulation
+ 
+ Attempting to read snow optical properties .....
+ (GETFIL): attempting to find local file snicar_optics_5bnd_c090915.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/snicardata/snicar_optics_5bnd_c090915
+ .nc
+ SnowOptics_init                 
+ /cluster/shared/noresm/inputdata/lnd/clm2/snicardata/snicar_optics_5bnd_c090915
+ .nc
+ Successfully read snow optical properties
+ SNICAR: Mie single scatter albedos for direct-beam ice, rds=100um: 
+  0.999988554642975       0.999681037198863       0.997607605675971     
+  0.986497934250590       0.863625011159058     
+ SNICAR: Mie single scatter albedos for diffuse ice, rds=100um: 
+  0.999988688305644       0.999695704867021       0.997641261479875     
+  0.988424521328148       0.874095913192701     
+ SNICAR: Excluding OC aerosols from snow radiative transfer calculations
+ SNICAR: Mie single scatter albedos for hydrophillic BC: 
+  0.515945305512804       0.434313626536424       0.346103765992635     
+  0.275522926330555       0.138576096442815     
+ SNICAR: Mie single scatter albedos for hydrophobic BC:   0.287685315976181     
+  0.186577277125224       0.123152237089201       8.834628859055429E-002
+  4.034215622693781E-002
+ SNICAR: Mie single scatter albedos for dust species 1:   0.978911057153050     
+  0.994175916042451       0.993357580762207       0.992545751316266     
+  0.953291550046772     
+ SNICAR: Mie single scatter albedos for dust species 2:   0.943752248802793     
+  0.984191668599419       0.989309063917025       0.991793946836264     
+  0.982999590668913     
+ SNICAR: Mie single scatter albedos for dust species 3:   0.904044530646049     
+  0.964651629694555       0.968275809551522       0.972598419874107     
+  0.977612418329876     
+ SNICAR: Mie single scatter albedos for dust species 4:   0.849818195355416     
+  0.940460325044343       0.948316305534169       0.952841175117807     
+  0.955379528193802     
+ 
+ Attempting to read snow aging parameters .....
+ (GETFIL): attempting to find local file snicar_drdt_bst_fit_60_c070416.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/snicardata/snicar_drdt_bst_fit_60_c07
+ 0416.nc
+ SnowOptics_init                 
+ /cluster/shared/noresm/inputdata/lnd/clm2/snicardata/snicar_drdt_bst_fit_60_c07
+ 0416.nc
+ Successfully read snow aging properties
+ SNICAR: snowage tau for T=263K, dTdz = 100 K/m, rhos = 150 kg/m3: 
+   6.32058002982679     
+ SNICAR: snowage kappa for T=263K, dTdz = 100 K/m, rhos = 150 kg/m3: 
+   1.56696894189530     
+ SNICAR: snowage dr/dt_0 for T=263K, dTdz = 100 K/m, rhos = 150 kg/m3: 
+   5.48727550274226     
+ CLM_hist_printflds : number of master fields =          418
+  ******* MASTER FIELD LIST *******
+    1 SNO_Z                            m               
+    2 SNO_Z_ICE                        m               
+    3 ZII                              m               
+    4 SWBGT                            C               
+    5 SWBGT_U                          C               
+    6 SWBGT_R                          C               
+    7 HUMIDEX                          C               
+    8 HUMIDEX_U                        C               
+    9 HUMIDEX_R                        C               
+   10 WBT                              C               
+   11 WBT_U                            C               
+   12 WBT_R                            C               
+   13 HIA                              C               
+   14 HIA_U                            C               
+   15 HIA_R                            C               
+   16 TBUILD_MAX                       K               
+   17 QFLOOD                           mm/s            
+   18 VOLR                             m3              
+   19 VOLRMCH                          m3              
+   20 WIND                             m/s             
+   21 Wind                             m/s             
+   22 ZBOT                             m               
+   23 ATM_TOPO                         m               
+   24 FSDS                             W/m^2           
+   25 PCO2                             Pa              
+   26 SWdown                           W/m^2           
+   27 RH                               %               
+   28 Tair_from_atm                    K               
+   29 TBOT                             K               
+   30 Tair                             K               
+   31 PBOT                             Pa              
+   32 PSurf                            Pa              
+   33 FLDS                             W/m^2           
+   34 LWdown                           W/m^2           
+   35 FLDS_ICE                         W/m^2           
+   36 RAIN_FROM_ATM                    mm/s            
+   37 SNOW_FROM_ATM                    mm/s            
+   38 RAIN                             mm/s            
+   39 Rainf                            mm/s            
+   40 RAIN_ICE                         mm/s            
+   41 SNOW                             mm/s            
+   42 SNOW_ICE                         mm/s            
+   43 THBOT                            K               
+   44 QBOT                             kg/kg           
+   45 Qair                             kg/kg           
+   46 FSI24                            K               
+   47 FSI240                           K               
+   48 FSD24                            K               
+   49 FSD240                           K               
+   50 PCO2_240                         Pa              
+   51 PO2_240                          Pa              
+   52 PBOT_240                         Pa              
+   53 FSH_TO_COUPLER                   W/m^2           
+   54 FSH_RUNOFF_ICE_TO_LIQ            W/m^2           
+   55 QRUNOFF_TO_COUPLER               mm/s            
+   56 QRUNOFF_ICE_TO_COUPLER           mm/s            
+   57 QRUNOFF_ICE_TO_LIQ               mm/s            
+   58 FCO2                             kgCO2/m2/s      
+   59 ICE_MODEL_FRACTION               unitless        
+   60 QICE_FORC                        mm/s            
+   61 TSRF_FORC                        K               
+   62 TOPO_FORC                        m               
+   63 TH2OSFC                          K               
+   64 TG_U                             K               
+   65 TLAKE                            K               
+   66 SNO_T                            K               
+   67 SNO_T_ICE                        K               
+   68 TSA                              K               
+   69 TSA_ICE                          K               
+   70 TSA_R                            K               
+   71 TREFMNAV                         K               
+   72 TREFMXAV                         K               
+   73 TREFMNAV_R                       K               
+   74 TREFMXAV_R                       K               
+   75 TSA_U                            K               
+   76 TREFMNAV_U                       K               
+   77 TREFMXAV_U                       K               
+   78 TV                               K               
+   79 TSKIN                            K               
+   80 TG                               K               
+   81 TG_ICE                           K               
+   82 TG_R                             K               
+   83 TSOI                             K               
+   84 TSOI_ICE                         K               
+   85 TSOI_10CM                        K               
+   86 TSL                              K               
+   87 SNOTXMASS                        K kg/m2         
+   88 SNOTXMASS_ICE                    K kg/m2         
+   89 T10                              K               
+   90 TBUILD                           K               
+   91 TROOF_INNER                      K               
+   92 TSUNW_INNER                      K               
+   93 TSHDW_INNER                      K               
+   94 TFLOOR                           K               
+   95 HEAT_CONTENT1                    J/m^2           
+   96 HEAT_CONTENT1_VEG                J/m^2           
+   97 HEAT_CONTENT2                    J/m^2           
+   98 LIQUID_WATER_TEMP1               K               
+   99 SNOTTOPL                         K               
+  100 SNOTTOPL_ICE                     K               
+  101 SNOdTdzL                         K/m             
+  102 TV24                             K               
+  103 TV240                            K               
+  104 TVEGD10                          Kelvin          
+  105 TVEGN10                          Kelvin          
+  106 ELAI                             m^2/m^2         
+  107 ESAI                             m^2/m^2         
+  108 TLAI                             m^2/m^2         
+  109 TSAI                             m^2/m^2         
+  110 LAISUN                           m^2/m^2         
+  111 LAISHA                           m^2/m^2         
+  112 ALT                              m               
+  113 ALTMAX                           m               
+  114 ALTMAX_LASTYEAR                  m               
+  115 FSUN24                           K               
+  116 FSUN240                          K               
+  117 LAI240                           m^2/m^2         
+  118 VEGWP                            mm              
+  119 SMP                              mm              
+  120 KROOT                            1/s             
+  121 KSOIL                            1/s             
+  122 SNO_TK                           W/m-K           
+  123 SNO_TK_ICE                       W/m-K           
+  124 HK                               mm/s            
+  125 SoilAlpha                        unitless        
+  126 SoilAlpha_U                      unitless        
+  127 SOILRESIS                        s/m             
+  128 DSL                              mm              
+  129 SNO_LIQH2O                       kg/m2           
+  130 SNO_ICE                          kg/m2           
+  131 H2OSOI                           mm3/mm3         
+  132 SOILLIQ                          kg/m2           
+  133 SOILICE                          kg/m2           
+  134 SOILWATER_10CM                   kg/m2           
+  135 TOTSOILLIQ                       kg/m2           
+  136 TOTSOILICE                       kg/m2           
+  137 H2OCAN                           mm              
+  138 SNOCAN                           mm              
+  139 LIQCAN                           mm              
+  140 SNOUNLOAD                        mm              
+  141 H2OSNO                           mm              
+  142 H2OSNO_ICE                       mm              
+  143 LIQUID_CONTENT1                  mm              
+  144 LIQUID_CONTENT2                  mm              
+  145 ICE_CONTENT1                     mm              
+  146 ICE_CONTENT2                     mm              
+  147 H2OSFC                           mm              
+  148 TWS                              mm              
+  149 Q2M                              kg/kg           
+  150 RH2M                             %               
+  151 RH2M_R                           %               
+  152 RH2M_U                           %               
+  153 RHAF                             fraction        
+  154 RHAF10                           fraction        
+  155 FH2OSFC                          unitless        
+  156 FH2OSFC_NOSNOW                   unitless        
+  157 FSNO                             unitless        
+  158 FSNO_ICE                         unitless        
+  159 FSNO_EFF                         unitless        
+  160 SNOW_DEPTH                       m               
+  161 SNOW_DEPTH_ICE                   m               
+  162 SNOWDP                           m               
+  163 SNOWLIQ                          kg/m2           
+  164 SNOWLIQ_ICE                      kg/m2           
+  165 SNOWICE                          kg/m2           
+  166 SNOWICE_ICE                      kg/m2           
+  167 INT_SNOW                         mm              
+  168 INT_SNOW_ICE                     mm              
+  169 SNOW_PERSISTENCE                 seconds         
+  170 H2OSNO_TOP                       kg/m2           
+  171 SNORDSL                          m^-6            
+  172 SNOLIQFL                         fraction        
+  173 SNO_EXISTENCE                    unitless        
+  174 SNO_BW                           kg/m3           
+  175 SNO_BW_ICE                       kg/m3           
+  176 SNO_GS                           Microns         
+  177 SNO_GS_ICE                       Microns         
+  178 ERRH2O                           mm              
+  179 ERRH2OSNO                        mm              
+  180 QTOPSOIL                         mm/s            
+  181 QINFL                            mm/s            
+  182 QOVER                            mm/s            
+  183 QRGWL                            mm/s            
+  184 QDRAI                            mm/s            
+  185 QFLX_LIQ_DYNBAL                  mm/s            
+  186 QFLX_ICE_DYNBAL                  mm/s            
+  187 QRUNOFF                          mm/s            
+  188 QRUNOFF_ICE                      mm/s            
+  189 QRUNOFF_U                        mm/s            
+  190 QRUNOFF_R                        mm/s            
+  191 QFLX_SNOW_DRAIN                  mm/s            
+  192 QFLX_SNOW_DRAIN_ICE              mm/s            
+  193 QSNOMELT                         mm/s            
+  194 QSNOMELT_ICE                     mm/s            
+  195 SNO_MELT                         mm/s            
+  196 SNO_MELT_ICE                     mm/s            
+  197 QSNOFRZ                          kg/m2/s         
+  198 QSNOFRZ_ICE                      mm/s            
+  199 SNO_FRZ                          kg/m2/s         
+  200 SNO_FRZ_ICE                      mm/s            
+  201 QH2OSFC_TO_ICE                   mm/s            
+  202 QINTR                            mm/s            
+  203 QDRIP                            mm/s            
+  204 QSOIL                            mm/s            
+  205 QSOIL_ICE                        mm/s            
+  206 QROOTSINK                        mm/s            
+  207 QVEGE                            mm/s            
+  208 QVEGT                            mm/s            
+  209 QSNOEVAP                         mm/s            
+  210 QSNO_WINDUNLOAD                  mm/s            
+  211 QSNO_TEMPUNLOAD                  mm/s            
+  212 QSNOCPLIQ                        mm H2O/s        
+  213 QSNWCPICE                        mm H2O/s        
+  214 QFLX_RAIN_GRND                   mm H2O/s        
+  215 QFLX_SNOW_GRND                   mm H2O/s        
+  216 QFLX_EVAP_GRND                   mm H2O/s        
+  217 QFLX_EVAP_VEG                    mm H2O/s        
+  218 QFLX_EVAP_TOT                    mm H2O/s        
+  219 QFLX_DEW_GRND                    mm H2O/s        
+  220 QFLX_SUB_SNOW                    mm H2O/s        
+  221 QFLX_SUB_SNOW_ICE                mm H2O/s        
+  222 QFLX_DEW_SNOW                    mm H2O/s        
+  223 QH2OSFC                          mm/s            
+  224 QDRAI_PERCH                      mm/s            
+  225 QDRAI_XS                         mm/s            
+  226 QPHSNEG                          mm/s            
+  227 SNOW_SOURCES                     mm/s            
+  228 SNOW_SINKS                       mm/s            
+  229 AnnET                            mm/s            
+  230 QICE                             mm/s            
+  231 QICE_FRZ                         mm/s            
+  232 QICE_MELT                        mm/s            
+  233 EFLX_DYNBAL                      W/m^2           
+  234 FSM                              W/m^2           
+  235 FSM_ICE                          W/m^2           
+  236 FSM_R                            W/m^2           
+  237 FSM_U                            W/m^2           
+  238 FIRA                             W/m^2           
+  239 FIRA_ICE                         W/m^2           
+  240 FIRA_R                           W/m^2           
+  241 FIRE                             W/m^2           
+  242 LWup                             W/m^2           
+  243 FIRE_ICE                         W/m^2           
+  244 FIRE_R                           W/m^2           
+  245 FCTR                             W/m^2           
+  246 FCEV                             W/m^2           
+  247 FGEV                             W/m^2           
+  248 FSH                              W/m^2           
+  249 FSH_ICE                          W/m^2           
+  250 FSH_R                            W/m^2           
+  251 Qh                               W/m^2           
+  252 Qle                              W/m^2           
+  253 EFLX_LH_TOT                      W/m^2           
+  254 EFLX_LH_TOT_ICE                  W/m^2           
+  255 EFLX_LH_TOT_R                    W/m^2           
+  256 Qstor                            W/m^2           
+  257 FSH_V                            W/m^2           
+  258 FSH_G                            W/m^2           
+  259 FGR                              W/m^2           
+  260 FGR_ICE                          W/m^2           
+  261 FGR_R                            W/m^2           
+  262 FIRA_U                           W/m^2           
+  263 EFLX_SOIL_GRND                   W/m^2           
+  264 FIRE_U                           W/m^2           
+  265 FSH_U                            W/m^2           
+  266 FSH_PRECIP_CONVERSION            W/m^2           
+  267 EFLX_LH_TOT_U                    W/m^2           
+  268 FGR_U                            W/m^2           
+  269 Rnet                             W/m^2           
+  270 EFLX_GRND_LAKE                   W/m^2           
+  271 EFLXBUILD                        W/m^2           
+  272 URBAN_AC                         W/m^2           
+  273 URBAN_HEAT                       W/m^2           
+  274 DGNETDT                          W/m^2/K         
+  275 FGR12                            W/m^2           
+  276 FGR_SOIL_R                       watt/m^2        
+  277 TRAFFICFLUX                      W/m^2           
+  278 WASTEHEAT                        W/m^2           
+  279 HEAT_FROM_AC                     W/m^2           
+  280 TAUX                             kg/m/s^2        
+  281 Qtau                             kg/m/s^2        
+  282 TAUY                             kg/m/s^2        
+  283 BTRANMN                          unitless        
+  284 BTRAN2                           unitless        
+  285 ERRSOI                           W/m^2           
+  286 ERRSEB                           W/m^2           
+  287 ERRSOL                           W/m^2           
+  288 DSTDEP                           kg/m^2/s        
+  289 BCDEP                            kg/m^2/s        
+  290 OCDEP                            kg/m^2/s        
+  291 SNOBCMCL                         kg/m2           
+  292 SNOBCMSL                         kg/m2           
+  293 SNOOCMCL                         kg/m2           
+  294 SNOOCMSL                         kg/m2           
+  295 SNODSTMCL                        kg/m2           
+  296 SNODSTMSL                        kg/m2           
+  297 Z0MG                             m               
+  298 Z0HG                             m               
+  299 Z0QG                             m               
+  300 VA                               m/s             
+  301 U10                              m/s             
+  302 U10_ICE                          m/s             
+  303 U10_DUST                         m/s             
+  304 RB10                             s/m             
+  305 LAKEICEFRAC                      unitless        
+  306 LAKEICEFRAC_SURF                 unitless        
+  307 LAKEICETHICK                     m               
+  308 TKE1                             W/(mK)          
+  309 RAM_LAKE                         s/m             
+  310 UST_LAKE                         m/s             
+  311 RH_LEAF                          fraction        
+  312 LNC                              gN leaf/m^2     
+  313 FPSN                             umol/m2s        
+  314 FPSN_WC                          umol/m2s        
+  315 FPSN_WJ                          umol/m2s        
+  316 FPSN_WP                          umol/m2s        
+  317 RSSUN                            s/m             
+  318 RSSHA                            s/m             
+  319 GSSUN                            umol H20/m2/s   
+  320 GSSHA                            umol H20/m2/s   
+  321 GSSUNLN                          umol H20/m2/s   
+  322 GSSHALN                          umol H20/m2/s   
+  323 Vcmx25Z                          umol/m2/s       
+  324 Jmx25Z                           umol/m2/s       
+  325 PNLCZ                            unitless        
+  326 VCMX25T                          umol/m2/s       
+  327 JMX25T                           umol/m2/s       
+  328 TPU25T                           umol/m2/s       
+  329 FPSN24                           umol CO2/m**2 gr
+  330 WA                               mm              
+  331 QCHARGE                          mm/s            
+  332 FCOV                             unitless        
+  333 FSAT                             unitless        
+  334 NSUBSTEPS                        unitless        
+  335 FROST_TABLE                      m               
+  336 ZWT                              m               
+  337 ZWT_PERCH                        m               
+  338 FSA                              W/m^2           
+  339 FSA_ICE                          W/m^2           
+  340 FSA_R                            W/m^2           
+  341 FSA_U                            W/m^2           
+  342 FSR                              W/m^2           
+  343 SWup                             W/m^2           
+  344 FSR_ICE                          W/m^2           
+  345 SNO_ABS                          W/m^2           
+  346 SNO_ABS_ICE                      W/m^2           
+  347 SABV                             W/m^2           
+  348 SABG                             W/m^2           
+  349 SABG_PEN                         watt/m^2        
+  350 FSDSND                           W/m^2           
+  351 FSDSNI                           W/m^2           
+  352 FSDSNDLN                         W/m^2           
+  353 FSRND                            W/m^2           
+  354 FSRNI                            W/m^2           
+  355 FSRNDLN                          W/m^2           
+  356 SNOINTABS                        -               
+  357 PAR240DZ                         W/m^2           
+  358 PAR240XZ                         W/m^2           
+  359 COSZEN                           none            
+  360 ALBGRD                           proportion      
+  361 ALBGRI                           proportion      
+  362 ALBD                             proportion      
+  363 ALBI                             proportion      
+  364 FSDSVD                           W/m^2           
+  365 FSDSVI                           W/m^2           
+  366 FSRVD                            W/m^2           
+  367 FSRVI                            W/m^2           
+  368 FSDSVDLN                         W/m^2           
+  369 FSDSVILN                         W/m^2           
+  370 PARVEGLN                         W/m^2           
+  371 FSRVDLN                          W/m^2           
+  372 SNOFSDSVD                        W/m^2           
+  373 SNOFSDSND                        W/m^2           
+  374 SNOFSDSVI                        W/m^2           
+  375 SNOFSDSNI                        W/m^2           
+  376 SNOFSRVD                         W/m^2           
+  377 SNOFSRND                         W/m^2           
+  378 SNOFSRVI                         W/m^2           
+  379 SNOFSRNI                         W/m^2           
+  380 DSTFLXT                          kg/m2/s         
+  381 DPVLTRB1                         m/s             
+  382 DPVLTRB2                         m/s             
+  383 DPVLTRB3                         m/s             
+  384 DPVLTRB4                         m/s             
+  385 QIRRIG                           mm/s            
+  386 QIRRIG_DEMAND                    mm/s            
+  387 TOPO_COL                         m               
+  388 TOPO_COL_ICE                     m               
+  389 MEG_isoprene                     kg/m2/sec       
+  390 MEG_myrcene                      kg/m2/sec       
+  391 MEG_sabinene                     kg/m2/sec       
+  392 MEG_limonene                     kg/m2/sec       
+  393 MEG_carene_3                     kg/m2/sec       
+  394 MEG_ocimene_t_b                  kg/m2/sec       
+  395 MEG_pinene_b                     kg/m2/sec       
+  396 MEG_pinene_a                     kg/m2/sec       
+  397 VOCFLXT                          moles/m2/sec    
+  398 GAMMA                            non             
+  399 GAMMAL                           non             
+  400 GAMMAT                           non             
+  401 GAMMAP                           non             
+  402 GAMMAA                           non             
+  403 GAMMAS                           non             
+  404 GAMMAC                           non             
+  405 EOPT                             non             
+  406 TOPT                             non             
+  407 ALPHA                            non             
+  408 currentPatch                     non             
+  409 PAR_sun                          umol/m2/s       
+  410 PAR24_sun                        umol/m2/s       
+  411 PAR240_sun                       umol/m2/s       
+  412 PAR_shade                        umol/m2/s       
+  413 PAR24_shade                      umol/m2/s       
+  414 PAR240_shade                     umol/m2/s       
+  415 DRYDEPV_H2O2                     cm/sec          
+  416 DRYDEPV_H2SO4                    cm/sec          
+  417 DRYDEPV_SO2                      cm/sec          
+  418 RS_DRYDEP_O3                     s/m             
+ Interpolating initial conditions from 
+ /cluster/shared/noresm/inputdata/lnd/clm2/initdata_map/clmi.BHIST.2000-01-01.0.
+ 9x1.25_gx1v7_simyr2000_c181015.nc and creating new initial conditions 
+ finidat_interp_dest.nc
+ 
+ restFile_open: writing restart dataset at finidat_interp_dest.nc at nstep = 
+           0
+ 
+ Successfully wrote local restart file finidat_interp_dest.nc
+------------------------------------------------------------
+ 
+ (OPNFIL): Successfully opened file ./rpointer.lnd on unit=           96
+ Successfully wrote local restart pointer file
+ Successfully wrote out restart data at nstep =            0
+------------------------------------------------------------
+ (GETFIL): attempting to find local file 
+ clmi.BHIST.2000-01-01.0.9x1.25_gx1v7_simyr2000_c181015.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/initdata_map/clmi.BHIST.2000-01-01.0.
+ 9x1.25_gx1v7_simyr2000_c181015.nc
+ **** Mapping clm initial data from input 
+ /cluster/shared/noresm/inputdata/lnd/clm2/initdata_map/clmi.BHIST.2000-01-01.0.
+ 9x1.25_gx1v7_simyr2000_c181015.nc  to output finidat_interp_dest.nc ****
+ input gridcells =        21013  output gridcells =         5701
+ input landuntis =        62336  output landunits =        14953
+ input columns   =       554509  output columns   =        32715
+ input pfts      =       848691  output pfts      =        50980
+ Glacier elevation classes same in input and output?:  T
+ ipft_not_vegetated                      =            0
+ icol_vegetated_or_bare_soil             =            1
+ ilun_vegetated_or_bare_soil             =            1
+ ilun_crop                               =            2
+ ilun_landice_multiple_elevation_classes =            4
+ create_glacier_mec_landunits            = true
+ finding minimum distance for pfts
+ calling set_subgrid_info for pft for input
+ calling set_subgrid_info for pft for output
+ calling set_mindist for pft
+ finding minimum distance for columns
+ calling set_subgrid_info for column for input
+ calling set_subgrid_info for column for output
+ calling set_mindist for column
+ finding minimum distance for landunits
+ calling set_subgrid_info for landunit for input
+ calling set_subgrid_info for landunit for output
+ calling set_mindist for landunit
+ finding minimum distance for gridcells
+ calling set_subgrid_info for gridcell for input
+ calling set_subgrid_info for gridcell for output
+ calling set_mindist for gridcell
+ setting up interpolators for multi-level variables
+ reading in initial dataset
+ Skipping     : timemgr_rst_nstep_rad_prev
+ Skipping     : timemgr_rst_type
+ Skipping     : timemgr_rst_step_sec
+ Skipping     : timemgr_rst_start_ymd
+ Skipping     : timemgr_rst_start_tod
+ Skipping     : timemgr_rst_ref_ymd
+ Skipping     : timemgr_rst_ref_tod
+ Skipping     : timemgr_rst_curr_ymd
+ Skipping     : timemgr_rst_curr_tod
+ Skipping     : grid1d_lon
+ Skipping     : grid1d_lat
+ Skipping     : grid1d_ixy
+ Skipping     : grid1d_jxy
+ Skipping     : land1d_lon
+ Skipping     : land1d_lat
+ Skipping     : land1d_ixy
+ Skipping     : land1d_jxy
+ Skipping     : land1d_gridcell_index
+ Skipping     : land1d_ityplun
+ Skipping     : land1d_active
+ Skipping     : cols1d_lon
+ Skipping     : cols1d_lat
+ Skipping     : cols1d_ixy
+ Skipping     : cols1d_jxy
+ Skipping     : cols1d_gridcell_index
+ Skipping     : cols1d_landunit_index
+ Skipping     : cols1d_ityplun
+ Skipping     : cols1d_ityp
+ Skipping     : cols1d_active
+ Skipping     : LEVGRND_CLASS
+ Skipping     : COL_Z
+ Skipping     : pfts1d_lon
+ Skipping     : pfts1d_lat
+ Skipping     : pfts1d_ixy
+ Skipping     : pfts1d_jxy
+ Skipping     : pfts1d_gridcell_index
+ Skipping     : pfts1d_landunit_index
+ Skipping     : pfts1d_column_index
+ Skipping     : pfts1d_itypveg
+ Skipping     : pfts1d_itypcol
+ Skipping     : pfts1d_ityplun
+ Skipping     : pfts1d_active
+ Skipping     : LEVGRND_CLASS_p
+ Skipping     : COL_Z_p
+ Skipping     : glc_elevclass_bounds
+ Skipping     : land1d_wtxy
+ Skipping     : cols1d_wtxy
+ Skipping     : cols1d_wtlnd
+ Skipping     : pfts1d_wtxy
+ Skipping     : pfts1d_wtlnd
+ Skipping     : pfts1d_wtcol
+ Interpolating: SNLSNO => SNLSNO
+ Interpolating: DZSNO => DZSNO: Copy snow-covered levels using SNLSNO
+ Interpolating: ZSNO => ZSNO: Copy snow-covered levels using SNLSNO
+ Interpolating: ZISNO => ZISNO: Copy snow-covered levels using SNLSNO
+ Interpolating: FSD24_VALUE => FSD24_VALUE
+ Interpolating: FSD24_NSTEPS => FSD24_NSTEPS
+ Copying      : FSD24_PERIOD => FSD24_PERIOD
+ Interpolating: FSD240_VALUE => FSD240_VALUE
+ Interpolating: FSD240_NSTEPS => FSD240_NSTEPS
+ Copying      : FSD240_PERIOD => FSD240_PERIOD
+ Interpolating: FSI24_VALUE => FSI24_VALUE
+ Interpolating: FSI24_NSTEPS => FSI24_NSTEPS
+ Copying      : FSI24_PERIOD => FSI24_PERIOD
+ Interpolating: FSI240_VALUE => FSI240_VALUE
+ Interpolating: FSI240_NSTEPS => FSI240_NSTEPS
+ Copying      : FSI240_PERIOD => FSI240_PERIOD
+ Interpolating: po2_240_VALUE => po2_240_VALUE
+ Interpolating: po2_240_NSTEPS => po2_240_NSTEPS
+ Copying      : po2_240_PERIOD => po2_240_PERIOD
+ Interpolating: pco2_240_VALUE => pco2_240_VALUE
+ Interpolating: pco2_240_NSTEPS => pco2_240_NSTEPS
+ Copying      : pco2_240_PERIOD => pco2_240_PERIOD
+ Interpolating: pbot240_VALUE => pbot240_VALUE
+ Interpolating: pbot240_NSTEPS => pbot240_NSTEPS
+ Copying      : pbot240_PERIOD => pbot240_PERIOD
+ Interpolating: T_VEG24_VALUE => T_VEG24_VALUE
+ Interpolating: T_VEG24_NSTEPS => T_VEG24_NSTEPS
+ Copying      : T_VEG24_PERIOD => T_VEG24_PERIOD
+ Interpolating: T_VEG240_VALUE => T_VEG240_VALUE
+ Interpolating: T_VEG240_NSTEPS => T_VEG240_NSTEPS
+ Copying      : T_VEG240_PERIOD => T_VEG240_PERIOD
+ Interpolating: TREFAV_VALUE => TREFAV_VALUE
+ Interpolating: TREFAV_NSTEPS => TREFAV_NSTEPS
+ Copying      : TREFAV_PERIOD => TREFAV_PERIOD
+ Interpolating: TREFAV_U_VALUE => TREFAV_U_VALUE
+ Interpolating: TREFAV_U_NSTEPS => TREFAV_U_NSTEPS
+ Copying      : TREFAV_U_PERIOD => TREFAV_U_PERIOD
+ Interpolating: TREFAV_R_VALUE => TREFAV_R_VALUE
+ Interpolating: TREFAV_R_NSTEPS => TREFAV_R_NSTEPS
+ Copying      : TREFAV_R_PERIOD => TREFAV_R_PERIOD
+ Interpolating: T10_VALUE => T10_VALUE
+ Interpolating: T10_NSTEPS => T10_NSTEPS
+ Copying      : T10_PERIOD => T10_PERIOD
+ Interpolating: BTRANAV_VALUE => BTRANAV_VALUE
+ Interpolating: BTRANAV_NSTEPS => BTRANAV_NSTEPS
+ Copying      : BTRANAV_PERIOD => BTRANAV_PERIOD
+ Interpolating: FSUN24_VALUE => FSUN24_VALUE
+ Interpolating: FSUN24_NSTEPS => FSUN24_NSTEPS
+ Copying      : FSUN24_PERIOD => FSUN24_PERIOD
+ Interpolating: FSUN240_VALUE => FSUN240_VALUE
+ Interpolating: FSUN240_NSTEPS => FSUN240_NSTEPS
+ Copying      : FSUN240_PERIOD => FSUN240_PERIOD
+ Interpolating: LAI240_VALUE => LAI240_VALUE
+ Interpolating: LAI240_NSTEPS => LAI240_NSTEPS
+ Copying      : LAI240_PERIOD => LAI240_PERIOD
+ Skipping     : qflx_floodg
+ Interpolating: pco2_240 => pco2_240
+ Interpolating: po2_240 => po2_240
+ Interpolating: pbot240 => pbot240
+ Interpolating: FRAC_VEG_NOSNO_ALB => FRAC_VEG_NOSNO_ALB
+ Interpolating: tlai => tlai
+ Interpolating: tsai => tsai
+ Interpolating: elai => elai
+ Interpolating: esai => esai
+ Interpolating: htop => htop
+ Interpolating: hbot => hbot
+ Interpolating: mlaidiff => mlaidiff
+ Interpolating: fsun => fsun
+ Interpolating: vegwp => vegwp: Copy levels
+ Interpolating: EFLX_LWRAD_OUT => EFLX_LWRAD_OUT
+ Interpolating: URBAN_AC_L => URBAN_AC_L
+ Interpolating: URBAN_HEAT_L => URBAN_HEAT_L
+ Interpolating: btran2 => btran2
+ Interpolating: BTRAN_MIN => BTRAN_MIN
+ Interpolating: BTRAN_MIN_INST => BTRAN_MIN_INST
+ Interpolating: eflx_grnd_lake => eflx_grnd_lake
+ Interpolating: eflx_dynbal_amt_to_dribble => eflx_dynbal_amt_to_dribble
+ Interpolating: Z0MG => Z0MG
+ Interpolating: rb10 => rb10
+ Interpolating: LAKE_ICEFRAC => LAKE_ICEFRAC: Copy levels
+ Interpolating: SAVEDTKE1 => SAVEDTKE1
+ Interpolating: USTLAKE => USTLAKE
+ Interpolating: GSSUN => GSSUN: Copy levels
+ Interpolating: GSSHA => GSSHA: Copy levels
+ Interpolating: GSSUNLN => GSSUNLN: Copy levels
+ Interpolating: GSSHALN => GSSHALN: Copy levels
+ Interpolating: lnca => lnca
+ Interpolating: vcmx25_z => vcmx25_z: Copy levels
+ Interpolating: jmx25_z => jmx25_z: Copy levels
+ Interpolating: pnlc_z => pnlc_z: Copy levels
+ Interpolating: enzs_z => enzs_z: Copy levels
+ Interpolating: gpp24 => gpp24
+ Interpolating: vcmx25t => vcmx25t
+ Interpolating: jmx25t => jmx25t
+ Interpolating: tpu25t => tpu25t
+ Interpolating: FROST_TABLE => FROST_TABLE
+ Interpolating: WA => WA
+ Interpolating: ZWT => ZWT
+ Interpolating: ZWT_PERCH => ZWT_PERCH
+ Interpolating: sabs_roof_dir => sabs_roof_dir: Copy levels
+ Interpolating: sabs_roof_dif => sabs_roof_dif: Copy levels
+ Interpolating: sabs_sunwall_dir => sabs_sunwall_dir: Copy levels
+ Interpolating: sabs_sunwall_dif => sabs_sunwall_dif: Copy levels
+ Interpolating: sabs_shadewall_dir => sabs_shadewall_dir: Copy levels
+ Interpolating: sabs_shadewall_dif => sabs_shadewall_dif: Copy levels
+ Interpolating: sabs_improad_dir => sabs_improad_dir: Copy levels
+ Interpolating: sabs_improad_dif => sabs_improad_dif: Copy levels
+ Interpolating: sabs_perroad_dir => sabs_perroad_dir: Copy levels
+ Interpolating: sabs_perroad_dif => sabs_perroad_dif: Copy levels
+ Interpolating: par240d => par240d: Copy levels
+ Interpolating: par24d => par24d: Copy levels
+ Interpolating: par240x => par240x: Copy levels
+ Interpolating: par24x => par24x: Copy levels
+ Interpolating: parsun => parsun: Copy levels
+ Interpolating: parsha => parsha: Copy levels
+ Interpolating: T_SOISNO => T_SOISNO: 
+ Split levels: Copy snow-covered levels using SNLSNO + Interpolate using COL_Z
+ Interpolating: T_VEG => T_VEG
+ Interpolating: TH2OSFC => TH2OSFC
+ Interpolating: T_LAKE => T_LAKE: Copy levels
+ Interpolating: T_GRND => T_GRND
+ Interpolating: T_GRND_R => T_GRND_R
+ Interpolating: T_GRND_U => T_GRND_U
+ Interpolating: T_REF2M => T_REF2M
+ Interpolating: T_REF2M_R => T_REF2M_R
+ Interpolating: T_REF2M_U => T_REF2M_U
+ Interpolating: T_REF2M_MIN => T_REF2M_MIN
+ Interpolating: T_REF2M_MIN_R => T_REF2M_MIN_R
+ Interpolating: T_REF2M_MIN_U => T_REF2M_MIN_U
+ Interpolating: T_REF2M_MAX => T_REF2M_MAX
+ Interpolating: T_REF2M_MAX_R => T_REF2M_MAX_R
+ Interpolating: T_REF2M_MAX_U => T_REF2M_MAX_U
+ Interpolating: T_REF2M_MIN_INST => T_REF2M_MIN_INST
+ Interpolating: T_REF2M_MIN_INST_R => T_REF2M_MIN_INST_R
+ Interpolating: T_REF2M_MIN_INST_U => T_REF2M_MIN_INST_U
+ Interpolating: T_REF2M_MAX_INST => T_REF2M_MAX_INST
+ Interpolating: T_REF2M_MAX_INST_R => T_REF2M_MAX_INST_R
+ Interpolating: T_REF2M_MAX_INST_U => T_REF2M_MAX_INST_U
+ Interpolating: taf => taf
+ Interpolating: tvegd10 => tvegd10
+ Interpolating: tvegd => tvegd
+ Interpolating: tvegn10 => tvegn10
+ Interpolating: tvegn => tvegn
+ Interpolating: tair10 => tair10
+ Interpolating: ndaysteps => ndaysteps
+ Interpolating: nnightsteps => nnightsteps
+ Interpolating: t_building => t_building
+ Interpolating: t_roof_inner => t_roof_inner
+ Interpolating: t_sunw_inner => t_sunw_inner
+ Interpolating: t_shdw_inner => t_shdw_inner
+ Interpolating: t_floor => t_floor
+ Interpolating: DSL => DSL
+ Interpolating: SOILRESIS => SOILRESIS
+ Interpolating: SMP => SMP: Interpolate using COL_Z
+ Interpolating: HK => HK: Interpolate using COL_Z
+ Interpolating: qflx_snofrz_lyr => qflx_snofrz_lyr: 
+ Copy snow-covered levels using SNLSNO
+ Interpolating: qflx_snow_drain => qflx_snow_drain
+ Interpolating: qflx_liq_dynbal_amt_to_dribble => qflx_liq_dynbal_amt_to_dribble
+ Interpolating: qflx_ice_dynbal_amt_to_dribble => qflx_ice_dynbal_amt_to_dribble
+ Interpolating: INT_SNOW => INT_SNOW
+ Interpolating: H2OSFC => H2OSFC
+ Interpolating: H2OSNO => H2OSNO
+ Interpolating: H2OSOI_LIQ => H2OSOI_LIQ: 
+ Split levels: Copy snow-covered levels using SNLSNO + Interpolate using COL_Z
+ Interpolating: H2OSOI_ICE => H2OSOI_ICE: 
+ Split levels: Copy snow-covered levels using SNLSNO + Interpolate using COL_Z
+ Interpolating: H2OCAN => H2OCAN
+ Interpolating: SNOCAN => SNOCAN
+ Interpolating: LIQCAN => LIQCAN
+ Interpolating: SNOUNLOAD => SNOUNLOAD
+ Interpolating: TWS => TWS
+ Interpolating: rh10 => rh10
+ Interpolating: FH2OSFC => FH2OSFC
+ Interpolating: SNOW_DEPTH => SNOW_DEPTH
+ Interpolating: SNOW_PERS => SNOW_PERS
+ Interpolating: frac_sno_eff => frac_sno_eff
+ Interpolating: frac_sno => frac_sno
+ Interpolating: FWET => FWET
+ Interpolating: FCANSNO => FCANSNO
+ Interpolating: snw_rds => snw_rds: Copy snow-covered levels using SNLSNO
+ Interpolating: qaf => qaf
+ Interpolating: n_irrig_steps_left => n_irrig_steps_left
+ Interpolating: irrig_rate => irrig_rate
+ Interpolating: irrig_rate_demand => irrig_rate_demand
+ Interpolating: mss_bcpho => mss_bcpho: Copy snow-covered levels using SNLSNO
+ Interpolating: mss_bcphi => mss_bcphi: Copy snow-covered levels using SNLSNO
+ Interpolating: mss_ocpho => mss_ocpho: Copy snow-covered levels using SNLSNO
+ Interpolating: mss_ocphi => mss_ocphi: Copy snow-covered levels using SNLSNO
+ Interpolating: mss_dst1 => mss_dst1: Copy snow-covered levels using SNLSNO
+ Interpolating: mss_dst2 => mss_dst2: Copy snow-covered levels using SNLSNO
+ Interpolating: mss_dst3 => mss_dst3: Copy snow-covered levels using SNLSNO
+ Interpolating: mss_dst4 => mss_dst4: Copy snow-covered levels using SNLSNO
+ Interpolating: coszen => coszen
+ Interpolating: albd => albd: Copy levels
+ Interpolating: albi => albi: Copy levels
+ Interpolating: albgrd => albgrd: Copy levels
+ Interpolating: albgri => albgri: Copy levels
+ Interpolating: albsod => albsod: Copy levels
+ Interpolating: albsoi => albsoi: Copy levels
+ Interpolating: albsnd_hst => albsnd_hst: Copy levels
+ Interpolating: albsni_hst => albsni_hst: Copy levels
+ Interpolating: tlai_z => tlai_z: Copy levels
+ Interpolating: tsai_z => tsai_z: Copy levels
+ Interpolating: ncan => ncan
+ Interpolating: nrad => nrad
+ Interpolating: fsun_z => fsun_z: Copy levels
+ Interpolating: vcmaxcintsun => vcmaxcintsun
+ Interpolating: vcmaxcintsha => vcmaxcintsha
+ Interpolating: fabd => fabd: Copy levels
+ Interpolating: fabi => fabi: Copy levels
+ Interpolating: fabd_sun => fabd_sun: Copy levels
+ Interpolating: fabd_sha => fabd_sha: Copy levels
+ Interpolating: fabi_sun => fabi_sun: Copy levels
+ Interpolating: fabi_sha => fabi_sha: Copy levels
+ Interpolating: fabd_sun_z => fabd_sun_z: Copy levels
+ Interpolating: fabd_sha_z => fabd_sha_z: Copy levels
+ Interpolating: fabi_sun_z => fabi_sun_z: Copy levels
+ Interpolating: fabi_sha_z => fabi_sha_z: Copy levels
+ Interpolating: ftdd => ftdd: Copy levels
+ Interpolating: ftid => ftid: Copy levels
+ Interpolating: ftii => ftii: Copy levels
+ Interpolating: flx_absdv => flx_absdv: Copy snow-covered levels using SNLSNO+1
+ Interpolating: flx_absdn => flx_absdn: Copy snow-covered levels using SNLSNO+1
+ Interpolating: flx_absiv => flx_absiv: Copy snow-covered levels using SNLSNO+1
+ Interpolating: flx_absin => flx_absin: Copy snow-covered levels using SNLSNO+1
+ Skipping     : cols1d_topoglc
+ Skipping     : pfts1d_topoglc
+ Cleaning up / adjusting variables
+  Successfully created initial condition file mapped from input IC file
+ Reading restart dataset
+ can't find rootfr in restart (or initial) file...
+ Initialize rootfr to default
+  
+ finidat_consistency_checks settings:
+ &FINIDAT_CONSISTENCY_CHECKS
+ CHECK_FINIDAT_YEAR_CONSISTENCY  = T,
+ CHECK_FINIDAT_PCT_CONSISTENCY   = T
+ /
+  
+------------------------------------------------------------
+ Successfully read restart data for restart run
+ 
+ hist_htapes_build Initializing clm2 history files
+------------------------------------------------------------
+ htapes_fieldlist : Included fields tape            1 =         225
+           1  ATM_TOPO                                                        
+           1  A  
+           2  BCDEP                                                           
+           1  A  
+           3  BTRAN2                                                          
+           1  A  
+           4  BTRANMN                                                         
+           1  A  
+           5  DSL                                                             
+           1  A  
+           6  DSTDEP                                                          
+           1  A  
+           7  DSTFLXT                                                         
+           1  A  
+           8  EFLXBUILD                                                       
+           1  A  
+           9  EFLX_DYNBAL                                                     
+           1  A  
+          10  EFLX_GRND_LAKE                                                  
+           1  A  
+          11  EFLX_LH_TOT                                                     
+           1  A  
+          12  EFLX_LH_TOT_R                                                   
+           1  A  
+          13  ELAI                                                            
+           1  A  
+          14  ERRH2O                                                          
+           1  A  
+          15  ERRH2OSNO                                                       
+           1  A  
+          16  ERRSEB                                                          
+           1  A  
+          17  ERRSOI                                                          
+           1  A  
+          18  ERRSOL                                                          
+           1  A  
+          19  ESAI                                                            
+           1  A  
+          20  FCEV                                                            
+           1  A  
+          21  FCOV                                                            
+           1  A  
+          22  FCTR                                                            
+           1  A  
+          23  FGEV                                                            
+           1  A  
+          24  FGR                                                             
+           1  A  
+          25  FGR12                                                           
+           1  A  
+          26  FH2OSFC                                                         
+           1  A  
+          27  FIRA                                                            
+           1  A  
+          28  FIRA_R                                                          
+           1  A  
+          29  FIRE                                                            
+           1  A  
+          30  FIRE_R                                                          
+           1  A  
+          31  FLDS                                                            
+           1  A  
+          32  FPSN                                                            
+           1  A  
+          33  FSA                                                             
+           1  A  
+          34  FSAT                                                            
+           1  A  
+          35  FSDS                                                            
+           1  A  
+          36  FSDSND                                                          
+           1  A  
+          37  FSDSNDLN                                                        
+           1  A  
+          38  FSDSNI                                                          
+           1  A  
+          39  FSDSVD                                                          
+           1  A  
+          40  FSDSVDLN                                                        
+           1  A  
+          41  FSDSVI                                                          
+           1  A  
+          42  FSDSVILN                                                        
+           1  A  
+          43  FSH                                                             
+           1  A  
+          44  FSH_G                                                           
+           1  A  
+          45  FSH_PRECIP_CONVERSION                                           
+           1  A  
+          46  FSH_R                                                           
+           1  A  
+          47  FSH_RUNOFF_ICE_TO_LIQ                                           
+           1  A  
+          48  FSH_TO_COUPLER                                                  
+           1  A  
+          49  FSH_V                                                           
+           1  A  
+          50  FSM                                                             
+           1  A  
+          51  FSNO                                                            
+           1  A  
+          52  FSNO_EFF                                                        
+           1  A  
+          53  FSR                                                             
+           1  A  
+          54  FSRND                                                           
+           1  A  
+          55  FSRNDLN                                                         
+           1  A  
+          56  FSRNI                                                           
+           1  A  
+          57  FSRVD                                                           
+           1  A  
+          58  FSRVDLN                                                         
+           1  A  
+          59  FSRVI                                                           
+           1  A  
+          60  GSSHA                                                           
+           1  A  
+          61  GSSHALN                                                         
+           1  A  
+          62  GSSUN                                                           
+           1  A  
+          63  GSSUNLN                                                         
+           1  A  
+          64  H2OCAN                                                          
+           1  A  
+          65  H2OSFC                                                          
+           1  A  
+          66  H2OSNO                                                          
+           1  A  
+          67  H2OSNO_TOP                                                      
+           1  A  
+          68  H2OSOI                                                          
+          20  A  
+          69  HEAT_CONTENT1                                                   
+           1  A  
+          70  HEAT_FROM_AC                                                    
+           1  A  
+          71  HIA                                                             
+           1  A  
+          72  HIA_R                                                           
+           1  A  
+          73  HIA_U                                                           
+           1  A  
+          74  HUMIDEX                                                         
+           1  A  
+          75  HUMIDEX_R                                                       
+           1  A  
+          76  HUMIDEX_U                                                       
+           1  A  
+          77  ICE_CONTENT1                                                    
+           1  A  
+          78  JMX25T                                                          
+           1  M  
+          79  Jmx25Z                                                          
+           1  A  
+          80  LAISHA                                                          
+           1  A  
+          81  LAISUN                                                          
+           1  A  
+          82  LAKEICEFRAC_SURF                                                
+           1  A  
+          83  LAKEICETHICK                                                    
+           1  A  
+          84  LIQCAN                                                          
+           1  A  
+          85  LIQUID_CONTENT1                                                 
+           1  A  
+          86  LNC                                                             
+           1  A  
+          87  MEG_carene_3                                                    
+           1  A  
+          88  MEG_isoprene                                                    
+           1  A  
+          89  MEG_limonene                                                    
+           1  A  
+          90  MEG_myrcene                                                     
+           1  A  
+          91  MEG_ocimene_t_b                                                 
+           1  A  
+          92  MEG_pinene_a                                                    
+           1  A  
+          93  MEG_pinene_b                                                    
+           1  A  
+          94  MEG_sabinene                                                    
+           1  A  
+          95  OCDEP                                                           
+           1  A  
+          96  PARVEGLN                                                        
+           1  A  
+          97  PBOT                                                            
+           1  A  
+          98  PCO2                                                            
+           1  A  
+          99  PCT_CFT                                                         
+           2  A  
+         100  PCT_GLC_MEC                                                     
+          10  A  
+         101  PCT_LANDUNIT                                                    
+           9  A  
+         102  PCT_NAT_PFT                                                     
+          15  A  
+         103  Q2M                                                             
+           1  A  
+         104  QBOT                                                            
+           1  A  
+         105  QCHARGE                                                         
+           1  A  
+         106  QDRAI                                                           
+           1  A  
+         107  QDRAI_PERCH                                                     
+           1  A  
+         108  QDRAI_XS                                                        
+           1  A  
+         109  QDRIP                                                           
+           1  A  
+         110  QFLOOD                                                          
+           1  A  
+         111  QFLX_DEW_GRND                                                   
+           1  A  
+         112  QFLX_DEW_SNOW                                                   
+           1  A  
+         113  QFLX_EVAP_TOT                                                   
+           1  A  
+         114  QFLX_ICE_DYNBAL                                                 
+           1  A  
+         115  QFLX_LIQ_DYNBAL                                                 
+           1  A  
+         116  QFLX_SNOW_DRAIN                                                 
+           1  A  
+         117  QFLX_SNOW_DRAIN_ICE                                             
+           1  A  
+         118  QFLX_SUB_SNOW                                                   
+           1  A  
+         119  QH2OSFC                                                         
+           1  A  
+         120  QICE                                                            
+           1  A  
+         121  QICE_FRZ                                                        
+           1  A  
+         122  QICE_MELT                                                       
+           1  A  
+         123  QINFL                                                           
+           1  A  
+         124  QINTR                                                           
+           1  A  
+         125  QIRRIG                                                          
+           1  A  
+         126  QOVER                                                           
+           1  A  
+         127  QRGWL                                                           
+           1  A  
+         128  QRUNOFF                                                         
+           1  A  
+         129  QRUNOFF_ICE                                                     
+           1  A  
+         130  QRUNOFF_ICE_TO_COUPLER                                          
+           1  A  
+         131  QRUNOFF_TO_COUPLER                                              
+           1  A  
+         132  QSNOCPLIQ                                                       
+           1  A  
+         133  QSNOEVAP                                                        
+           1  A  
+         134  QSNOFRZ                                                         
+           1  A  
+         135  QSNOFRZ_ICE                                                     
+           1  A  
+         136  QSNOMELT                                                        
+           1  A  
+         137  QSNOMELT_ICE                                                    
+           1  A  
+         138  QSNO_TEMPUNLOAD                                                 
+           1  A  
+         139  QSNO_WINDUNLOAD                                                 
+           1  A  
+         140  QSNWCPICE                                                       
+           1  A  
+         141  QSOIL                                                           
+           1  A  
+         142  QSOIL_ICE                                                       
+           1  A  
+         143  QVEGE                                                           
+           1  A  
+         144  QVEGT                                                           
+           1  A  
+         145  RAIN                                                            
+           1  A  
+         146  RAIN_FROM_ATM                                                   
+           1  A  
+         147  RH2M                                                            
+           1  A  
+         148  RSSHA                                                           
+           1  M  
+         149  RSSUN                                                           
+           1  M  
+         150  SABG                                                            
+           1  A  
+         151  SABG_PEN                                                        
+           1  A  
+         152  SABV                                                            
+           1  A  
+         153  SMP                                                             
+          25  A  
+         154  SNOBCMCL                                                        
+           1  A  
+         155  SNOBCMSL                                                        
+           1  A  
+         156  SNOCAN                                                          
+           1  A  
+         157  SNODSTMCL                                                       
+           1  A  
+         158  SNODSTMSL                                                       
+           1  A  
+         159  SNOFSRND                                                        
+           1  A  
+         160  SNOFSRNI                                                        
+           1  A  
+         161  SNOFSRVD                                                        
+           1  A  
+         162  SNOFSRVI                                                        
+           1  A  
+         163  SNOINTABS                                                       
+           1  A  
+         164  SNOOCMCL                                                        
+           1  A  
+         165  SNOOCMSL                                                        
+           1  A  
+         166  SNOTXMASS                                                       
+           1  A  
+         167  SNOUNLOAD                                                       
+           1  A  
+         168  SNOW                                                            
+           1  A  
+         169  SNOWDP                                                          
+           1  A  
+         170  SNOWICE                                                         
+           1  A  
+         171  SNOWLIQ                                                         
+           1  A  
+         172  SNOW_DEPTH                                                      
+           1  A  
+         173  SNOW_FROM_ATM                                                   
+           1  A  
+         174  SNOW_PERSISTENCE                                                
+           1  I  
+         175  SNOW_SINKS                                                      
+           1  A  
+         176  SNOW_SOURCES                                                    
+           1  A  
+         177  SOILICE                                                         
+          20  A  
+         178  SOILLIQ                                                         
+          20  A  
+         179  SOILRESIS                                                       
+           1  A  
+         180  SOILWATER_10CM                                                  
+           1  A  
+         181  SWBGT                                                           
+           1  A  
+         182  SWBGT_R                                                         
+           1  A  
+         183  SWBGT_U                                                         
+           1  A  
+         184  TAUX                                                            
+           1  A  
+         185  TAUY                                                            
+           1  A  
+         186  TBOT                                                            
+           1  A  
+         187  TBUILD                                                          
+           1  A  
+         188  TG                                                              
+           1  A  
+         189  TH2OSFC                                                         
+           1  A  
+         190  THBOT                                                           
+           1  A  
+         191  TKE1                                                            
+           1  A  
+         192  TLAI                                                            
+           1  A  
+         193  TLAKE                                                           
+          10  A  
+         194  TOTSOILICE                                                      
+           1  A  
+         195  TOTSOILLIQ                                                      
+           1  A  
+         196  TPU25T                                                          
+           1  M  
+         197  TREFMNAV                                                        
+           1  A  
+         198  TREFMXAV                                                        
+           1  A  
+         199  TSA                                                             
+           1  A  
+         200  TSAI                                                            
+           1  A  
+         201  TSKIN                                                           
+           1  A  
+         202  TSL                                                             
+           1  A  
+         203  TSOI                                                            
+          25  A  
+         204  TSOI_10CM                                                       
+           1  A  
+         205  TSOI_ICE                                                        
+          25  A  
+         206  TV                                                              
+           1  A  
+         207  TWS                                                             
+           1  A  
+         208  U10                                                             
+           1  A  
+         209  U10_DUST                                                        
+           1  A  
+         210  URBAN_AC                                                        
+           1  A  
+         211  URBAN_HEAT                                                      
+           1  A  
+         212  VCMX25T                                                         
+           1  M  
+         213  VEGWP                                                           
+           4  A  
+         214  VOLR                                                            
+           1  A  
+         215  VOLRMCH                                                         
+           1  A  
+         216  Vcmx25Z                                                         
+           1  A  
+         217  WA                                                              
+           1  A  
+         218  WASTEHEAT                                                       
+           1  A  
+         219  WBT                                                             
+           1  A  
+         220  WBT_R                                                           
+           1  A  
+         221  WBT_U                                                           
+           1  A  
+         222  WIND                                                            
+           1  A  
+         223  ZBOT                                                            
+           1  A  
+         224  ZWT                                                             
+           1  A  
+         225  ZWT_PERCH                                                       
+           1  A  
+ There will be a total of            1  history tapes
+ 
+ History tape            1  write frequency is MONTHLY
+ All fields on history tape            1  are grid averaged
+ Number of time samples on history tape            1  is            1
+ Output precision on history tape            1 =           2
+ 
+ hist_htapes_build hist tape =            1  written with dov2xy=  T
+ hist_htapes_build Successfully initialized clm2 history files
+------------------------------------------------------------
+ Attempting to read annual vegetation data .....
+ (GETFIL): attempting to find local file 
+ surfdata_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/release-clm5.0.18/surfda
+ ta_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ Attempting to read monthly vegetation data .....
+ nstep =            0  month =            1  day =            1
+ (GETFIL): attempting to find local file 
+ surfdata_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/release-clm5.0.18/surfda
+ ta_1.9x2.5_hist_16pfts_Irrig_CMIP6_simyr2000_c190304.nc
+ Successfully read monthly vegetation data for
+ month            1
+ 
+ Successfully initialized the land model
+ begin initial run at: 
+    nstep=            0  year=         2007  month=            1  day= 
+           1  seconds=            0
+ 
+************************************************************
+ 
+ dtime_sync=         1800  dtime_clm=         1800  mod =            0
+ clm: completed timestep            0
+ clm: completed timestep            1
+ clm: completed timestep            2
+ clm: completed timestep            3
+ clm: completed timestep            4
+ clm: completed timestep            5
+ clm: completed timestep            6
+ clm: completed timestep            7
+ clm: completed timestep            8
+ clm: completed timestep            9
+ clm: completed timestep           10
+ clm: completed timestep           11
+ clm: completed timestep           12
+ clm: completed timestep           13
+ clm: completed timestep           14
+ clm: completed timestep           15
+ clm: completed timestep           16
+ clm: completed timestep           17
+ clm: completed timestep           18
+ clm: completed timestep           19
+ clm: completed timestep           20
+ clm: completed timestep           21
+ clm: completed timestep           22
+ clm: completed timestep           23
+ clm: completed timestep           24
+ clm: completed timestep           25
+ clm: completed timestep           26
+ clm: completed timestep           27
+ clm: completed timestep           28
+ clm: completed timestep           29
+ clm: completed timestep           30
+ clm: completed timestep           31
+ clm: completed timestep           32
+ clm: completed timestep           33
+ clm: completed timestep           34
+ clm: completed timestep           35

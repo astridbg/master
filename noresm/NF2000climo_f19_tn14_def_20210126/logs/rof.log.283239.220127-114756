@@ -1,0 +1,457 @@
+(rof_init_mct) :MOSART model initialization
+  mosart npes =          512
+  mosart iam  =            0
+  inst_name = ROF
+ Read in mosart_inparm namelist from: mosart_in
+ define run:
+    run type              = initial
+    coupling_period       =        10800
+    delt_mosart           =         3600
+    decomp option         = roundrobin
+    bypass_routing option = direct_in_place
+    qgwl runoff option    = threshold
+    smat option           = Xonly
+    MOSART river data       = 
+ /cluster/shared/noresm/inputdata/rof/mosart/MOSART_routing_Global_0.5x0.5_c1706
+ 01.nc
+  ******** RTM Time Manager Configuration ********
+   Calendar type:            GREGORIAN
+   Timestep size (seconds):         10800
+   Start date (yr mon day tod):             2007           1           1
+           0
+   Stop date (yr mon day tod):              2010           4           1
+           0
+   Reference date (yr mon day tod):         2007           1           1
+           0
+   Current step number:                 0
+   Current date (yr mon day tod):           2007           1           1
+           0
+  ************************************************
+ MOSART tracers =            2 LIQ:ICE
+ (GETFIL): attempting to find local file 
+ MOSART_routing_Global_0.5x0.5_c170601.nc
+ (GETFIL): using 
+ /cluster/shared/noresm/inputdata/rof/mosart/MOSART_routing_Global_0.5x0.5_c1706
+ 01.nc
+ Read in MOSART file name: 
+ /cluster/shared/noresm/inputdata/rof/mosart/MOSART_routing_Global_0.5x0.5_c1706
+ 01.nc
+ Values for rtmlon/rtmlat:          720         360
+ Successfully read MOSART dimensions
+ Read longxy   -179.750000000000        179.750000000000     
+ rlonc   -179.750000000000        179.750000000000     
+ Read latixy   -89.7500000000000        89.7500000000000     
+ rlatc   -89.7500000000000        89.7500000000000     
+ Read area    13488255.3460466        3091252202.85311     
+ area    13488255.3460466        3091252202.85311     
+ Read ID            1      259200
+ ID            1      259200
+ Read dnID        -9999      249427
+ dnID        -9999      249427
+ Number of outlet basins =         4575
+ Number of total  basins =       203207
+ Number of mosart points =        60568
+ Number of runoff points =       259200
+ MOSART cells and basins total  =       259200      203207
+ MOSART cells per basin avg/max =            1        1972
+ MOSART cells per pe    min/max =          506         507
+ MOSART basins per pe   min/max =            0           0
+ total runoff cells numr  =       259200
+MOSART decomp info proc =         0 begr =         1 endr =       507 numr =       507
+ (Rtmini)   earth area    510099699070762.     
+ (Rtmini)  MOSART area    510099707658240.     
+ (Rtmini) MOSART initialize avect tr001:tr002
+ (Rtmini)  Done initializing SmatP_dnstrm, nElements =        55993
+ (Rtmini) MOSART initialize avect tr001:tr002
+ (Rtmini)  Done initializing SmatP_direct, nElements =       259200
+(MOSART_init) read frac   -9999.000       1.000000    
+(MOSART_init) read fdir mask      -9999       128
+(MOSART_init) read ID0          1    259073
+(MOSART_init) read dnID      -9999    246480
+(MOSART_init) read area   0.1348826E+08  0.3091252E+10
+(MOSART_init) read areaTotal   -9999.000      0.8716594E+12
+(MOSART_init) read nh   -9999.000      0.4000000    
+(MOSART_init) read hslp   -9999.000      0.2136000    
+(MOSART_init) read gxr   -9999.000      0.3900000E-02
+(MOSART_init) read tslp   -9999.000      0.6510000E-01
+(MOSART_init) read twidth   -9999.000       245.3144    
+(MOSART_init) read nt   -9999.000      0.5000000E-01
+(MOSART_init) read rlen   -9999.000       207268.9    
+(MOSART_init) read rslp   -9999.000      0.6510000E-01
+(MOSART_init) read rwidth   -9999.000       1217.616    
+(MOSART_init) read rwidth0   -9999.000       6088.079    
+(MOSART_init) read rdepth   -9999.000       1000.000    
+(MOSART_init) read nr   -9999.000      0.5000000E-01
+ (MOSART_init) MOSART initialize avect tr001:tr002
+ (MOSART_init) Done initializing SmatP_eroutUp, nElements =        55993
+ (MOSART_init) areatot calc            1   632732363016576.     
+ (MOSART_init) areatot calc            2   740823179635136.     
+ (MOSART_init) areatot calc            3   839189090236817.     
+ (MOSART_init) areatot calc            4   930369315657762.     
+ (MOSART_init) areatot calc            5  1.015596742701304E+015
+ (MOSART_init) areatot calc            6  1.095898888801382E+015
+ (MOSART_init) areatot calc            7  1.172070854800903E+015
+ (MOSART_init) areatot calc            8  1.244500316799928E+015
+ (MOSART_init) areatot calc            9  1.313685375629140E+015
+ (MOSART_init) areatot calc           10  1.380046806631613E+015
+ (MOSART_init) areatot calc           11  1.443920601513714E+015
+ (MOSART_init) areatot calc           12  1.505472640046475E+015
+ (MOSART_init) areatot calc           13  1.564908282076552E+015
+ (MOSART_init) areatot calc           14  1.622309105175998E+015
+ (MOSART_init) areatot calc           15  1.677769044815315E+015
+ (MOSART_init) areatot calc           16  1.731368764087302E+015
+ (MOSART_init) areatot calc           17  1.783121647381570E+015
+ (MOSART_init) areatot calc           18  1.833128789915284E+015
+ (MOSART_init) areatot calc           19  1.881434053358152E+015
+ (MOSART_init) areatot calc           20  1.928028154899656E+015
+ (MOSART_init) areatot calc           21  1.972971089616090E+015
+ (MOSART_init) areatot calc           22  2.016286624331453E+015
+ (MOSART_init) areatot calc           23  2.057950615374196E+015
+ (MOSART_init) areatot calc           24  2.098026409344253E+015
+ (MOSART_init) areatot calc           25  2.136562465852240E+015
+ (MOSART_init) areatot calc           26  2.173486062738067E+015
+ (MOSART_init) areatot calc           27  2.208855986324530E+015
+ (MOSART_init) areatot calc           28  2.242720396013722E+015
+ (MOSART_init) areatot calc           29  2.275249636782200E+015
+ (MOSART_init) areatot calc           30  2.306465082917981E+015
+ (MOSART_init) areatot calc           31  2.336435647989724E+015
+ (MOSART_init) areatot calc           32  2.365280697783238E+015
+ (MOSART_init) areatot calc           33  2.393028868944406E+015
+ (MOSART_init) areatot calc           34  2.419733770474768E+015
+ (MOSART_init) areatot calc           35  2.445449097403098E+015
+ (MOSART_init) areatot calc           36  2.470106823620266E+015
+ (MOSART_init) areatot calc           37  2.493737957010517E+015
+ (MOSART_init) areatot calc           38  2.516353676390572E+015
+ (MOSART_init) areatot calc           39  2.538002254614823E+015
+ (MOSART_init) areatot calc           40  2.558653086359480E+015
+ (MOSART_init) areatot calc           41  2.578370971881788E+015
+ (MOSART_init) areatot calc           42  2.597219479048260E+015
+ (MOSART_init) areatot calc           43  2.615222834387382E+015
+ (MOSART_init) areatot calc           44  2.632413382077587E+015
+ (MOSART_init) areatot calc           45  2.648843536920772E+015
+ (MOSART_init) areatot calc           46  2.664537617796526E+015
+ (MOSART_init) areatot calc           47  2.679489661802312E+015
+ (MOSART_init) areatot calc           48  2.693694789030345E+015
+ (MOSART_init) areatot calc           49  2.707154942156776E+015
+ (MOSART_init) areatot calc           50  2.719897288251730E+015
+ (MOSART_init) areatot calc           51  2.732011061620758E+015
+ (MOSART_init) areatot calc           52  2.743510263349023E+015
+ (MOSART_init) areatot calc           53  2.754421106318894E+015
+ (MOSART_init) areatot calc           54  2.764767153912255E+015
+ (MOSART_init) areatot calc           55  2.774573412214446E+015
+ (MOSART_init) areatot calc           56  2.783865134694318E+015
+ (MOSART_init) areatot calc           57  2.792649390361942E+015
+ (MOSART_init) areatot calc           58  2.800978440638438E+015
+ (MOSART_init) areatot calc           59  2.808919280034064E+015
+ (MOSART_init) areatot calc           60  2.816487468547403E+015
+ (MOSART_init) areatot calc           61  2.823664811172980E+015
+ (MOSART_init) areatot calc           62  2.830476082170882E+015
+ (MOSART_init) areatot calc           63  2.836894108290462E+015
+ (MOSART_init) areatot calc           64  2.842892562829328E+015
+ (MOSART_init) areatot calc           65  2.848492446726562E+015
+ (MOSART_init) areatot calc           66  2.853700334355252E+015
+ (MOSART_init) areatot calc           67  2.858563469099096E+015
+ (MOSART_init) areatot calc           68  2.863059217322884E+015
+ (MOSART_init) areatot calc           69  2.867202324935687E+015
+ (MOSART_init) areatot calc           70  2.871018366062396E+015
+ (MOSART_init) areatot calc           71  2.874506826597268E+015
+ (MOSART_init) areatot calc           72  2.877691004423152E+015
+ (MOSART_init) areatot calc           73  2.880584147024834E+015
+ (MOSART_init) areatot calc           74  2.883247431929320E+015
+ (MOSART_init) areatot calc           75  2.885679188371724E+015
+ (MOSART_init) areatot calc           76  2.887893183347916E+015
+ (MOSART_init) areatot calc           77  2.889909301190553E+015
+ (MOSART_init) areatot calc           78  2.891723594842676E+015
+ (MOSART_init) areatot calc           79  2.893378047419000E+015
+ (MOSART_init) areatot calc           80  2.894905197192308E+015
+ (MOSART_init) areatot calc           81  2.896283358945073E+015
+ (MOSART_init) areatot calc           82  2.897511608918498E+015
+ (MOSART_init) areatot calc           83  2.898584904240975E+015
+ (MOSART_init) areatot calc           84  2.899522715413198E+015
+ (MOSART_init) areatot calc           85  2.900350856742964E+015
+ (MOSART_init) areatot calc           86  2.901085668163058E+015
+ (MOSART_init) areatot calc           87  2.901721389705012E+015
+ (MOSART_init) areatot calc           88  2.902255561442203E+015
+ (MOSART_init) areatot calc           89  2.902681096109724E+015
+ (MOSART_init) areatot calc           90  2.903022205068855E+015
+ (MOSART_init) areatot calc           91  2.903280462723602E+015
+ (MOSART_init) areatot calc           92  2.903460131490860E+015
+ (MOSART_init) areatot calc           93  2.903591835285544E+015
+ (MOSART_init) areatot calc           94  2.903698542822350E+015
+ (MOSART_init) areatot calc           95  2.903782064145262E+015
+ (MOSART_init) areatot calc           96  2.903844867508506E+015
+ (MOSART_init) areatot calc           97  2.903886474662454E+015
+ (MOSART_init) areatot calc           98  2.903916396416520E+015
+ (MOSART_init) areatot calc           99  2.903940539018743E+015
+ (MOSART_init) areatot calc          100  2.903957011287520E+015
+ (MOSART_init) areatot calc          101  2.903967934927558E+015
+ (MOSART_init) areatot calc          102  2.903971568912506E+015
+ (MOSART_init) areatot calc          103  2.903971568912506E+015
+ (MOSART_init) DLevelH2R =            5
+ (MOSART_init) numDT_r   =            1           8
+ (MOSART_init) numDT_r max  =           14
+ (MOSART_init) numDT_t   =            1           5
+ (MOSART_init) numDT_t max  =            9
+ RTM_hist_printflds : number of master fields =           23
+  ******* MASTER FIELD LIST *******
+    1 RIVER_DISCHARGE_OVER_LAND_LIQ    m3/s            
+    2 RIVER_DISCHARGE_OVER_LAND_ICE    m3/s            
+    3 RIVER_DISCHARGE_TO_OCEAN_LIQ     m3/s            
+    4 RIVER_DISCHARGE_TO_OCEAN_ICE     m3/s            
+    5 TOTAL_DISCHARGE_TO_OCEAN_LIQ     m3/s            
+    6 TOTAL_DISCHARGE_TO_OCEAN_ICE     m3/s            
+    7 DIRECT_DISCHARGE_TO_OCEAN_LIQ    m3/s            
+    8 DIRECT_DISCHARGE_TO_OCEAN_ICE    m3/s            
+    9 STORAGE_LIQ                      m3              
+   10 STORAGE_ICE                      m3              
+   11 STORAGE_MCH                      m3              
+   12 DVOLRDT_LND_LIQ                  m3/s            
+   13 DVOLRDT_LND_ICE                  m3/s            
+   14 DVOLRDT_OCN_LIQ                  m3/s            
+   15 DVOLRDT_OCN_ICE                  m3/s            
+   16 QSUR_LIQ                         m3/s            
+   17 QSUR_ICE                         m3/s            
+   18 QSUB_LIQ                         m3/s            
+   19 QSUB_ICE                         m3/s            
+   20 QGWL_LIQ                         m3/s            
+   21 QGWL_ICE                         m3/s            
+   22 QIRRIG_FROM_COUPLER              m3/s            
+   23 QIRRIG_ACTUAL                    m3/s            
+ hist_htapes_build Initializing MOSART history files
+------------------------------------------------------------
+ htapes_fieldlist : Included fields tape            1 =           6
+           1  DIRECT_DISCHARGE_TO_OCEAN_ICE    A
+           2  DIRECT_DISCHARGE_TO_OCEAN_LIQ    A
+           3  RIVER_DISCHARGE_OVER_LAND_ICE    A
+           4  RIVER_DISCHARGE_OVER_LAND_LIQ    A
+           5  TOTAL_DISCHARGE_TO_OCEAN_ICE     A
+           6  TOTAL_DISCHARGE_TO_OCEAN_LIQ     A
+ There will be a total of            1 MOSART  history tapes
+ 
+ MOSART History tape            1  write frequency is MONTHLY
+ Number of time samples on MOSART history tape            1  is            1
+ Output precision on MOSART history tape            1 =           1
+ 
+ hist_htapes_build Successfully initialized MOSART history files
+------------------------------------------------------------
+ (Rtmini)  done
+ Snow capping will flow out in frozen river runoff
+(Rtmrun) MOSART coupling period    10800.0000000    
+(Rtmrun) euler_calc for nt =      1   T
+(Rtmrun) euler_calc for nt =      2   F
+(Rtmrun) MOSART BUDGET diagnostics (million m3) for   20070101 10800
+(Rtmrun)  tracer =    1
+(Rtmrun)   volume   init =    1              0.000000
+(Rtmrun)   volume  final =    1              0.000000
+(Rtmrun)   input surface =    1              0.000000
+(Rtmrun)   input subsurf =    1              0.000000
+(Rtmrun)   input gwl     =    1              0.000000
+(Rtmrun)   input irrig   =    1              0.000000
+(Rtmrun)   input total   =    1              0.000000
+(Rtmrun)   output flow   =    1              0.000000
+(Rtmrun)   output direct =    1              0.000000
+(Rtmrun)   output flood  =    1              0.000000
+(Rtmrun)   output total  =    1              0.000000
+(Rtmrun)   sum input     =    1              0.000000
+(Rtmrun)   sum dvolume   =    1              0.000000
+(Rtmrun)   sum output    =    1              0.000000
+(Rtmrun)   net (dv-i+o)  =    1              0.000000
+(Rtmrun)   eul erout lag =    1              0.000000
+(Rtmrun)  tracer =    2
+(Rtmrun)   volume   init =    2              0.000000
+(Rtmrun)   volume  final =    2              0.000000
+(Rtmrun)   input surface =    2              0.000000
+(Rtmrun)   input subsurf =    2              0.000000
+(Rtmrun)   input gwl     =    2              0.000000
+(Rtmrun)   input irrig   =    2              0.000000
+(Rtmrun)   input total   =    2              0.000000
+(Rtmrun)   output flow   =    2              0.000000
+(Rtmrun)   output direct =    2              0.000000
+(Rtmrun)   output flood  =    2              0.000000
+(Rtmrun)   output total  =    2              0.000000
+(Rtmrun)   sum input     =    2              0.000000
+(Rtmrun)   sum dvolume   =    2              0.000000
+(Rtmrun)   sum output    =    2              0.000000
+(Rtmrun)   net (dv-i+o)  =    2              0.000000
+(Rtmrun)   eul erout lag =    2              0.000000
+----------------------------------- 
+(Rtmrun) MOSART BUDGET diagnostics (million m3) for   20070101 21600
+(Rtmrun)  tracer =    1
+(Rtmrun)   volume   init =    1              0.000000
+(Rtmrun)   volume  final =    1          13684.867084
+(Rtmrun)   input surface =    1           6422.246729
+(Rtmrun)   input subsurf =    1           7956.850979
+(Rtmrun)   input gwl     =    1             27.365961
+(Rtmrun)   input irrig   =    1          -9219.719521
+(Rtmrun)   input total   =    1           5186.744148
+(Rtmrun)   output flow   =    1              0.427389
+(Rtmrun)   output direct =    1          -8499.154150
+(Rtmrun)   output flood  =    1              0.000000
+(Rtmrun)   output total  =    1          -8498.122936
+(Rtmrun)   sum input     =    1          14406.463669
+(Rtmrun)   sum dvolume   =    1          13684.867084
+(Rtmrun)   sum output    =    1          -8498.726761
+(Rtmrun)   net (dv-i+o)  =    1          -9220.323346
+(Rtmrun)   eul erout lag =    1             -0.603825
+(Rtmrun)  tracer =    2
+(Rtmrun)   volume   init =    2              0.000000
+(Rtmrun)   volume  final =    2              0.000000
+(Rtmrun)   input surface =    2            266.897133
+(Rtmrun)   input subsurf =    2              0.000000
+(Rtmrun)   input gwl     =    2              0.000000
+(Rtmrun)   input irrig   =    2              0.000000
+(Rtmrun)   input total   =    2            266.897133
+(Rtmrun)   output flow   =    2              0.000000
+(Rtmrun)   output direct =    2            266.897133
+(Rtmrun)   output flood  =    2              0.000000
+(Rtmrun)   output total  =    2            266.897133
+(Rtmrun)   sum input     =    2            266.897133
+(Rtmrun)   sum dvolume   =    2              0.000000
+(Rtmrun)   sum output    =    2            266.897133
+(Rtmrun)   net (dv-i+o)  =    2              0.000000
+(Rtmrun)   eul erout lag =    2              0.000000
+----------------------------------- 
+(Rtmrun) MOSART BUDGET diagnostics (million m3) for   20070101 32400
+(Rtmrun)  tracer =    1
+(Rtmrun)   volume   init =    1          13684.867084
+(Rtmrun)   volume  final =    1          26905.414353
+(Rtmrun)   input surface =    1           6022.208098
+(Rtmrun)   input subsurf =    1           8006.611205
+(Rtmrun)   input gwl     =    1            -81.258540
+(Rtmrun)   input irrig   =    1         -23231.364149
+(Rtmrun)   input total   =    1          -9283.803387
+(Rtmrun)   output flow   =    1              3.706077
+(Rtmrun)   output direct =    1         -22511.004469
+(Rtmrun)   output flood  =    1              0.000000
+(Rtmrun)   output total  =    1         -22504.350655
+(Rtmrun)   sum input     =    1          13947.560762
+(Rtmrun)   sum dvolume   =    1          13220.547269
+(Rtmrun)   sum output    =    1         -22507.298391
+(Rtmrun)   net (dv-i+o)  =    1         -23234.311885
+(Rtmrun)   eul erout lag =    1             -2.947736
+(Rtmrun)  tracer =    2
+(Rtmrun)   volume   init =    2              0.000000
+(Rtmrun)   volume  final =    2              0.000000
+(Rtmrun)   input surface =    2            226.049184
+(Rtmrun)   input subsurf =    2              0.000000
+(Rtmrun)   input gwl     =    2              0.000000
+(Rtmrun)   input irrig   =    2              0.000000
+(Rtmrun)   input total   =    2            226.049184
+(Rtmrun)   output flow   =    2              0.000000
+(Rtmrun)   output direct =    2            226.049184
+(Rtmrun)   output flood  =    2              0.000000
+(Rtmrun)   output total  =    2            226.049184
+(Rtmrun)   sum input     =    2            226.049184
+(Rtmrun)   sum dvolume   =    2              0.000000
+(Rtmrun)   sum output    =    2            226.049184
+(Rtmrun)   net (dv-i+o)  =    2              0.000000
+(Rtmrun)   eul erout lag =    2              0.000000
+----------------------------------- 
+(Rtmrun) MOSART BUDGET diagnostics (million m3) for   20070101 43200
+(Rtmrun)  tracer =    1
+(Rtmrun)   volume   init =    1          26905.414353
+(Rtmrun)   volume  final =    1          40443.440369
+(Rtmrun)   input surface =    1           6255.322030
+(Rtmrun)   input subsurf =    1           8119.711380
+(Rtmrun)   input gwl     =    1             -0.551314
+(Rtmrun)   input irrig   =    1          -5843.654021
+(Rtmrun)   input total   =    1           8530.828075
+(Rtmrun)   output flow   =    1             14.666883
+(Rtmrun)   output direct =    1          -5029.381110
+(Rtmrun)   output flood  =    1              0.000000
+(Rtmrun)   output total  =    1          -5007.197941
+(Rtmrun)   sum input     =    1          14374.482097
+(Rtmrun)   sum dvolume   =    1          13538.026016
+(Rtmrun)   sum output    =    1          -5014.714227
+(Rtmrun)   net (dv-i+o)  =    1          -5851.170307
+(Rtmrun)   eul erout lag =    1             -7.516286
+(Rtmrun)  tracer =    2
+(Rtmrun)   volume   init =    2              0.000000
+(Rtmrun)   volume  final =    2              0.000000
+(Rtmrun)   input surface =    2            339.614580
+(Rtmrun)   input subsurf =    2              0.000000
+(Rtmrun)   input gwl     =    2              0.000000
+(Rtmrun)   input irrig   =    2              0.000000
+(Rtmrun)   input total   =    2            339.614580
+(Rtmrun)   output flow   =    2              0.000000
+(Rtmrun)   output direct =    2            339.614580
+(Rtmrun)   output flood  =    2              0.000000
+(Rtmrun)   output total  =    2            339.614580
+(Rtmrun)   sum input     =    2            339.614580
+(Rtmrun)   sum dvolume   =    2              0.000000
+(Rtmrun)   sum output    =    2            339.614580
+(Rtmrun)   net (dv-i+o)  =    2             -0.000000
+(Rtmrun)   eul erout lag =    2              0.000000
+----------------------------------- 
+(Rtmrun) MOSART BUDGET diagnostics (million m3) for   20070101 54000
+(Rtmrun)  tracer =    1
+(Rtmrun)   volume   init =    1          40443.440369
+(Rtmrun)   volume  final =    1          54219.025431
+(Rtmrun)   input surface =    1           6372.440753
+(Rtmrun)   input subsurf =    1           8332.544370
+(Rtmrun)   input gwl     =    1            -27.670100
+(Rtmrun)   input irrig   =    1          -1921.933030
+(Rtmrun)   input total   =    1          12755.381993
+(Rtmrun)   output flow   =    1             38.113261
+(Rtmrun)   output direct =    1          -1068.117240
+(Rtmrun)   output flood  =    1              0.000000
+(Rtmrun)   output total  =    1          -1020.203069
+(Rtmrun)   sum input     =    1          14677.315023
+(Rtmrun)   sum dvolume   =    1          13775.585062
+(Rtmrun)   sum output    =    1          -1030.003979
+(Rtmrun)   net (dv-i+o)  =    1          -1931.733940
+(Rtmrun)   eul erout lag =    1             -9.800910
+(Rtmrun)  tracer =    2
+(Rtmrun)   volume   init =    2              0.000000
+(Rtmrun)   volume  final =    2              0.000000
+(Rtmrun)   input surface =    2            339.402678
+(Rtmrun)   input subsurf =    2              0.000000
+(Rtmrun)   input gwl     =    2              0.000000
+(Rtmrun)   input irrig   =    2              0.000000
+(Rtmrun)   input total   =    2            339.402678
+(Rtmrun)   output flow   =    2              0.000000
+(Rtmrun)   output direct =    2            339.402678
+(Rtmrun)   output flood  =    2              0.000000
+(Rtmrun)   output total  =    2            339.402678
+(Rtmrun)   sum input     =    2            339.402678
+(Rtmrun)   sum dvolume   =    2              0.000000
+(Rtmrun)   sum output    =    2            339.402678
+(Rtmrun)   net (dv-i+o)  =    2              0.000000
+(Rtmrun)   eul erout lag =    2              0.000000
+----------------------------------- 
+(Rtmrun) MOSART BUDGET diagnostics (million m3) for   20070101 64800
+(Rtmrun)  tracer =    1
+(Rtmrun)   volume   init =    1          54219.025431
+(Rtmrun)   volume  final =    1          67970.388169
+(Rtmrun)   input surface =    1           6362.376296
+(Rtmrun)   input subsurf =    1           8398.405159
+(Rtmrun)   input gwl     =    1             40.929939
+(Rtmrun)   input irrig   =    1          -2488.544020
+(Rtmrun)   input total   =    1          12313.167373
+(Rtmrun)   output flow   =    1             76.311246
+(Rtmrun)   output direct =    1          -1525.814213
+(Rtmrun)   output flood  =    1              0.000000
+(Rtmrun)   output total  =    1          -1438.195365
+(Rtmrun)   sum input     =    1          14801.711393
+(Rtmrun)   sum dvolume   =    1          13751.362738
+(Rtmrun)   sum output    =    1          -1449.502967
+(Rtmrun)   net (dv-i+o)  =    1          -2499.851623
+(Rtmrun)   eul erout lag =    1            -11.307603
+(Rtmrun)  tracer =    2
+(Rtmrun)   volume   init =    2              0.000000
+(Rtmrun)   volume  final =    2              0.000000
+(Rtmrun)   input surface =    2            300.463817
+(Rtmrun)   input subsurf =    2              0.000000
+(Rtmrun)   input gwl     =    2              0.000000
+(Rtmrun)   input irrig   =    2              0.000000
+(Rtmrun)   input total   =    2            300.463817
+(Rtmrun)   output flow   =    2              0.000000
+(Rtmrun)   output direct =    2            300.463817
+(Rtmrun)   output flood  =    2              0.000000
+(Rtmrun)   output total  =    2            300.463817
+(Rtmrun)   sum input     =    2            300.463817
+(Rtmrun)   sum dvolume   =    2              0.000000
+(Rtmrun)   sum output    =    2            300.463817
+(Rtmrun)   net (dv-i+o)  =    2              0.000000
+(Rtmrun)   eul erout lag =    2              0.000000
+----------------------------------- 
